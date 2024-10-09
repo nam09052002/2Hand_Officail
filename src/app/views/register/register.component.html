@@ -1,0 +1,52 @@
+<h2>Đăng Ký</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="username">Tên người dùng:</label>
+        <input id="username" formControlName="username" />
+        <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+            <small>Username là bắt buộc.</small>
+        </div>
+    </div>
+
+    <div>
+        <label for="password">Mật khẩu:</label>
+        <input type="password" id="password" formControlName="password" />
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            <small>Mật khẩu là bắt buộc.</small>
+        </div>
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <input id="email" type="email" formControlName="email" />
+        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            <small>Email không hợp lệ.</small>
+        </div>
+    </div>
+
+    <div>
+        <label for="address">Địa chỉ:</label>
+        <input id="address" formControlName="address" />
+        <div *ngIf="registerForm.get('address')?.invalid && registerForm.get('address')?.touched">
+            <small>Địa chỉ là bắt buộc.</small>
+        </div>
+    </div>
+
+    <div>
+        <label for="phone">Số điện thoại:</label>
+        <input id="phone" formControlName="phone" />
+        <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+            <small>Số điện thoại là bắt buộc.</small>
+        </div>
+    </div>
+
+    <div *ngIf="successMessage" style="color: green;">
+        {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" style="color: red;">
+        {{ errorMessage }}
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Đăng Ký</button>
+</form>

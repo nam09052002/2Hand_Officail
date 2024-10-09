@@ -1,0 +1,21 @@
+<h2>Chỉnh Sửa Người Dùng</h2>
+<div class="user-table">
+    <form>
+        <label for="username">Tên Đăng Nhập:</label>
+        <input type="text" id="username" [(ngModel)]="user.ten_dang_nhap" name="username" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" [(ngModel)]="user.email" name="email" required>
+
+        <label for="address">Địa Chỉ:</label>
+        <input type="text" id="address" [(ngModel)]="user.dia_chi" name="address">
+
+        <label for="phone">Số Điện Thoại:</label>
+        <input type="text" id="phone" [(ngModel)]="user.so_dien_thoai" name="phone">
+
+        <div class="button-group">
+            <button (click)="save()" type="button">Lưu</button>
+            <button (click)="cancel()" type="button">Hủy</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,37 @@
+<!-- src/app/admin/management-users/management-users.component.html -->
+
+<div>
+    <h2>Quản Lý Người Dùng</h2>
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Tìm kiếm người dùng..." />
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên Đăng Nhập</th>
+                <th>Họ và tên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th>Vai Trò</th>
+                <th>Ngày Tạo</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of filteredUsers">
+                <td>{{ user.id }}</td>
+                <td>{{ user.ten_dang_nhap }}</td>
+                <td>{{ user.ho_va_ten }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.so_dien_thoai }} </td>
+                <td>{{ user.dia_chi }}</td>
+                <td>{{ user.vai_tro }}</td>
+                <td>{{ user.ngay_tao }}</td>
+                <td>
+                    <button (click)="editUser(user)">Sửa</button>
+                    <button (click)="deleteUser(user.id)">Xóa</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

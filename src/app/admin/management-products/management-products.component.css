@@ -1,12 +1,166 @@
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+/* management-products.component.css */
+
+
+/* Tùy chỉnh tab group */
+
 mat-tab-group {
-    margin: 20px;
+    margin: 20px 0;
+    /* Khoảng cách trên và dưới */
+    background-color: #f9f9f9;
+    /* Màu nền cho tab group */
+    border-radius: 8px;
+    /* Bo góc cho tab group */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Đổ bóng cho tab group */
 }
+
+
+/* Tùy chỉnh tab */
 
 mat-tab {
-    background-color: #f9f9f9;
+    padding: 12px 16px;
+    /* Khoảng cách bên trong tab */
 }
 
-h2 {
-    margin: 10px 0;
+
+/* Tùy chỉnh tiêu đề tab */
+
+.mat-tab-label {
+    font-weight: bold;
+    /* Đậm chữ tiêu đề tab */
+    color: #333;
+    /* Màu chữ tiêu đề tab */
+}
+
+
+/* Màu sắc khi tab được chọn */
+
+.mat-tab-label-active {
+    color: #007bff;
+    /* Màu chữ cho tab đang được chọn */
+    border-bottom: 2px solid #007bff;
+    /* Đường kẻ dưới tab đang được chọn */
+}
+
+
+/* Màu sắc khi di chuột qua tab */
+
+.mat-tab-label:hover {
+    color: #0056b3;
+    /* Màu chữ khi di chuột qua tab */
+}
+
+
+/* Tùy chỉnh nội dung tab */
+
+mat-tab-content {
+    padding: 20px;
+    /* Khoảng cách bên trong nội dung tab */
+    background-color: #fff;
+    /* Màu nền cho nội dung tab */
+    border-radius: 0 0 8px 8px;
+    /* Bo góc dưới cho nội dung tab */
+}
+
+
+/* Tùy chỉnh bảng */
+
+table {
+    width: 100%;
+    /* Chiều rộng bảng */
+    border-collapse: collapse;
+    /* Hợp nhất các đường biên lại */
+    margin-top: 20px;
+    /* Khoảng cách trên bảng */
+}
+
+
+/* Tùy chỉnh tiêu đề bảng */
+
+thead {
+    background-color: #007bff;
+    /* Màu nền cho tiêu đề bảng */
+    color: white;
+    /* Màu chữ cho tiêu đề bảng */
+}
+
+th,
+td {
+    padding: 12px;
+    /* Khoảng cách bên trong ô */
+    text-align: left;
+    /* Căn trái chữ trong ô */
+    border-bottom: 1px solid #ddd;
+    /* Đường kẻ dưới mỗi ô */
+}
+
+
+/* Đường kẻ dọc giữa các cột */
+
+th {
+    border-right: 1px solid white;
+    /* Đường kẻ dọc trắng */
+}
+
+td {
+    border-right: 1px solid #ddd;
+    /* Đường kẻ dọc giữa các ô */
+}
+
+
+/* Tùy chỉnh nút */
+
+button {
+    padding: 6px 12px;
+    /* Khoảng cách bên trong nút */
+    background-color: #28a745;
+    /* Màu nền nút */
+    color: white;
+    /* Màu chữ nút */
+    border: none;
+    /* Không có viền */
+    border-radius: 4px;
+    /* Bo góc cho nút */
+    cursor: pointer;
+    /* Con trỏ chuột khi di chuột qua nút */
+    transition: background-color 0.3s;
+    /* Hiệu ứng chuyển màu nền */
+}
+
+button:hover {
+    background-color: #218838;
+    /* Màu nền khi di chuột qua nút */
+}
+
+
+/* Tùy chỉnh ô input tìm kiếm */
+
+input[type="text"] {
+    padding: 8px;
+    /* Khoảng cách bên trong ô input */
+    width: 100%;
+    /* Chiều rộng ô input */
+    border: 1px solid #ccc;
+    /* Viền cho ô input */
+    border-radius: 4px;
+    /* Bo góc cho ô input */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới ô input */
+}
+
+input[type="text"]:focus {
+    border-color: #007bff;
+    /* Màu viền khi ô input được chọn */
+    outline: none;
+    /* Bỏ viền khi chọn */
+}
+
+td button {
+    margin-right: 5px;
+    /* Khoảng cách 5px giữa các nút */
+}
+
+td button:last-child {
+    margin-right: 0;
+    /* Xóa khoảng cách bên phải của nút cuối cùng */
 }

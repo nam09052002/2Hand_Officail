@@ -1,34 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Product } from '../../models/product.model';
- // Đảm bảo bạn đã tạo model cho sản phẩm
+import { ApiProductResponse, Product } from '../../models/product.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost/api/products'; // Đường dẫn API
+  private apiUrl = 'http://localhost/api/management-products/'; // Đường dẫn API
 
   constructor(private http: HttpClient) {}
 
   // Lấy danh sách sản phẩm
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+  getProducts(): Observable<ApiProductResponse> {
+    return this.http.get<ApiProductResponse>(`${this.apiUrl}get-products.php`);
   }
 
   // Thêm sản phẩm
-  addProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+  addProduct(formData: FormData): Observable<any> {
+    return this.http.post(this.apiUrl, formData);
   }
 
   // Cập nhật sản phẩm
-  updateProduct(product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${product.id}`, product);
+  updateProduct(id: number, formData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, formData);
   }
 
-  // Xóa sản phẩm
   deleteProduct(productId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${productId}`);
-  }
+    return this.http.delete<void>(`${this.apiUrl}delete-product.php`, {
+        body: { id: productId } // Gửi ID sản phẩm trong body
+    });
+}
+
 }

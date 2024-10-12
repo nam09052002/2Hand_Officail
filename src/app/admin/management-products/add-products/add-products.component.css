@@ -1,0 +1,97 @@
+/* Căn chỉnh cho form */
+
+form {
+    max-width: 600px;
+    /* Đặt chiều rộng tối đa cho form */
+    margin: 20px auto;
+    /* Căn giữa form */
+    padding: 20px;
+    /* Thêm padding cho form */
+    border: 1px solid #ccc;
+    /* Đường viền cho form */
+    border-radius: 8px;
+    /* Bo góc cho form */
+    background-color: #f9f9f9;
+    /* Màu nền cho form */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Đổ bóng cho form */
+}
+
+
+/* Style cho nhãn */
+
+label {
+    display: block;
+    /* Đặt nhãn trên cùng của input */
+    margin-bottom: 8px;
+    /* Khoảng cách dưới nhãn */
+    font-weight: bold;
+    /* Đậm nhãn */
+}
+
+
+/* Style cho các input và textarea */
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    /* Đặt chiều rộng 100% cho các input */
+    padding: 10px;
+    /* Padding bên trong */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới input */
+    border: 1px solid #ccc;
+    /* Đường viền */
+    border-radius: 4px;
+    /* Bo góc */
+    font-size: 16px;
+    /* Kích thước chữ */
+}
+
+
+/* Style cho input file */
+
+input[type="file"] {
+    margin-bottom: 20px;
+    /* Khoảng cách dưới input file */
+}
+
+
+/* Style cho nút submit */
+
+button {
+    background-color: #007bff;
+    /* Màu nền cho nút */
+    color: white;
+    /* Màu chữ */
+    padding: 10px 15px;
+    /* Padding cho nút */
+    border: none;
+    /* Không có đường viền */
+    border-radius: 4px;
+    /* Bo góc */
+    cursor: pointer;
+    /* Con trỏ chuột khi hover */
+    transition: background-color 0.3s;
+    /* Hiệu ứng chuyển màu */
+}
+
+
+/* Hover effect cho nút */
+
+button:hover {
+    background-color: #0056b3;
+    /* Màu nền khi hover */
+}
+
+
+/* Disable button style */
+
+button:disabled {
+    background-color: #ccc;
+    /* Màu nền khi vô hiệu hóa */
+    cursor: not-allowed;
+    /* Con trỏ không cho phép */
+}

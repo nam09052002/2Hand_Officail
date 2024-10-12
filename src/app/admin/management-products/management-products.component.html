@@ -1,20 +1,39 @@
 <mat-tab-group>
     <mat-tab label="Quản Lý Sản Phẩm">
         <div>
-            <h2>Danh Sách Sản Phẩm</h2>
+            <h3>Danh Sách Sản Phẩm</h3>
             <input type="text" [(ngModel)]="searchTerm" placeholder="Tìm kiếm sản phẩm" (input)="filterProducts()" />
             <table>
                 <thead>
                     <tr>
+                        <th>STT</th>
+                        <!-- Thêm cột số thứ tự -->
                         <th>Tên Sản Phẩm</th>
                         <th>Giá Bán</th>
+                        <th>Hình Ảnh</th>
+                        <th>Mô Tả</th>
+                        <th>Giới Tính</th>
+                        <th>Loại Sản Phẩm</th>
+                        <th>Thương Hiệu</th>
+                        <th>Nhà Cung Cấp</th>
                         <th>Hành Động</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let product of filteredProducts">
+                    <tr *ngFor="let product of filteredProducts; let i = index">
+                        <!-- Thêm index vào vòng lặp -->
+                        <td>{{ i + 1 }}</td>
+                        <!-- Hiển thị số thứ tự -->
                         <td>{{ product.ten_san_pham }}</td>
                         <td>{{ product.gia_ban | currency }}</td>
+                        <td>
+                            <img *ngIf="product.anh_san_pham" [src]="product.anh_san_pham" alt="{{ product.ten_san_pham }}" width="100" height="100" />
+                        </td>
+                        <td>{{ product.mo_ta }}</td>
+                        <td>{{ product.ten_gioi_tinh }}</td>
+                        <td>{{ product.ten_loai }}</td>
+                        <td>{{ product.ten_nhan_hieu }}</td>
+                        <td>{{ product.ten_nha_cung_cap }}</td>
                         <td>
                             <button (click)="editProduct(product)">Sửa</button>
                             <button (click)="deleteProduct(product.id)">Xóa</button>
@@ -27,7 +46,7 @@
 
     <mat-tab label="Thêm Sản Phẩm">
         <div>
-            <h2>Thêm Sản Phẩm Mới</h2>
+            <h3>Thêm Sản Phẩm Mới</h3>
             <button (click)="openAddProductDialog()">Thêm Sản Phẩm</button>
         </div>
     </mat-tab>

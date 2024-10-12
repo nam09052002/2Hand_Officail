@@ -1,0 +1,8 @@
+<div class="product-container">
+    <div class="product-card" *ngFor="let product of filteredProducts">
+        <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
+        <div class="product-name">{{ product.ten_san_pham }}</div>
+        <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
+        <div class="product-description">{{ product.mo_ta }}</div>
+    </div>
+</div>

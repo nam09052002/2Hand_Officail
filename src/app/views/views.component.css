@@ -1,0 +1,325 @@
+/* Reset một số kiểu mặc định */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+
+/* Thanh điều hướng */
+
+.navbar {
+    position: fixed;
+    /* Cố định vị trí của navbar */
+    top: 0;
+    /* Căn trên cùng của màn hình */
+    width: 100%;
+    /* Độ rộng 100% để bao phủ toàn bộ màn hình */
+    background-color: white;
+    /* Màu nền cho navbar */
+    z-index: 100;
+    /* Đảm bảo navbar luôn ở trên cùng các nội dung khác */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Thêm bóng đổ để tạo hiệu ứng nổi */
+}
+
+
+/* Danh sách menu */
+
+.navbar ul {
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+    flex-grow: 1;
+    position: relative;
+}
+
+
+/* Các mục menu */
+
+.navbar li {
+    margin: 0 15px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+
+/* Liên kết menu */
+
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.navbar a:hover {
+    color: #007bff;
+}
+
+
+/* Logo */
+
+.logo {
+    height: 50px;
+    margin-right: 20px;
+}
+
+
+/* Biểu tượng giỏ hàng */
+
+.material-icons {
+    font-size: 24px;
+    color: #333;
+}
+
+.cart-count {
+    position: absolute;
+    top: 2px;
+    /* Điều chỉnh khoảng cách từ trên xuống */
+    right: -10px;
+    /* Điều chỉnh khoảng cách từ bên phải */
+    background-color: red;
+    /* Màu nền cho số lượng */
+    color: white;
+    /* Màu chữ cho số lượng */
+    border-radius: 50%;
+    /* Bo tròn số lượng */
+    padding: 2px 6px;
+    /* Khoảng cách bên trong */
+    font-size: 14px;
+    /* Kích thước chữ */
+    line-height: 1;
+    /* Căn chỉnh chiều cao dòng */
+}
+
+
+/* Banner */
+
+.banner {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.banner-image {
+    width: 80vw;
+    height: auto;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar ul {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .navbar li {
+        margin: 10px 0;
+    }
+}
+
+
+/* Tìm kiếm sản phẩm */
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    /* Khoảng cách trên và dưới */
+    pointer-events: auto;
+    /* Đảm bảo thanh tìm kiếm hoạt động bình thường */
+}
+
+.search-container input {
+    width: 100%;
+    max-width: 50vw;
+    /* Chiều rộng tối đa cho ô tìm kiếm */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    /* Bo góc cho bên trái */
+    outline: none;
+    cursor: text;
+    /* Đặt con trỏ thành con trỏ nhập liệu khi hover */
+}
+
+
+/* Nút tìm kiếm */
+
+.search-container .search-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    /* Bo góc cho bên phải */
+    cursor: pointer;
+    /* Chuyển đổi con trỏ thành bàn tay khi hover */
+}
+
+
+/* Hiệu ứng hover cho nút tìm kiếm */
+
+.search-container .search-button:hover {
+    background-color: #0056b3;
+    /* Màu nền khi hover */
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .search-container {
+        flex-direction: column;
+        /* Đặt ô tìm kiếm và nút tìm kiếm theo chiều dọc */
+        align-items: center;
+    }
+    .search-container input,
+    .search-container .search-button {
+        width: 100%;
+        /* Chiếm toàn bộ chiều rộng */
+        max-width: none;
+        /* Bỏ chiều rộng tối đa */
+        margin: 5px 0;
+        /* Khoảng cách giữa ô tìm kiếm và nút */
+    }
+}
+
+.search-button {
+    cursor: pointer;
+    /* Đặt kiểu con trỏ thành tay */
+}
+
+.search-button:focus {
+    outline: none;
+    /* Ẩn đường viền khi nút được focus */
+    cursor: pointer;
+    /* Đảm bảo con trỏ vẫn là tay */
+}
+
+.product-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Căn giữa nội dung */
+    width: 100%;
+    /* Chiếm chiều rộng 100% */
+}
+
+.product-box {
+    width: 80vw;
+    /* Chiều rộng của hộp sản phẩm */
+    display: flex;
+    flex-wrap: wrap;
+    /* Cho phép các sản phẩm xuống dòng */
+    justify-content: flex-start;
+    /* Căn trái các sản phẩm */
+    margin: 20px 0;
+    /* Khoảng cách trên và dưới hộp sản phẩm */
+}
+
+.product-box:hover {
+    cursor: pointer;
+}
+
+.product-card {
+    width: calc(16.66% - 10px);
+    /* Chiều rộng mỗi sản phẩm chiếm 16.66% của hộp, trừ đi khoảng cách */
+    margin-bottom: 20px;
+    /* Khoảng cách giữa các hàng sản phẩm */
+    margin: 5px;
+    /* Khoảng cách giữa các sản phẩm */
+    border: 1px solid #ccc;
+    /* Đường viền */
+}
+
+.product-image {
+    width: 100%;
+    /* Chiều rộng ảnh chiếm toàn bộ chiều rộng của sản phẩm */
+    min-height: 17vw;
+    /* Giữ tỉ lệ ảnh */
+}
+
+.product-name {
+    font-weight: bold;
+    /* In đậm chữ */
+    display: -webkit-box;
+    /* Để giới hạn số dòng */
+    -webkit-box-orient: vertical;
+    /* Định hướng chiều dọc */
+    overflow: hidden;
+    /* Ẩn phần thừa */
+    -webkit-line-clamp: 2;
+    /* Giới hạn số dòng là 2 */
+    line-height: 1.5;
+    /* Chiều cao dòng */
+    max-height: calc(2 * 1.5em + 8px);
+    /* Đảm bảo chiều cao tối đa không vượt quá 2 dòng và bao gồm margin */
+    margin: 8px;
+    min-height: 2vw;
+    /* Đảm bảo khoảng cách xung quanh */
+}
+
+.product-price {
+    color: red;
+    /* Đặt màu chữ thành đỏ */
+    margin: 8px;
+    /* font-weight: bold; Nếu bạn muốn chữ giá cũng in đậm */
+}
+
+.product-info {
+    display: flex;
+    /* Sử dụng Flexbox */
+    justify-content: space-between;
+    /* Căn giữa với khoảng cách đều */
+    margin: 8px;
+    /* Khoảng cách giữa giá sản phẩm và thông tin */
+    font-size: 14px;
+    /* Kích thước chữ */
+    color: #888;
+    /* Màu sắc mờ */
+}
+
+.sold,
+.stock {
+    opacity: 0.7;
+    /* Đặt độ mờ cho văn bản */
+}
+
+.product-box button {
+    /* margin-top: 20px; */
+    /* Khoảng cách trên nút "Bạn muốn xem thêm" */
+    padding: 10px 20px;
+    /* Khoảng cách bên trong nút */
+    font-size: 16px;
+    /* Kích thước chữ trong nút */
+    border: none;
+    /* Bỏ đường viền */
+    border-radius: 5px;
+    /* Bo góc cho nút */
+    background-color: #007BFF;
+    /* Màu nền của nút */
+    color: white;
+    /* Màu chữ của nút */
+    cursor: pointer;
+    /* Đổi con trỏ chuột khi di chuột qua nút */
+}
+
+.product-box button:hover {
+    background-color: #0056b3;
+    /* Thay đổi màu nền khi di chuột qua nút */
+}

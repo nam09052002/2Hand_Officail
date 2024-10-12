@@ -1,0 +1,145 @@
+/* Modal container */
+
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+/* Nội dung của modal */
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 5px;
+    width: 75%;
+    max-height: 80%;
+    /* Giới hạn chiều cao tối đa của modal */
+    display: flex;
+    flex-direction: column;
+    /* Bố trí theo cột */
+    position: relative;
+    /* Để định vị nút đóng */
+}
+
+
+/* Nút đóng modal */
+
+.close {
+    color: #aaa;
+    position: absolute;
+    /* Đặt nút ở vị trí tuyệt đối trong modal-content */
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s;
+    cursor: pointer;
+    /* Hiển thị con trỏ tay khi hover */
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    /* Đổi màu khi hover hoặc focus thành màu đỏ */
+}
+
+
+/* Bố cục cho modal body */
+
+.modal-body {
+    display: flex;
+    align-items: flex-start;
+    /* Căn chỉnh ảnh và thông tin sản phẩm */
+}
+
+
+/* Ảnh sản phẩm trong modal */
+
+.modal-product-image {
+    width: 345px;
+    /* Chiều rộng cố định cho ảnh */
+    height: auto;
+    /* Giữ tỷ lệ khung hình cho ảnh */
+    margin-right: 20px;
+    /* Khoảng cách giữa ảnh và thông tin */
+}
+
+
+/* Thông tin sản phẩm */
+
+.product-info {
+    flex: 1;
+    /* Chiếm toàn bộ không gian còn lại */
+    display: flex;
+    /* Sử dụng flexbox */
+    flex-direction: column;
+    /* Đặt hướng theo cột */
+    margin-top: 20px;
+    /* Khoảng cách giữa thông tin sản phẩm và nút */
+    align-items: flex-start;
+    /* Căn chỉnh nội dung sang bên trái */
+}
+
+
+/* Bố cục cho button container */
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    /* Căn giữa các nút */
+    /* margin-top: 20px; */
+    /* Khoảng cách trên cho nút */
+}
+
+
+/* Nút */
+
+.add-to-cart,
+.buy-now {
+    padding: 10px 20px;
+    /* Khoảng cách bên trong cho nút */
+    font-size: 16px;
+    /* Kích thước chữ */
+    border: none;
+    /* Bỏ đường viền */
+    border-radius: 5px;
+    /* Bo góc cho nút */
+    cursor: pointer;
+    /* Đổi con trỏ chuột khi di chuột qua nút */
+}
+
+.add-to-cart {
+    background-color: #007BFF;
+    /* Màu nền cho nút thêm vào giỏ hàng */
+    color: white;
+    /* Màu chữ cho nút */
+    margin-right: 20px;
+    /* Khoảng cách giữa hai nút */
+}
+
+.add-to-cart:hover {
+    background-color: #0056b3;
+    /* Màu nền khi hover */
+}
+
+.buy-now {
+    background-color: #28a745;
+    /* Màu nền cho nút mua ngay */
+    color: white;
+    /* Màu chữ cho nút */
+}
+
+.buy-now:hover {
+    background-color: #218838;
+    /* Màu nền khi hover */
+}

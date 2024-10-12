@@ -1,1 +1,59 @@
-<p>views works!</p>
+<nav class="navbar">
+    <ul>
+        <li>
+            <img src="https://2handofficial.com/wp-content/uploads/2024/09/header-logo-2handofficial.png" alt="Logo" class="logo" />
+        </li>
+        <li><a routerLink="/">Trang Chủ</a></li>
+        <li><a routerLink="/men-fashion">Thời Trang Nam</a></li>
+        <li><a routerLink="/women-fashion">Thời Trang Nữ</a></li>
+        <li><a routerLink="/about">Giới Thiệu</a></li>
+        <li><a routerLink="/contact">Liên Hệ</a></li>
+        <li>
+            <a routerLink="/cart">
+                <span class="material-icons">shopping_cart</span>
+                <span class="cart-count" *ngIf="cartCount > 0">{{ cartCount }}</span>
+            </a>
+        </li>
+        <li><a routerLink="/account">Tài Khoản</a></li>
+    </ul>
+</nav>
+
+<!-- Thêm ảnh banner dưới thanh navbar -->
+<div class="banner">
+    <img src="https://media.canifa.com/Simiconnector/BannerSlider/s/p/spmoi_topbanner_desktop-30sep.webp" alt="Banner" class="banner-image" />
+</div>
+
+<!-- Tìm kiếm sản phẩm-->
+<div class="search-container">
+    <input type="text" placeholder="Tìm kiếm sản phẩm..." [(ngModel)]="searchTerm" />
+    <button type="button" class="search-button" (click)="onSearch()">Tìm kiếm</button>
+</div>
+
+<!-- Gợi ý sản phẩm-->
+<div class="product-container">
+    <h3>Gợi Ý Sản Phẩm</h3>
+    <div class="product-box">
+        <div class="product-card" *ngFor="let product of filteredProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
+            <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
+            <div class="product-name">
+                {{ product.ten_san_pham }}
+            </div>
+            <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
+            <div class="product-info">
+                <span class="sold">Đã bán: {{ product.da_ban }}</span>
+                <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
+            </div>
+        </div>
+        <button *ngIf="filteredProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
+          Bạn muốn xem thêm
+      </button>
+        <button *ngIf="displayedProductsCount > 18" (click)="hideProducts()">
+          Ẩn bớt
+      </button>
+
+    </div>
+    <app-product-detail-modal [product]="selectedProduct" *ngIf="isSelectedProduct" (closeModal)="onCloseModal()" (addCart)="addToCart()">
+    </app-product-detail-modal>
+
+
+</div>

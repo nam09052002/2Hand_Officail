@@ -1,61 +1,112 @@
+body {
+    font-family: Arial, sans-serif;
+    /* Chọn font chữ cho toàn bộ trang */
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
 .sidebar {
     width: 250px;
-    background-color: #f8f9fa;
+    /* Độ rộng của sidebar */
+    background-color: #2f3e46;
+    /* Màu nền của sidebar */
+    color: #ffffff;
+    /* Màu chữ */
     height: 100vh;
+    /* Chiều cao của sidebar */
     position: fixed;
-    padding: 20px;
-    box-sizing: border-box;
+    /* Giữ sidebar cố định */
+    overflow-y: auto;
+    /* Cuộn dọc nếu cần */
 }
 
 .scrollable {
-    max-height: calc(100vh - 60px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 15px;
+    padding: 20px;
+    /* Khoảng cách bên trong */
 }
 
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 20px;
+.scrollable h2 {
+    margin-top: 0;
+    /* Bỏ khoảng cách trên */
+    font-size: 1.5em;
+    /* Kích thước font chữ tiêu đề */
 }
 
-.sidebar ul {
-    list-style: none;
+ul {
+    list-style-type: none;
+    /* Bỏ đánh số danh sách */
     padding: 0;
-    margin: 0;
+    /* Bỏ khoảng cách */
 }
 
-.sidebar ul li {
-    margin: 15px 0;
+ul li {
+    margin: 10px 0;
+    /* Khoảng cách giữa các mục */
 }
 
-.sidebar ul li a {
+ul li a {
+    color: #ffffff;
+    /* Màu chữ liên kết */
     text-decoration: none;
-    color: #333;
+    /* Bỏ gạch chân */
     display: block;
-    padding: 10px;
+    /* Làm cho toàn bộ khu vực có thể nhấp */
+    padding: 10px 15px;
+    /* Khoảng cách bên trong */
+    border-radius: 4px;
+    /* Bo tròn góc */
     transition: background-color 0.3s;
-    cursor: pointer;
-    /* Thay đổi con trỏ thành bàn tay */
+    /* Hiệu ứng chuyển màu nền */
 }
 
-.sidebar ul li a:hover {
-    background-color: #e9ecef;
+ul li a:hover {
+    background-color: #4b9cd3;
+    /* Màu nền khi hover */
+}
+
+.arrow {
+    margin-left: 5px;
+    /* Khoảng cách bên trái cho mũi tên */
+    transition: transform 0.3s;
+    /* Hiệu ứng chuyển động cho mũi tên */
+}
+
+.arrow.active {
+    transform: rotate(180deg);
+    /* Xoay mũi tên khi active */
 }
 
 .content {
-    margin-left: 270px;
+    margin-left: 260px;
+    /* Đẩy nội dung sang bên phải sidebar */
     padding: 20px;
+    /* Khoảng cách bên trong */
+    width: calc(100% - 250px);
+    /* Độ rộng của nội dung */
+    height: 100vh;
+    /* Chiều cao của nội dung */
+    overflow-y: auto;
+    /* Cuộn dọc nếu cần */
+    background-color: #f4f4f4;
+    /* Màu nền cho nội dung */
 }
 
-.logout-button {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
+ul li {
+    margin: 10px 0;
+    /* Khoảng cách giữa các mục */
+    padding: 5px 0;
+    /* Khoảng cách bên trên và dưới cho mục */
+    position: relative;
+    /* Để có thể thêm viền */
 }
 
-.logout-button:hover {
-    background-color: #c82333;
+ul li:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    /* Viền dưới cho các mục không phải mục cuối cùng */
+}
+
+ul li:last-child {
+    border-bottom: none;
+    /* Không viền cho mục cuối cùng */
 }

@@ -1,0 +1,107 @@
+/* Reset một số kiểu mặc định */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+
+/* Thanh điều hướng */
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: default;
+    /* Đảm bảo không hiển thị con trỏ input khi click ngoài menu */
+}
+
+
+/* Danh sách menu */
+
+.navbar ul {
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+
+/* Các mục menu */
+
+.navbar li {
+    margin: 0 15px;
+    display: flex;
+    align-items: center;
+}
+
+
+/* Liên kết menu */
+
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.navbar a:hover {
+    color: #007bff;
+}
+
+
+/* Logo */
+
+.logo {
+    height: 50px;
+    margin-right: 20px;
+}
+
+
+/* Biểu tượng giỏ hàng */
+
+.material-icons {
+    font-size: 24px;
+    color: #333;
+}
+
+
+/* Banner */
+
+.banner {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.banner-image {
+    width: 100%;
+    height: auto;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar ul {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .navbar li {
+        margin: 10px 0;
+    }
+}

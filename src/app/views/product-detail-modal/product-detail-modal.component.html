@@ -1,0 +1,22 @@
+<div class="modal">
+    <div class="modal-content">
+        <span class="close" (click)="onCloseModal()">&times;</span>
+        <div class="modal-body">
+            <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="modal-product-image" />
+            <div class="product-info">
+                <h2>{{ product.ten_san_pham }}</h2>
+                <p>Mô tả sản phẩm: {{ product.mo_ta }}</p>
+                <p>Giá: {{ product.gia_ban | currency:'VND' }}</p>
+                <p>Đã bán: {{ product.da_ban }}</p>
+                <p>Tồn kho: {{ product.ton_kho }}</p>
+                <!-- Thêm nút "Thêm vào giỏ hàng" và "Mua ngay" -->
+
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button class="add-to-cart" (click)="addToCart(product)">Thêm vào giỏ hàng</button>
+            <button class="buy-now" (click)="buyNow(product)">Mua ngay</button>
+        </div>
+    </div>
+</div>

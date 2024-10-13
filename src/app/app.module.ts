@@ -22,6 +22,8 @@ import { BestSellerComponent } from './views/best-seller/best-seller.component';
 import { MenProductsComponent } from './views/men-products/men-products.component';
 import { GirlProductsComponent } from './views/girl-products/girl-products.component';
 import { ProductDetailModalComponent } from './views/product-detail-modal/product-detail-modal.component';
+import { LoginComponent } from './views/login/login.component';
+import { CartModalComponent } from './views/cart-modal/cart-modal.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { ProductDetailModalComponent } from './views/product-detail-modal/produc
     BestSellerComponent,
     MenProductsComponent,
     GirlProductsComponent,
-    ProductDetailModalComponent
+    ProductDetailModalComponent,
+    LoginComponent,
+    CartModalComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,8 @@ import { ProductDetailModalComponent } from './views/product-detail-modal/produc
     FormsModule,
     MatTabsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [
     provideClientHydration()

@@ -4,6 +4,7 @@ import { AdminComponent } from './admin/admin.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { ViewsComponent } from './views/views.component';
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
+import { LoginComponent } from './views/login/login.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,9 @@ const routes: Routes = [
       { path: '', component: AdminLoginComponent},
       { path: 'dashboard', component: DashboardComponent }, // Route cho dashboard
     ],
+  },
+  {
+    path: 'login', component: LoginComponent
   },
   {
     path: '', component: ViewsComponent,

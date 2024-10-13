@@ -1,0 +1,123 @@
+/* Định dạng tổng quát cho body */
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-image: url('https://cosp.com.vn/uploaded/thiet-ke-shop-thoi-trang-nu-5.png');
+    background-size: cover;
+    /* Đảm bảo hình ảnh che phủ toàn bộ màn hình */
+    background-position: center;
+    /* Đảm bảo hình ảnh căn giữa */
+    background-repeat: no-repeat;
+    /* Không lặp lại hình ảnh */
+}
+
+
+/* Wrapper để căn giữa */
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+/* Container chính của form đăng nhập */
+
+.login-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Làm nền trắng nhẹ cho form */
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+
+/* Tiêu đề đăng nhập */
+
+.login-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+
+/* Định dạng cho form */
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+
+/* Nhãn */
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+
+/* Input */
+
+.form-group input {
+    width: 100%;
+    /* Đảm bảo ô input rộng 100% trong container */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease-in-out;
+    box-sizing: border-box;
+    /* Đảm bảo padding và border không ảnh hưởng đến width */
+}
+
+
+/* Hiệu ứng khi input được focus */
+
+.form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+
+/* Nút đăng nhập */
+
+.login-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    /* Đảm bảo nút cũng có chiều rộng 100% */
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    box-sizing: border-box;
+    /* Đảm bảo padding và border không ảnh hưởng đến width */
+}
+
+
+/* Hiệu ứng hover của nút */
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Thông báo lỗi */
+
+.error-message {
+    color: red;
+    margin-top: 15px;
+    font-size: 14px;
+}

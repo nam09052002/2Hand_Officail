@@ -24,6 +24,11 @@ import { GirlProductsComponent } from './views/girl-products/girl-products.compo
 import { ProductDetailModalComponent } from './views/product-detail-modal/product-detail-modal.component';
 import { LoginComponent } from './views/login/login.component';
 import { CartModalComponent } from './views/cart-modal/cart-modal.component';
+import { OverviewComponent } from './admin/overview/overview.component';
+import { SalesStatisticsComponent } from './admin/sales-statistics/sales-statistics.component';
+import { ProductClassificationComponent } from './admin/product-classification/product-classification.component';
+import { VouchersComponent } from './admin/vouchers/vouchers.component';
+import { UserInfoComponent } from './views/user-info/user-info.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +47,12 @@ import { CartModalComponent } from './views/cart-modal/cart-modal.component';
     GirlProductsComponent,
     ProductDetailModalComponent,
     LoginComponent,
-    CartModalComponent
+    CartModalComponent,
+    OverviewComponent,
+    SalesStatisticsComponent,
+    ProductClassificationComponent,
+    VouchersComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,

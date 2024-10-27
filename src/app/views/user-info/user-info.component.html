@@ -1,0 +1,87 @@
+<div class="modal" *ngIf="activeModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">{{ getModalTitle() }}</h2>
+            <button type="button" (click)="closeModal()" class="btn-close" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+        </div>
+
+        <!-- Phần hiển thị thông tin người dùng -->
+        <div *ngIf="activeModal === 'updateInfo'">
+            <form (ngSubmit)="onSubmitUpdateInfo()">
+                <label for="ho_va_ten">Họ và tên</label>
+                <input type="text" id="ho_va_ten" [(ngModel)]="userInfo.ho_va_ten" name="ho_va_ten" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" [(ngModel)]="userInfo.email" name="email" required>
+
+                <label for="so_dien_thoai">Số điện thoại</label>
+                <input type="text" id="so_dien_thoai" [(ngModel)]="userInfo.so_dien_thoai" name="so_dien_thoai" required>
+
+                <label for="dia_chi">Địa chỉ</label>
+                <input type="text" id="dia_chi" [(ngModel)]="userInfo.dia_chi" name="dia_chi" required>
+
+                <button type="submit" class="btn-submit">
+                <i class="fas fa-save"></i> Lưu
+              </button>
+            </form>
+        </div>
+
+        <!-- Phần đổi mật khẩu -->
+        <div *ngIf="activeModal === 'changePassword'">
+            <form (ngSubmit)="onSubmitChangePassword()">
+                <label for="currentPassword">Mật khẩu hiện tại</label>
+                <input type="password" id="currentPassword" [(ngModel)]="passwords.currentPassword" name="currentPassword" required>
+
+                <label for="newPassword">Mật khẩu mới</label>
+                <input type="password" id="newPassword" [(ngModel)]="passwords.newPassword" name="newPassword" required>
+
+                <label for="confirmPassword">Xác nhận mật khẩu</label>
+                <input type="password" id="confirmPassword" [(ngModel)]="passwords.confirmPassword" name="confirmPassword" required>
+
+                <button type="submit" class="btn-submit">
+                <i class="fas fa-check"></i> Đổi mật khẩu
+              </button>
+            </form>
+        </div>
+
+        <!-- Phần hiển thị lịch sử đơn hàng -->
+        <div *ngIf="activeModal === 'orderHistory'">
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>ID Đơn hàng</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Ảnh</th>
+                        <th>Số lượng</th>
+                        <th>Tổng tiền</th>
+                        <th>Ngày mua</th>
+                        <th>Trạng thái</th>
+                        <!-- <th>Hành động</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of orderHistory; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ order.id_don_hang }}</td>
+                        <td>{{ order.ten_san_pham }}</td>
+                        <td>
+                            <img [src]="order.anh_san_pham || 'default-image-url.jpg'" alt="{{ order.ten_san_pham }}" width="100px" height="100px" />
+                        </td>
+                        <td>{{ order.so_luong }}</td>
+                        <td>{{ order.tong_tien | currency:'VND' }}</td>
+                        <td>{{ order.ngay_mua | date: 'dd/MM/yyyy' }}</td>
+                        <td>
+                            {{ order.trang_thai === 'cho_xu_ly' ? 'Chờ xử lý' : order.trang_thai === 'da_xac_nhan' ? 'Đã xác nhận' : order.trang_thai === 'da_giao' ? 'Đã giao' : order.trang_thai === 'da_huy' ? 'Đã hủy' : order.trang_thai }}
+                        </td>
+                        <!-- <td>
+                            <button (click)="viewOrderDetails(order.id_don_hang)" class="show">Xem chi tiết</button>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

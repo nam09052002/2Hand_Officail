@@ -1,0 +1,91 @@
+.discount-code-management {
+    width: 100%;
+    /* Chiều rộng tổng thể của component */
+    margin: auto;
+    /* Giữa trang */
+    padding: 20px;
+    /* Khoảng cách bên trong */
+    border: 1px solid #ccc;
+    /* Đường viền */
+    border-radius: 8px;
+    /* Bo góc */
+    background-color: #f9f9f9;
+    /* Màu nền */
+}
+
+h2,
+h3 {
+    text-align: center;
+    /* Canh giữa tiêu đề */
+}
+
+.form-group {
+    margin-bottom: 15px;
+    /* Khoảng cách giữa các nhóm form */
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+    width: calc(100% - 22px);
+    /* Chiều rộng đầy đủ với khoảng cách */
+    padding: 10px;
+    /* Khoảng cách bên trong */
+    border: 1px solid #ccc;
+    /* Đường viền */
+    border-radius: 4px;
+    /* Bo góc */
+    box-sizing: border-box;
+    /* Đảm bảo padding không làm tăng chiều rộng */
+}
+
+.search-container {
+    margin: 20px 0;
+    /* Khoảng cách trên dưới */
+}
+
+button {
+    padding: 10px 15px;
+    /* Khoảng cách bên trong */
+    margin: 5px;
+    /* Khoảng cách bên ngoài */
+    border: none;
+    /* Không có đường viền */
+    border-radius: 4px;
+    /* Bo góc */
+    background-color: #28a745;
+    /* Màu nền */
+    color: white;
+    /* Màu chữ */
+    cursor: pointer;
+    /* Con trỏ chuột thành tay */
+}
+
+button:hover {
+    background-color: #218838;
+    /* Màu nền khi hover */
+}
+
+table {
+    width: 100%;
+    /* Chiều rộng bảng */
+    border-collapse: collapse;
+    /* Xóa khoảng cách giữa các ô */
+    margin-top: 20px;
+    /* Khoảng cách trên bảng */
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    /* Đường viền cho ô */
+    padding: 10px;
+    /* Khoảng cách bên trong ô */
+    text-align: center;
+    /* Canh giữa nội dung ô */
+}
+
+th {
+    background-color: #e9ecef;
+    /* Màu nền tiêu đề bảng */
+}

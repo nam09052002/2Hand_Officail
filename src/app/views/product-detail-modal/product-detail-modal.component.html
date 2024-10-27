@@ -7,9 +7,38 @@
                 <h2>{{ product.ten_san_pham }}</h2>
                 <p>Mô tả sản phẩm: {{ product.mo_ta }}</p>
                 <p>Giá: {{ product.gia_ban | currency:'VND' }}</p>
-                <p>Đã bán: {{ product.da_ban }}</p>
-                <p>Tồn kho: {{ product.ton_kho }}</p>
-                <!-- Thêm nút "Thêm vào giỏ hàng" và "Mua ngay" -->
+                <!-- <p>Đã bán: {{ product.da_ban }}</p>
+                <p>Tồn kho: {{ product.ton_kho }}</p> -->
+                <div class="color-size-container">
+                    <!-- Hàng chọn màu -->
+                    <div class="color-container">
+                        <label>Chọn màu:</label>
+                        <div class="checkbox-group">
+                            <div *ngFor="let color of availableColors">
+                                <input type="checkbox" [value]="color" (change)="toggleColor(color)" [checked]="selectedColor === color" /> {{ color }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hàng chọn kích thước -->
+                    <div class="size-container">
+                        <label>Chọn kích thước:</label>
+                        <div class="checkbox-group">
+                            <div *ngFor="let size of availableSizes">
+                                <input type="checkbox" [value]="size" (change)="toggleSize(size)" [checked]="selectedSize === size" /> {{ size }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="quantity-container">
+                    <label>Số lượng:</label>
+                    <button (click)="decreaseQuantity()">-</button>
+                    <input type="number" [(ngModel)]="quantity" min="1" readonly />
+                    <button (click)="increaseQuantity()">+</button>
+                </div>
+
+
+
 
             </div>
         </div>

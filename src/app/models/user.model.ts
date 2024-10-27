@@ -1,7 +1,7 @@
 // src/app/models/user.model.ts
 
 export interface User {
-  id: number;
+  id_nguoi_dung: number;
   ten_dang_nhap: string;
   ho_va_ten : string;
   email: string;
@@ -9,4 +9,5 @@ export interface User {
   so_dien_thoai?: string;
   vai_tro: 'nguoi_dung' | 'quan_tri';
   ngay_tao: string;
+  mat_khau?: string;
 }

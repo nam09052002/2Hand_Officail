@@ -64,7 +64,7 @@ fetchProducts() {
 
   filterProducts() {
     this.filteredProducts = this.products.filter(product =>
-      product.ten_san_pham.toLowerCase().includes(this.searchTerm.toLowerCase())
+      product?.ten_san_pham?.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 

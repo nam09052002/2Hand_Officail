@@ -19,7 +19,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let user of filteredUsers">
-                <td>{{ user.id }}</td>
+                <td>{{ user.id_nguoi_dung }}</td>
                 <td>{{ user.ten_dang_nhap }}</td>
                 <td>{{ user.ho_va_ten }}</td>
                 <td>{{ user.email }}</td>
@@ -29,7 +29,7 @@
                 <td>{{ user.ngay_tao }}</td>
                 <td>
                     <button (click)="editUser(user)">Sửa</button>
-                    <button (click)="deleteUser(user.id)">Xóa</button>
+                    <button (click)="deleteUser(user.id_nguoi_dung)">Xóa</button>
                 </td>
             </tr>
         </tbody>

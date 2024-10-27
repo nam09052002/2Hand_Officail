@@ -1,97 +1,76 @@
-/* Căn chỉnh cho form */
-
-form {
-    max-width: 600px;
-    /* Đặt chiều rộng tối đa cho form */
-    margin: 20px auto;
-    /* Căn giữa form */
-    padding: 20px;
-    /* Thêm padding cho form */
-    border: 1px solid #ccc;
-    /* Đường viền cho form */
-    border-radius: 8px;
-    /* Bo góc cho form */
-    background-color: #f9f9f9;
-    /* Màu nền cho form */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    /* Đổ bóng cho form */
-}
-
-
-/* Style cho nhãn */
-
-label {
-    display: block;
-    /* Đặt nhãn trên cùng của input */
-    margin-bottom: 8px;
-    /* Khoảng cách dưới nhãn */
-    font-weight: bold;
-    /* Đậm nhãn */
-}
-
-
-/* Style cho các input và textarea */
-
-input[type="text"],
-input[type="number"],
-textarea,
-select {
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    /* Đặt chiều rộng 100% cho các input */
-    padding: 10px;
-    /* Padding bên trong */
-    margin-bottom: 20px;
-    /* Khoảng cách dưới input */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Màu nền mờ */
+    z-index: 9998;
+    /* Lớp phủ */
+}
+
+.product-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    max-width: 90%;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* Căn chỉnh các ô input rộng như nút */
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.submit-button {
+    padding: 8px;
     border: 1px solid #ccc;
-    /* Đường viền */
     border-radius: 4px;
-    /* Bo góc */
-    font-size: 16px;
-    /* Kích thước chữ */
+    font-size: 14px;
+    width: 100%;
+    /* Đảm bảo tất cả input, select, textarea có chiều rộng bằng nhau */
+    box-sizing: border-box;
+    /* Đảm bảo padding không ảnh hưởng đến chiều rộng */
 }
 
-
-/* Style cho input file */
-
-input[type="file"] {
-    margin-bottom: 20px;
-    /* Khoảng cách dưới input file */
+textarea {
+    resize: vertical;
 }
 
-
-/* Style cho nút submit */
-
-button {
-    background-color: #007bff;
-    /* Màu nền cho nút */
-    color: white;
-    /* Màu chữ */
+.submit-button {
     padding: 10px 15px;
-    /* Padding cho nút */
+    background-color: #007bff;
+    color: white;
     border: none;
-    /* Không có đường viền */
     border-radius: 4px;
-    /* Bo góc */
     cursor: pointer;
-    /* Con trỏ chuột khi hover */
-    transition: background-color 0.3s;
-    /* Hiệu ứng chuyển màu */
+    font-size: 16px;
+    width: 100%;
+    /* Nút cũng sẽ có chiều rộng 100% */
 }
 
-
-/* Hover effect cho nút */
-
-button:hover {
-    background-color: #0056b3;
-    /* Màu nền khi hover */
-}
-
-
-/* Disable button style */
-
-button:disabled {
+.submit-button:disabled {
     background-color: #ccc;
-    /* Màu nền khi vô hiệu hóa */
     cursor: not-allowed;
-    /* Con trỏ không cho phép */
 }

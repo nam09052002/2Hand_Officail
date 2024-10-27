@@ -1,0 +1,205 @@
+/* Modal container */
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+
+/* Modal content */
+
+.modal-content {
+    width: 55vw;
+    /* Đặt chiều rộng cho modal */
+    background-color: #fff;
+    /* Nền trắng cho nội dung modal */
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Modal header */
+
+.modal-header {
+    background-color: #f8f8f8;
+    /* Nền nhẹ cho tiêu đề modal */
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    /* Giữa nội dung và nút đóng */
+    align-items: center;
+}
+
+
+/* Modal title */
+
+.modal-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+
+/* Close button */
+
+.btn-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.btn-close:hover {
+    color: #f50808;
+}
+
+
+/* Form styling */
+
+form {
+    padding: 1rem;
+    /* Thêm padding cho form */
+}
+
+
+/* Label styling */
+
+label {
+    display: block;
+    /* Đảm bảo label chiếm toàn bộ chiều rộng */
+    margin-bottom: 0.5rem;
+    /* Khoảng cách dưới label */
+    font-weight: bold;
+    /* Đậm */
+    color: #333;
+    /* Màu chữ */
+}
+
+
+/* Input styling */
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng của form */
+    padding: 0.5rem;
+    /* Padding cho input */
+    margin-bottom: 1rem;
+    /* Khoảng cách dưới input */
+    border: 1px solid #ccc;
+    /* Border nhẹ */
+    border-radius: 4px;
+    /* Bo góc */
+    box-sizing: border-box;
+    /* Bao gồm padding và border trong chiều rộng */
+    transition: border-color 0.3s;
+    /* Hiệu ứng khi chọn input */
+}
+
+
+/* Border color when input is focused */
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #007bff;
+    /* Màu border khi input được chọn */
+    outline: none;
+    /* Ẩn outline mặc định */
+}
+
+
+/* Submit button styling */
+
+.btn-submit {
+    padding: 0.5rem 1rem;
+    /* Padding cho nút submit */
+    background-color: #007bff;
+    /* Màu nền nút */
+    color: #fff;
+    /* Màu chữ */
+    border: none;
+    /* Không có border */
+    border-radius: 4px;
+    /* Bo góc */
+    cursor: pointer;
+    /* Con trỏ chuột */
+    transition: background-color 0.3s;
+    /* Hiệu ứng khi di chuột */
+}
+
+
+/* Hover effect for submit button */
+
+.btn-submit:hover {
+    background-color: #0056b3;
+    /* Màu nền khi hover */
+}
+
+
+/* Table styling */
+
+table {
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng */
+    border-collapse: collapse;
+    /* Hợp nhất border */
+}
+
+
+/* Table header and body styling */
+
+th,
+td {
+    padding: 0.5rem;
+    /* Padding cho ô */
+    text-align: left;
+    /* Căn trái */
+    border-bottom: 1px solid #ddd;
+    /* Border dưới mỗi ô */
+}
+
+th {
+    background-color: #f8f8f8;
+    /* Nền nhẹ cho header */
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+    /* Hiệu ứng hover cho hàng */
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Hợp nhất border giữa các ô */
+}
+
+.order-table th,
+.order-table td {
+    border: 1px solid #ddd;
+    /* Thêm border cho các ô */
+    padding: 8px;
+    /* Thêm khoảng cách bên trong các ô */
+    text-align: center;
+    /* Căn giữa nội dung */
+}
+
+.order-table th {
+    background-color: #f2f2f2;
+    /* Màu nền cho tiêu đề */
+}
+
+.show:hover {
+    cursor: pointer;
+}

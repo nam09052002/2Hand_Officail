@@ -3,20 +3,38 @@
         <li>
             <img src="https://2handofficial.com/wp-content/uploads/2024/09/header-logo-2handofficial.png" alt="Logo" class="logo" />
         </li>
-        <li><a routerLink="/">Trang Chủ</a></li>
-        <li><a routerLink="/men-fashion">Thời Trang Nam</a></li>
-        <li><a routerLink="/women-fashion">Thời Trang Nữ</a></li>
-        <li><a routerLink="/about">Giới Thiệu</a></li>
-        <li><a routerLink="/contact">Liên Hệ</a></li>
+        <li><a routerLink="/"><span class="material-icons">home</span>Trang Chủ</a></li>
+        <li><a routerLink="/men-fashion"><span class="material-icons">male</span>Thời Trang Nam</a></li>
+        <li><a routerLink="/women-fashion"><span class="material-icons">female</span>Thời Trang Nữ</a></li>
+        <li><a routerLink="/about"><span class="material-icons">info</span>Giới Thiệu</a></li>
+        <li><a routerLink="/contact"><span class="material-icons">contact_mail</span>Liên Hệ</a></li>
         <li>
-            <a routerLink="/cart">
+            <a (click)="toggleCartModal()">
                 <span class="material-icons">shopping_cart</span>
                 <span class="cart-count" *ngIf="cartCount > 0">{{ cartCount }}</span>
             </a>
         </li>
-        <li><a routerLink="/account">Tài Khoản</a></li>
+        <li *ngIf="!user">
+            <a routerLink="/login"><span class="material-icons">login</span>Đăng Nhập</a>
+        </li>
+        <li *ngIf="user" class="user-menu" (mouseover)="isHovered = true" (mouseleave)="isHovered = false">
+            <a (click)="showInfo()" class="greeting" style="font-size: 16px; font-weight: bold">
+                <span class="material-icons">person</span> Xin chào, {{ user.ten_dang_nhap }}
+            </a>
+
+            <div class="dropdown-content" *ngIf="isHovered">
+                <ul>
+                    <li><a (click)="userActionsModal.openModal('updateInfo')"><span class="material-icons">edit</span>Cập nhật thông tin</a></li>
+                    <li><a (click)="userActionsModal.openModal('changePassword')"><span class="material-icons">lock</span>Đổi mật khẩu</a></li>
+                    <li><a (click)="userActionsModal.openModal('orderHistory')"><span class="material-icons">history</span>Lịch sử đơn hàng</a></li>
+                    <li><a (click)="logout()"><span class="material-icons">logout</span>Đăng xuất</a></li>
+                </ul>
+            </div>
+            <app-user-info #userActionsModal></app-user-info>
+        </li>
     </ul>
 </nav>
+
 
 <!-- Thêm ảnh banner dưới thanh navbar -->
 <div class="banner">
@@ -52,8 +70,10 @@
       </button>
 
     </div>
-    <app-product-detail-modal [product]="selectedProduct" *ngIf="isSelectedProduct" (closeModal)="onCloseModal()" (addCart)="addToCart()">
+    <app-product-detail-modal [product]="selectedProduct" *ngIf="isSelectedProduct" (closeModal)="onCloseModal()" (addCart)="addToCart($event)" (onBuyNow)="buyNow($event)">
     </app-product-detail-modal>
+
+    <app-cart-modal *ngIf="isOpenModalCart" [cartItems]="cartItems" [isOpen]="isOpenModalCart" (close)="closeCart()" (removeItem)="handleRemoveItem($event)"></app-cart-modal>
 
 
 </div>

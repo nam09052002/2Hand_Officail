@@ -1,0 +1,137 @@
+/* Cơ bản cho modal */
+
+.statistics-container {
+    width: 100%;
+    /* Chiều rộng modal */
+    max-width: 100%;
+    /* Chiều rộng tối đa */
+    margin: auto;
+    /* Căn giữa màn hình */
+    padding: 20px;
+    /* Khoảng cách bên trong modal */
+    background-color: #fff;
+    /* Màu nền */
+    border-radius: 8px;
+    /* Bo góc */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    /* Đổ bóng cho modal */
+}
+
+
+/* Tiêu đề modal */
+
+.statistics-container h2 {
+    font-size: 24px;
+    /* Kích thước chữ */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới tiêu đề */
+}
+
+
+/* Card tổng quan */
+
+.overview-card {
+    display: flex;
+    /* Sắp xếp theo hàng */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    background-color: #f9f9f9;
+    /* Màu nền của card */
+    border: 1px solid #ddd;
+    /* Đường viền */
+    border-radius: 8px;
+    /* Bo góc */
+    padding: 15px;
+    /* Khoảng cách bên trong */
+    margin-bottom: 15px;
+    /* Khoảng cách dưới card */
+}
+
+.overview-card i {
+    font-size: 36px;
+    /* Kích thước icon */
+    margin-right: 15px;
+    /* Khoảng cách bên phải icon */
+    color: #4CAF50;
+    /* Màu icon */
+}
+
+.overview-card h3 {
+    font-size: 20px;
+    /* Kích thước tiêu đề card */
+    margin: 0;
+    /* Xóa khoảng cách */
+}
+
+.overview-card p {
+    font-size: 18px;
+    /* Kích thước văn bản doanh thu */
+    margin: 0;
+    /* Xóa khoảng cách */
+    color: #333;
+    /* Màu văn bản */
+}
+
+
+/* Phần lọc đơn hàng */
+
+.filters {
+    display: flex;
+    /* Sắp xếp theo hàng */
+    gap: 10px;
+    /* Khoảng cách giữa các thành phần */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới phần lọc */
+}
+
+.filters input[type="text"],
+.filters input[type="date"],
+.filters select {
+    flex: 1;
+    /* Chiếm toàn bộ chiều rộng có sẵn */
+    padding: 10px;
+    /* Khoảng cách bên trong */
+    border: 1px solid #ccc;
+    /* Đường viền */
+    border-radius: 4px;
+    /* Bo góc */
+    font-size: 16px;
+    /* Kích thước chữ */
+}
+
+
+/* Bảng thống kê đơn hàng */
+
+table {
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng */
+    border-collapse: collapse;
+    /* Xóa khoảng cách giữa các ô */
+}
+
+th,
+td {
+    padding: 12px;
+    /* Khoảng cách bên trong */
+    text-align: left;
+    /* Căn trái nội dung */
+    border: 1px solid #ddd;
+    /* Đường viền cho các ô */
+}
+
+th {
+    background-color: #f2f2f2;
+    /* Màu nền cho tiêu đề bảng */
+    font-weight: bold;
+    /* Chữ in đậm */
+}
+
+
+/* Nếu không có đơn hàng */
+
+tbody tr:empty td {
+    text-align: center;
+    /* Căn giữa nội dung */
+    color: #888;
+    /* Màu văn bản nhạt */
+}

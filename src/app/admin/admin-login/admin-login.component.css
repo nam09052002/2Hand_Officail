@@ -1,43 +1,138 @@
-/* admin-login.component.css */
+/* Định dạng container cho đăng nhập */
+
+html,
+body {
+    height: 100%;
+    /* Đặt chiều cao cho html và body */
+    margin: 0;
+    /* Loại bỏ khoảng cách mặc định */
+}
+
+.login-background {
+    background-image: url('https://anhdepfree.com/wp-content/uploads/2019/05/hinh-nen-background-dep-3.jpg');
+    /* Hình nền */
+    background-size: cover;
+    /* Đảm bảo hình ảnh bao phủ toàn bộ màn hình */
+    background-position: center;
+    /* Căn giữa hình ảnh */
+    display: flex;
+    /* Sử dụng flexbox để căn giữa */
+    justify-content: center;
+    /* Căn giữa theo chiều ngang */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    height: 100vh;
+    /* Chiều cao bằng chiều cao của cửa sổ trình duyệt */
+}
 
 .login-container {
-    max-width: 400px;
-    margin: 0 auto;
+    width: 400px;
+    /* Chiều rộng của container */
+    margin: 100px auto;
+    /* Căn giữa theo chiều dọc và chiều ngang */
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    /* Khoảng cách bên trong */
+    background-color: #fff;
+    /* Màu nền trắng */
+    border-radius: 8px;
+    /* Bo góc */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Đổ bóng */
 }
+
+
+/* Tiêu đề */
+
+.login-container h2 {
+    text-align: center;
+    /* Căn giữa tiêu đề */
+    font-size: 24px;
+    /* Kích thước chữ */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới tiêu đề */
+    color: #333;
+    /* Màu chữ */
+}
+
+
+/* Định dạng nhóm form */
 
 .form-group {
     margin-bottom: 15px;
+    /* Khoảng cách giữa các nhóm form */
 }
 
-label {
+
+/* Nhãn của input */
+
+.form-group label {
     display: block;
+    /* Hiển thị nhãn trên dòng mới */
+    font-weight: bold;
+    /* Chữ in đậm */
     margin-bottom: 5px;
+    /* Khoảng cách dưới nhãn */
+    color: #555;
+    /* Màu chữ */
 }
 
-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
+
+/* Input fields */
+
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 20px);
+    /* Chiếm toàn bộ chiều rộng trừ đi khoảng cách bên trong */
+    padding: 10px;
+    /* Khoảng cách bên trong */
+    border: 1px solid #ccc;
+    /* Đường viền */
     border-radius: 4px;
+    /* Bo góc */
+    font-size: 16px;
+    /* Kích thước chữ */
 }
+
+
+/* Định dạng nút đăng nhập */
 
 button {
-    padding: 10px 15px;
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng */
+    padding: 10px;
+    /* Khoảng cách bên trong */
+    background-color: #4CAF50;
+    /* Màu nền nút */
+    color: #fff;
+    /* Màu chữ */
     border: none;
-    background-color: #007bff;
-    color: white;
+    /* Không có đường viền */
     border-radius: 4px;
+    /* Bo góc */
+    font-size: 16px;
+    /* Kích thước chữ */
     cursor: pointer;
+    /* Hiển thị con trỏ tay */
+    transition: background-color 0.3s;
+    /* Hiệu ứng chuyển màu */
 }
 
-button:disabled {
-    background-color: #ddd;
+
+/* Hiệu ứng hover cho nút */
+
+button:hover {
+    background-color: #45a049;
+    /* Màu nền khi hover */
 }
+
+
+/* Định dạng thông báo lỗi */
 
 .error {
     color: red;
-    font-size: 0.875em;
+    /* Màu chữ thông báo lỗi */
+    font-size: 14px;
+    /* Kích thước chữ */
+    margin-top: 5px;
+    /* Khoảng cách trên thông báo lỗi */
 }

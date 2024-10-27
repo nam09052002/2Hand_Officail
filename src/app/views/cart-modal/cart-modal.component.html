@@ -1,0 +1,101 @@
+<div class="modal">
+    <div class="modal-content" *ngIf="!isCheckout">
+        <span class="close" (click)="closeCart()">&times;</span>
+        <h2>Giỏ Hàng</h2>
+        <div class="cart-items">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Chọn</th>
+                        <!-- Thêm cột chọn -->
+                        <th>Ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Màu sắc</th>
+                        <th>Kích thước</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of cartItems">
+                        <td>
+                            <input type="checkbox" [(ngModel)]="item.isSelected" />
+                        </td>
+                        <td>
+                            <img [src]="item.anh_san_pham || 'default-image-url.jpg'" alt="{{ item.ten_san_pham }}" class="cart-item-image" />
+                        </td>
+                        <td>{{ item.ten_san_pham }}</td>
+                        <td>{{ item.mau_sac }}</td>
+                        <td>{{ item.kich_thuoc }}</td>
+                        <td>{{ item.don_gia | currency:'VND' }}</td>
+                        <td>{{ item.so_luong }}</td>
+                        <td>{{ item.tong_tien | currency:'VND' }}</td>
+                        <td>
+                            <button (click)="onRemoveItem(item)">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="button-container">
+            <button (click)="onCheckout()">Thanh Toán</button>
+        </div>
+    </div>
+
+
+    <div class="modal-content" *ngIf="isCheckout">
+        <button (click)="backToCart()">Quay lại giỏ hàng</button>
+        <span class="close" (click)="closeCart()">&times;</span>
+        <h2>Chi Tiết Thanh Toán</h2>
+        <h3>Thông tin giao hàng</h3>
+        <div>
+            <label for="fullName">Họ và tên:</label>
+            <input type="text" id="fullName" name="fullName" required />
+
+            <label for="phone">Số điện thoại:</label>
+            <input type="text" id="phone" name="phone" required />
+
+            <label for="address">Địa chỉ:</label>
+            <input type="text" id="address" name="address" required />
+        </div>
+
+        <h3>Sản phẩm đã chọn</h3>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Màu sắc</th>
+                    <th>Kích thước</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of selectedItemsBuy; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                        <img [src]="item.anh_san_pham || 'default-image-url.jpg'" alt="{{ item.ten_san_pham }}" class="cart-item-image" />
+                    </td>
+                    <td>{{ item.ten_san_pham }}</td>
+                    <td>{{ item.mau_sac }}</td>
+                    <td>{{ item.kich_thuoc }}</td>
+                    <td>{{ item.don_gia | currency:'VND' }}</td>
+                    <td>{{ item.so_luong }}</td>
+                    <td>{{ item.don_gia * item.so_luong | currency:'VND' }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <label for="discount">Mã giảm giá:</label>
+            <input type="text" id="discount" name="discount" />
+        </div>
+        <div class="button-container">
+            <button (click)="onBuyNow()">Thanh Toán</button>
+        </div>
+    </div>
+</div>

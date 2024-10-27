@@ -28,11 +28,11 @@ export class ManagementUsersComponent implements OnInit {
       });
   }
 
-  deleteUser(id: number) {
-    this.http.delete('http://localhost/api/routes/userRoutes.php', { body: { id } }) // Gọi API để xóa người dùng
+  deleteUser(id_nguoi_dung: number) {
+    this.http.delete('http://localhost/api/routes/userRoutes.php', { body: { id_nguoi_dung } }) // Gọi API để xóa người dùng
       .subscribe(response => {
         console.log(response);
-        this.users = this.users.filter(user => user.id !== id);
+        this.users = this.users.filter(user => user.id_nguoi_dung !== id_nguoi_dung);
       }, error => {
         console.error('Error deleting user:', error);
       });
@@ -56,7 +56,7 @@ export class ManagementUsersComponent implements OnInit {
         this.http.put('http://localhost/api/routes/userRoutes.php', result)
           .subscribe(response => {
             console.log(response);
-            const index = this.users.findIndex(u => u.id === result.id);
+            const index = this.users.findIndex(u => u.id_nguoi_dung === result.id_nguoi_dung);
             if (index > -1) {
               this.users[index] = result;
             }

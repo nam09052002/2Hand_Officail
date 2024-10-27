@@ -1,0 +1,49 @@
+<div class="category-management">
+    <h2>Quản lý Danh Mục Sản Phẩm</h2>
+    <div class="search-bar">
+        <input type="text" placeholder="Tìm kiếm danh mục..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" />
+        <button (click)="openAddCategoryModal()">Thêm Danh Mục</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên Danh Mục</th>
+                <th>Phân Loại</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let category of filteredCategories; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ category?.name }}</td>
+                <td>{{ category?.type }}</td>
+                <td>
+                    <button (click)="editCategory(category)">Sửa</button>
+                    <button (click)="deleteCategory(category.id)">Xóa</button>
+                </td>
+            </tr>
+            <tr *ngIf="filteredCategories.length === 0">
+                <td colspan="4">Không có danh mục nào phù hợp</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="isAddCategoryModalOpen" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="closeAddCategoryModal()">&times;</span>
+            <h3>Thêm Danh Mục Mới</h3>
+            <label for="newCategoryName">Tên Danh Mục:</label>
+            <input type="text" id="newCategoryName" [(ngModel)]="newCategoryName" required />
+
+            <label for="categoryType">Phân Loại:</label>
+            <select id="categoryType" [(ngModel)]="newCategoryType">
+              <option value="nam">Nam</option>
+              <option value="nu">Nữ</option>
+          </select>
+
+            <button (click)="addCategory()">Thêm</button>
+        </div>
+    </div>
+</div>

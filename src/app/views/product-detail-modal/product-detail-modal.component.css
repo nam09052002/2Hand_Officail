@@ -20,15 +20,15 @@
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    border-radius: 5px;
+    border-radius: 8px;
+    /* Bo góc mềm mại hơn */
     width: 75%;
     max-height: 80%;
-    /* Giới hạn chiều cao tối đa của modal */
     display: flex;
     flex-direction: column;
-    /* Bố trí theo cột */
     position: relative;
-    /* Để định vị nút đóng */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    /* Thêm bóng cho modal */
 }
 
 
@@ -37,14 +37,12 @@
 .close {
     color: #aaa;
     position: absolute;
-    /* Đặt nút ở vị trí tuyệt đối trong modal-content */
     top: 10px;
     right: 15px;
     font-size: 28px;
     font-weight: bold;
     transition: color 0.3s;
     cursor: pointer;
-    /* Hiển thị con trỏ tay khi hover */
 }
 
 .close:hover,
@@ -66,12 +64,16 @@
 /* Ảnh sản phẩm trong modal */
 
 .modal-product-image {
-    width: 345px;
+    width: 300px;
     /* Chiều rộng cố định cho ảnh */
     height: auto;
     /* Giữ tỷ lệ khung hình cho ảnh */
     margin-right: 20px;
     /* Khoảng cách giữa ảnh và thông tin */
+    border-radius: 5px;
+    /* Bo góc cho ảnh */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    /* Thêm bóng cho ảnh */
 }
 
 
@@ -97,7 +99,7 @@
     display: flex;
     justify-content: flex-end;
     /* Căn giữa các nút */
-    /* margin-top: 20px; */
+    margin-top: 20px;
     /* Khoảng cách trên cho nút */
 }
 
@@ -116,6 +118,8 @@
     /* Bo góc cho nút */
     cursor: pointer;
     /* Đổi con trỏ chuột khi di chuột qua nút */
+    transition: background-color 0.3s, transform 0.2s;
+    /* Hiệu ứng chuyển đổi mượt mà */
 }
 
 .add-to-cart {
@@ -130,6 +134,8 @@
 .add-to-cart:hover {
     background-color: #0056b3;
     /* Màu nền khi hover */
+    transform: scale(1.05);
+    /* Phóng to nhẹ khi hover */
 }
 
 .buy-now {
@@ -142,4 +148,125 @@
 .buy-now:hover {
     background-color: #218838;
     /* Màu nền khi hover */
+    transform: scale(1.05);
+    /* Phóng to nhẹ khi hover */
+}
+
+
+/* Container cho lựa chọn màu sắc và kích thước */
+
+.color-size-container {
+    /* margin-top: 20px; */
+    display: flex;
+    /* Sử dụng flexbox cho toàn bộ container */
+    flex-direction: column;
+    /* Đặt hướng theo cột */
+}
+
+
+/* Hàng chọn màu và kích thước */
+
+.color-container,
+.size-container {
+    margin-bottom: 20px;
+    /* Khoảng cách giữa các hàng */
+    display: flex;
+    /* Sử dụng flexbox để căn chỉnh nội dung */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+}
+
+
+/* Nhãn cho các lựa chọn */
+
+.color-container label,
+.size-container label {
+    /* font-weight: bold; */
+    /* Chữ đậm cho nhãn */
+    margin-right: 10px;
+    /* Khoảng cách bên phải cho nhãn */
+}
+
+
+/* Nhóm checkbox */
+
+.checkbox-group {
+    display: flex;
+    /* Sử dụng flexbox cho nhóm checkbox */
+    flex-wrap: wrap;
+    /* Cho phép các checkbox xuống dòng nếu không đủ không gian */
+}
+
+
+/* Tùy chọn cho checkbox */
+
+.checkbox-group div {
+    margin-right: 15px;
+    /* Khoảng cách giữa các checkbox */
+}
+
+
+/* Hàng chọn số lượng */
+
+.quantity-container {
+    /* margin-top: 20px; */
+    /* Khoảng cách trên cho hàng chọn số lượng */
+    display: flex;
+    /* Sử dụng flexbox để căn chỉnh nội dung */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+}
+
+
+/* Nút cho tăng/giảm */
+
+.quantity-container button {
+    padding: 10px;
+    /* Khoảng cách bên trong cho nút */
+    font-size: 16px;
+    /* Kích thước chữ */
+    border: 1px solid #007BFF;
+    /* Đường viền màu */
+    background-color: #fff;
+    /* Màu nền */
+    color: #007BFF;
+    /* Màu chữ */
+    cursor: pointer;
+    /* Đổi con trỏ khi hover */
+    margin: 0 5px;
+    /* Khoảng cách giữa các nút */
+    border-radius: 5px;
+    /* Bo góc cho nút */
+    height: 30px;
+    /* Đặt chiều cao cố định cho nút */
+    line-height: 0;
+    /* Đảm bảo văn bản không bị giãn */
+}
+
+
+/* Hiệu ứng hover cho nút */
+
+.quantity-container button:hover {
+    background-color: #007BFF;
+    /* Màu nền khi hover */
+    color: white;
+    /* Màu chữ khi hover */
+}
+
+
+/* Input số lượng */
+
+.quantity-container input {
+    width: 75px;
+    /* Đặt chiều rộng cho input */
+    text-align: center;
+    /* Căn giữa văn bản trong input */
+    font-size: 16px;
+    /* Kích thước chữ */
+    border: 1px solid #ccc;
+    /* Đường viền cho input */
+    border-radius: 5px;
+    /* Bo góc cho input */
+    height: 30px;
+    /* Đặt chiều cao cố định cho input */
 }

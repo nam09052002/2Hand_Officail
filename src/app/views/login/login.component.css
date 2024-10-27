@@ -1,27 +1,28 @@
 /* Định dạng tổng quát cho body */
 
-body,
-html {
-    margin: 0;
-    padding: 0;
+html,
+body {
     height: 100%;
-    background-image: url('https://cosp.com.vn/uploaded/thiet-ke-shop-thoi-trang-nu-5.png');
-    background-size: cover;
-    /* Đảm bảo hình ảnh che phủ toàn bộ màn hình */
-    background-position: center;
-    /* Đảm bảo hình ảnh căn giữa */
-    background-repeat: no-repeat;
-    /* Không lặp lại hình ảnh */
+    /* Đặt chiều cao cho html và body */
+    margin: 0;
+    /* Loại bỏ khoảng cách mặc định */
 }
 
-
-/* Wrapper để căn giữa */
-
 .login-wrapper {
+    background-image: url('https://img.meta.com.vn/Data/image/2022/06/06/anh-chill-15.jpg');
+    /* Hình nền */
+    background-size: cover;
+    /* Đảm bảo hình ảnh bao phủ toàn bộ màn hình */
+    background-position: center;
+    /* Căn giữa hình ảnh */
     display: flex;
+    /* Sử dụng flexbox để căn giữa */
     justify-content: center;
+    /* Căn giữa theo chiều ngang */
     align-items: center;
+    /* Căn giữa theo chiều dọc */
     height: 100vh;
+    /* Chiều cao bằng chiều cao của cửa sổ trình duyệt */
 }
 
 
@@ -120,4 +121,27 @@ html {
     color: red;
     margin-top: 15px;
     font-size: 14px;
+}
+
+.register-link,
+.login-link {
+    text-align: center;
+    /* Căn giữa liên kết đăng ký */
+    margin-top: 15px;
+    /* Khoảng cách phía trên */
+}
+
+.register-link a,
+.login-link a {
+    color: #007BFF;
+    /* Màu chữ cho liên kết */
+    text-decoration: none;
+    /* Bỏ gạch chân */
+}
+
+.register-link a:hover,
+.login-link a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    /* Gạch chân khi hover */
 }

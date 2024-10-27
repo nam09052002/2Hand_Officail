@@ -1,0 +1,74 @@
+<div class="discount-code-management">
+    <h2>Quản Lý Mã Giảm Giá</h2>
+
+    <form (ngSubmit)="addDiscountCode()">
+        <div class="form-group">
+            <label for="code">Mã Giảm Giá:</label>
+            <input type="text" id="code" [(ngModel)]="newDiscountCode" name="code" required />
+        </div>
+
+        <div class="form-group">
+            <label for="percentage">Phần Trăm Giảm Giá:</label>
+            <input type="number" id="percentage" [(ngModel)]="newDiscountPercentage" name="percentage" required />
+        </div>
+
+        <div class="form-group">
+            <label for="startDate">Ngày Bắt Đầu:</label>
+            <input type="date" id="startDate" [(ngModel)]="newStartDate" name="startDate" required />
+        </div>
+
+        <div class="form-group">
+            <label for="expirationDate">Ngày Hết Hạn:</label>
+            <input type="date" id="expirationDate" [(ngModel)]="newExpirationDate" name="expirationDate" required />
+        </div>
+
+        <div class="form-group">
+            <label for="status">Trạng Thái:</label>
+            <select id="status" [(ngModel)]="isActive" name="status">
+              <option [ngValue]="true">Hoạt Động</option>
+              <option [ngValue]="false">Ngừng Hoạt Động</option>
+          </select>
+        </div>
+
+        <button type="submit">Thêm Mã Giảm Giá</button>
+    </form>
+
+    <div class="search-container">
+        <label for="search">Tìm Kiếm Mã Giảm Giá:</label>
+        <input type="text" id="search" [(ngModel)]="searchQuery" placeholder="Nhập mã giảm giá để tìm..." (input)="onSearchChange()" />
+    </div>
+
+    <h3>Danh Sách Mã Giảm Giá</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Mã Giảm Giá</th>
+                <th>Phần Trăm</th>
+                <th>Ngày Bắt Đầu</th>
+                <th>Ngày Hết Hạn</th>
+                <th>Trạng Thái</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let code of filteredDiscountCodes">
+                <td>{{ code.id }}</td>
+                <td>{{ code.ma_giam }}</td>
+                <td>{{ code.phan_tram_giam }}%</td>
+                <td>{{ code.ngay_bat_dau | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ code.ngay_het_han | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ code.trang_thai ? 'Hoạt Động' : 'Ngừng Hoạt Động' }}</td>
+                <td>
+                    <button (click)="toggleActiveStatus(code)">
+                      {{ code.trang_thai ? 'Ngừng Hoạt Động' : 'Kích Hoạt' }}
+                  </button>
+                    <button (click)="deleteDiscountCode(code.id)">Xóa</button>
+                </td>
+            </tr>
+            <tr *ngIf="filteredDiscountCodes.length === 0">
+                <td colspan="7">Không có mã giảm giá nào phù hợp.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

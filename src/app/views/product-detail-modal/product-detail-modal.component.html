@@ -1,4 +1,4 @@
-<div class="modal">
+<div class="modal" *ngIf="isOpen">
     <div class="modal-content">
         <span class="close" (click)="onCloseModal()">&times;</span>
         <div class="modal-body">
@@ -15,8 +15,8 @@
         </div>
 
         <div class="button-container">
-            <button class="add-to-cart" (click)="addToCart(product)">Thêm vào giỏ hàng</button>
-            <button class="buy-now" (click)="buyNow(product)">Mua ngay</button>
+            <button class="add-to-cart" (click)="addToCart()">Thêm vào giỏ hàng</button>
+            <button class="buy-now" (click)="buyNow()">Mua ngay</button>
         </div>
     </div>
 </div>

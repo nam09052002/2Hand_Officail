@@ -2,31 +2,31 @@
     <h2>Thống Kê</h2>
 
     <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">attach_money</i>
-        <h3>Doanh Thu Hôm Nay</h3>
-        <p>1.000.000 VND</p>
+        <i class="material-icons" aria-hidden="true">shopping_cart</i>
+        <h3>Đơn Hàng Hôm Nay:</h3>
+        <p>{{ donHangHomNay }}</p>
     </div>
 
     <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">calendar_today</i>
-        <h3>Doanh Thu Tuần</h3>
-        <p>5.000.000 VND</p>
+        <i class="material-icons" aria-hidden="true">shopping_cart</i>
+        <h3>Đơn Hàng Tuần Nay:</h3>
+        <p>{{ donHangTuan }}</p>
     </div>
 
     <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">monetization_on</i>
-        <h3>Doanh Thu Tháng</h3>
-        <p>20.000.000 VND</p>
+        <i class="material-icons" aria-hidden="true">shopping_cart</i>
+        <h3>Đơn Hàng Tháng Nay:</h3>
+        <p>{{ donHangThang }}</p>
     </div>
 
-    <h2>Thống Kê Đơn Hàng</h2>
+    <h2>Chi Tiết Đơn Hàng</h2>
 
     <div class="filters">
         <input type="text" placeholder="Tìm kiếm theo tên khách hàng" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
 
         <select [(ngModel)]="selectedStatus" (change)="onStatusChange()">
-      <option value="">Trạng thái</option>
-      <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+      <!-- <option value="">Trạng thái</option> -->
+      <option *ngFor="let status of statuses" [value]="status">{{ statusDisplayNames[status]  }}</option>
     </select>
 
         <input type="date" [(ngModel)]="startDate" (change)="onDateChange()">
@@ -44,22 +44,111 @@
                 <th>Trạng Thái</th>
                 <th>Ngày Mua</th>
                 <th>Tổng Tiền (VND)</th>
+                <th>Xem Chi Tiết</th>
+                <!-- Cột mới -->
+                <th>Cập Nhật Trạng Thái</th>
+                <!-- Cột mới -->
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let order of filteredOrders">
-                <td>{{ order.id }}</td>
-                <td>{{ order.orderCode }}</td>
-                <td>{{ order.customerName }}</td>
-                <td>{{ order.address }}</td>
-                <td>{{ order.phoneNumber }}</td>
-                <td>{{ order.status }}</td>
-                <td>{{ order.date | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ order.totalAmount | currency:'VND' }}</td>
+            <tr *ngFor="let order of filteredOrders; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ order.id_don_hang }}</td>
+                <td>{{ order.ho_va_ten }}</td>
+                <td>{{ order.dia_chi }}</td>
+                <td>{{ order.so_dien_thoai }}</td>
+                <td>{{ statusDisplayNames[order.trang_thai] }}</td>
+                <td>{{ order.ngay_mua | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ order.tong_tien | currency:'VND' }}</td>
+                <td>
+                    <button (click)="viewOrderDetails(order)">Xem</button>
+                    <!-- Nút xem chi tiết -->
+                </td>
+                <td>
+                    <select [(ngModel)]="order.trang_thai" (change)="updateOrderStatus(order)">
+                      <option *ngFor="let status of status" [value]="status">{{ changeStatus[status] }}</option>
+                  </select>
+                    <!-- Dropdown cập nhật trạng thái -->
+                </td>
             </tr>
             <tr *ngIf="filteredOrders.length === 0">
-                <td colspan="8">Không có đơn hàng nào phù hợp</td>
+                <td colspan="10">Không có đơn hàng nào phù hợp</td>
             </tr>
         </tbody>
     </table>
+
+    <!-- Modal hiển thị chi tiết đơn hàng -->
+    <div *ngIf="isOrderDetailModalOpen" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="closeOrderDetailModal()">&times;</span>
+            <h3 style="text-align: center;">Chi Tiết Đơn Hàng</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên Thông Tin</th>
+                        <th>Giá Trị</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mã Đơn Hàng</td>
+                        <td>{{ selectedOrder.id_don_hang }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tên Khách Hàng</td>
+                        <td>{{ selectedOrder.ho_va_ten }}</td>
+                    </tr>
+                    <tr>
+                        <td>Địa Chỉ</td>
+                        <td>{{ selectedOrder.dia_chi }}</td>
+                    </tr>
+                    <tr>
+                        <td>Số Điện Thoại</td>
+                        <td>{{ selectedOrder.so_dien_thoai }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Tên Sản Phẩm</td>
+                        <td>{{ selectedOrder.ten_san_pham }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Ảnh Sản Phẩm</td>
+                        <td><img [src]="selectedOrder.anh_san_pham || 'default-image-url.jpg'" alt="{{ selectedOrder.ten_san_pham }}" class="product-image " style="width: 100px; height: 100px" /></td>
+                    </tr>
+
+
+                    <tr>
+                        <td>Màu Sắc</td>
+                        <td>{{ selectedOrder.mau_sac }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Kích Thước</td>
+                        <td>{{ selectedOrder.kich_thuoc }}</td>
+                    </tr>
+                    <tr>
+                        <td>Số Lượng</td>
+                        <td>{{ selectedOrder.so_luong }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ngày Mua</td>
+                        <td>{{ selectedOrder.ngay_mua | date: 'dd/MM/yyyy' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tổng Tiền</td>
+                        <td>{{ selectedOrder.tong_tien | currency:'VND' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Trạng Thái</td>
+                        <td>{{ statusDisplayNames[selectedOrder.trang_thai] }}</td>
+                    </tr>
+                    <!-- Thêm thông tin khác nếu cần -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
 </div>

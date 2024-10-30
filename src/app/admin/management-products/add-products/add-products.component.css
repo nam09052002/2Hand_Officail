@@ -74,3 +74,31 @@ textarea {
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+.close-button {
+    position: absolute;
+    /* Đặt vị trí tuyệt đối để nằm ở góc */
+    top: 5px;
+    /* Khoảng cách từ trên */
+    right: 5px;
+    /* Khoảng cách từ bên phải */
+    background: none;
+    /* Không có nền */
+    border: none;
+    /* Không có viền */
+    font-size: 30px;
+    /* Kích thước chữ lớn hơn */
+    color: #000;
+    /* Màu chữ trắng để nổi bật trên nền tối */
+    cursor: pointer;
+    /* Con trỏ sẽ thay đổi khi di chuột qua */
+    transition: color 0.3s;
+    /* Hiệu ứng chuyển màu */
+}
+
+.close-button:hover {
+    color: #ff0000;
+    /* Đổi màu khi di chuột qua */
+    transform: scale(1.1);
+    /* Tăng kích thước nhẹ khi hover */
+}

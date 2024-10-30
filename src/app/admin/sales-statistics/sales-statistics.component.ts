@@ -1,55 +1,110 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-interface Order {
-  id: number; // STT
-  orderCode: string; // Mã đơn hàng
-  customerName: string; // Tên khách hàng
-  address: string; // Địa chỉ
-  phoneNumber: string; // Số điện thoại
-  status: string; // Trạng thái đơn hàng
-  date: Date; // Ngày mua
-  totalAmount: number; // Tổng tiền
-}
 
 @Component({
   selector: 'app-sales-statistics',
   templateUrl: './sales-statistics.component.html',
-  styleUrl: './sales-statistics.component.css'
+  styleUrls: ['./sales-statistics.component.css']
 })
 export class SalesStatisticsComponent {
-  orders: Order[] = [];
-  filteredOrders: Order[] = [];
+  donHangHomNay: number = 0;
+  donHangTuan: number = 0;
+  donHangThang: number = 0;
   searchTerm: string = '';
-  selectedStatus: string = '';
-  startDate: Date | null = null;
-  endDate: Date | null = null;
+  selectedStatus: string = 'tat_ca'; // Giá trị mặc định
+  startDate: string | null = null;
+  endDate: string | null = null;
+  orders: any[] = []; // Store all orders
+  filteredOrders: any[] = []; // Store filtered orders
+  statuses: string[] = ['tat_ca', 'cho_xu_ly', 'da_xac_nhan', 'da_giao', 'da_huy']; // Danh sách trạng thái
+  status: string[] = ['cho_xu_ly', 'da_xac_nhan', 'da_giao', 'da_huy'];
+  statusDisplayNames: { [key: string]: string } = {
+    tat_ca: 'Tất cả đơn hàng',
+    cho_xu_ly: 'Chờ xử lý',
+    da_xac_nhan: 'Đã xác nhận',
+    da_giao: 'Đã giao',
+    da_huy: 'Đã hủy'
+  };
+  changeStatus: { [key: string]: string } = {
+    cho_xu_ly: 'Chờ xử lý',
+    da_xac_nhan: 'Đã xác nhận',
+    da_giao: 'Đã giao',
+    da_huy: 'Đã hủy'
+  };
+  message: string = '';
+  isOrderDetailModalOpen = false;
+  selectedOrder: any;
 
-  statuses: string[] = ['Tất cả', 'Đang xử lý', 'Đã giao', 'Đã hủy'];
-
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadOrders();
   }
 
-  loadOrders(): void {
-    // Giả lập dữ liệu đơn hàng
-    this.orders = [
-      { id: 1, orderCode: 'DH001', customerName: 'Nguyễn Văn A', address: '123 Đường 1', phoneNumber: '0123456789', status: 'Đang xử lý', date: new Date('2024-10-01'), totalAmount: 500000 },
-      { id: 2, orderCode: 'DH002', customerName: 'Trần Thị B', address: '456 Đường 2', phoneNumber: '0987654321', status: 'Đã giao', date: new Date('2024-10-02'), totalAmount: 300000 },
-      { id: 3, orderCode: 'DH003', customerName: 'Lê Văn C', address: '789 Đường 3', phoneNumber: '0112233445', status: 'Đã hủy', date: new Date('2024-10-03'), totalAmount: 100000 },
-      { id: 4, orderCode: 'DH004', customerName: 'Phạm Thị D', address: '321 Đường 4', phoneNumber: '0223344556', status: 'Đang xử lý', date: new Date('2024-10-04'), totalAmount: 750000 },
-      // Thêm nhiều đơn hàng giả lập khác
-    ];
-    this.filteredOrders = [...this.orders];
+  loadOrders() {
+    this.http.get('http://localhost/api/orders/get-order.php').subscribe(
+      (response: any) => {
+        if (response.status === "success") {
+          this.resetCounts(); // Reset order counts
+          this.orders = response.data; // Store all orders
+
+          const today = new Date();
+          const todayString = this.formatDate(today);
+          const firstDayOfWeekString = this.formatDate(this.getFirstDayOfWeek(today));
+          const firstDayOfMonthString = this.formatDate(this.getFirstDayOfMonth(today));
+
+          this.orders.forEach((order: any) => {
+            const orderDate = order.ngay_mua.split(' ')[0].trim();
+            if (orderDate === todayString) {
+              this.donHangHomNay++;
+            }
+            if (orderDate >= firstDayOfWeekString && orderDate <= todayString) {
+              this.donHangTuan++;
+            }
+            if (orderDate >= firstDayOfMonthString && orderDate <= todayString) {
+              this.donHangThang++;
+            }
+          });
+
+          this.filteredOrders = this.orders; // Khởi tạo filteredOrders với tất cả đơn hàng
+        } else {
+          this.resetCounts(); // Reset counts on error
+        }
+      },
+      (error) => {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    );
+  }
+
+  formatDate(date: Date): string {
+    return date.toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit' })
+      .split('/').reverse().join('-'); // Convert to yyyy-mm-dd
+  }
+
+  getFirstDayOfWeek(date: Date): Date {
+    const firstDayOfWeek = new Date(date);
+    firstDayOfWeek.setDate(date.getDate() - date.getDay()); // Sunday
+    return firstDayOfWeek;
+  }
+
+  getFirstDayOfMonth(date: Date): Date {
+    return new Date(date.getFullYear(), date.getMonth(), 1);
+  }
+
+  resetCounts(): void {
+    this.donHangHomNay = 0;
+    this.donHangTuan = 0;
+    this.donHangThang = 0;
   }
 
   applyFilters(): void {
     this.filteredOrders = this.orders.filter(order => {
-      const matchesSearchTerm = order.customerName.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesStatus = this.selectedStatus ? order.status === this.selectedStatus : true;
+      const matchesSearchTerm = order.ho_va_ten.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchesStatus = this.selectedStatus === 'tat_ca' || order.trang_thai === this.selectedStatus; // Thay đổi ở đây
       const matchesDate =
-        (!this.startDate || order.date >= this.startDate) &&
-        (!this.endDate || order.date <= this.endDate);
+        (!this.startDate || order.ngay_mua >= this.startDate) &&
+        (!this.endDate || order.ngay_mua <= this.endDate);
 
       return matchesSearchTerm && matchesStatus && matchesDate;
     });
@@ -66,4 +121,34 @@ export class SalesStatisticsComponent {
   onDateChange(): void {
     this.applyFilters();
   }
+
+  viewOrderDetails(order: any) {
+
+    this.selectedOrder = order; // Lưu thông tin đơn hàng đã chọn
+    this.isOrderDetailModalOpen = true;
+  }
+  updateOrderStatus(order: any) {
+    const payload = {
+        id_don_hang: order.id_don_hang,
+        trang_thai: order.trang_thai
+    };
+
+    this.http.post('http://localhost/api/orders/update-order.php', payload)
+    .subscribe(
+      (response: any) => {
+        if (response.status === "success") {
+          alert(response.message)
+        }
+
+      },
+      (error) => {
+        console.error("Lỗi khi gọi API:", error);
+      })
+  }
+  closeOrderDetailModal() {
+    this.isOrderDetailModalOpen = false; // Đóng modal
+    this.selectedOrder = null; // Reset thông tin đơn hàng
+  }
+
+
 }

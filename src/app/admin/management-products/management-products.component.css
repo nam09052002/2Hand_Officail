@@ -1,59 +1,54 @@
-/* management-products.component.css */
+/* Tùy chỉnh cho tab container */
 
-
-/* Tùy chỉnh tab group */
-
-mat-tab-group {
+.tab-container {
     margin: 20px 0;
     /* Khoảng cách trên và dưới */
     background-color: #f9f9f9;
-    /* Màu nền cho tab group */
+    /* Màu nền cho tab container */
     border-radius: 8px;
-    /* Bo góc cho tab group */
+    /* Bo góc cho tab container */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Đổ bóng cho tab group */
+    /* Đổ bóng cho tab container */
 }
 
 
-/* Tùy chỉnh tab */
+/* Tùy chỉnh tab header */
 
-mat-tab {
+.tab-header {
+    display: flex;
+    /* Sắp xếp các tab theo hàng */
+    border-bottom: 2px solid #ddd;
+    /* Đường viền dưới tab header */
+}
+
+
+/* Tùy chỉnh từng tab */
+
+.tab {
     padding: 12px 16px;
     /* Khoảng cách bên trong tab */
-}
-
-
-/* Tùy chỉnh tiêu đề tab */
-
-.mat-tab-label {
-    font-weight: bold;
-    /* Đậm chữ tiêu đề tab */
+    cursor: pointer;
+    /* Con trỏ chuột khi di chuột qua tab */
     color: #333;
     /* Màu chữ tiêu đề tab */
 }
 
 
-/* Màu sắc khi tab được chọn */
+/* Màu sắc cho tab đang được chọn */
 
-.mat-tab-label-active {
+.tab.active {
     color: #007bff;
     /* Màu chữ cho tab đang được chọn */
+    font-weight: bold;
+    /* Đậm chữ cho tab đang được chọn */
     border-bottom: 2px solid #007bff;
     /* Đường kẻ dưới tab đang được chọn */
 }
 
 
-/* Màu sắc khi di chuột qua tab */
-
-.mat-tab-label:hover {
-    color: #0056b3;
-    /* Màu chữ khi di chuột qua tab */
-}
-
-
 /* Tùy chỉnh nội dung tab */
 
-mat-tab-content {
+.tab-content {
     padding: 20px;
     /* Khoảng cách bên trong nội dung tab */
     background-color: #fff;
@@ -84,11 +79,14 @@ thead {
     /* Màu chữ cho tiêu đề bảng */
 }
 
+
+/* Tùy chỉnh ô tiêu đề và ô dữ liệu */
+
 th,
 td {
     padding: 12px;
     /* Khoảng cách bên trong ô */
-    text-align: left;
+    text-align: center;
     /* Căn trái chữ trong ô */
     border-bottom: 1px solid #ddd;
     /* Đường kẻ dưới mỗi ô */

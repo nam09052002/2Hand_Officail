@@ -1,10 +1,13 @@
+<!-- Màng mờ -->
+<div *ngIf="activeModal" class="overlay"></div>
+
 <div class="modal" *ngIf="activeModal">
     <div class="modal-content">
         <div class="modal-header">
             <h2 class="modal-title">{{ getModalTitle() }}</h2>
             <button type="button" (click)="closeModal()" class="btn-close" aria-label="Close">
-            <i class="fas fa-times"></i>
-        </button>
+                <i class="fas fa-times"></i>
+            </button>
         </div>
 
         <!-- Phần hiển thị thông tin người dùng -->
@@ -23,8 +26,8 @@
                 <input type="text" id="dia_chi" [(ngModel)]="userInfo.dia_chi" name="dia_chi" required>
 
                 <button type="submit" class="btn-submit">
-                <i class="fas fa-save"></i> Lưu
-              </button>
+                    <i class="fas fa-save"></i> Lưu
+                </button>
             </form>
         </div>
 
@@ -41,8 +44,8 @@
                 <input type="password" id="confirmPassword" [(ngModel)]="passwords.confirmPassword" name="confirmPassword" required>
 
                 <button type="submit" class="btn-submit">
-                <i class="fas fa-check"></i> Đổi mật khẩu
-              </button>
+                    <i class="fas fa-check"></i> Đổi mật khẩu
+                </button>
             </form>
         </div>
 
@@ -59,7 +62,7 @@
                         <th>Tổng tiền</th>
                         <th>Ngày mua</th>
                         <th>Trạng thái</th>
-                        <!-- <th>Hành động</th> -->
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,12 +79,56 @@
                         <td>
                             {{ order.trang_thai === 'cho_xu_ly' ? 'Chờ xử lý' : order.trang_thai === 'da_xac_nhan' ? 'Đã xác nhận' : order.trang_thai === 'da_giao' ? 'Đã giao' : order.trang_thai === 'da_huy' ? 'Đã hủy' : order.trang_thai }}
                         </td>
-                        <!-- <td>
+                        <td>
                             <button (click)="viewOrderDetails(order.id_don_hang)" class="show">Xem chi tiết</button>
-                        </td> -->
+                        </td>
                     </tr>
                 </tbody>
             </table>
+            <div *ngIf="showOrder" class="order-details">
+                <button (click)="closeOrderDetails()" class="close-button">Đóng</button>
+                <h3>Thông tin chi tiết đơn hàng {{ selectedOrderDetails?.id_don_hang }}</h3>
+                <table>
+                    <tr>
+                        <th>Tên thông tin</th>
+                        <td>Giá trị</td>
+                    </tr>
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <td>{{ selectedOrderDetails?.ten_san_pham }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ảnh Sản Phẩm</td>
+                        <td><img [src]="selectedOrderDetails.anh_san_pham || 'default-image-url.jpg'" alt="{{ selectedOrderDetails.ten_san_pham }}" class="product-image " style="width: 100px; height: 100px" /></td>
+                    </tr>
+                    <tr>
+                        <th>Màu sắc</th>
+                        <td>{{ selectedOrderDetails?.mau_sac }}</td>
+                    </tr>
+                    <tr>
+                        <th>Kích thước</th>
+                        <td>{{ selectedOrderDetails?.kich_thuoc }}</td>
+                    </tr>
+                    <tr>
+                        <th>Số lượng</th>
+                        <td>{{ selectedOrderDetails?.so_luong }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tổng tiền</th>
+                        <td>{{ selectedOrderDetails?.tong_tien | currency:'VND' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Ngày mua</th>
+                        <td>{{ selectedOrderDetails?.ngay_mua | date: 'dd/MM/yyyy' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Trạng thái</th>
+                        <td>{{ selectedOrderDetails.trang_thai === 'cho_xu_ly' ? 'Chờ xử lý' : selectedOrderDetails.trang_thai === 'da_xac_nhan' ? 'Đã xác nhận' : selectedOrderDetails.trang_thai === 'da_giao' ? 'Đã giao' : selectedOrderDetails.trang_thai
+                            === 'da_huy' ? 'Đã hủy' : selectedOrderDetails.trang_thai }}</td>
+                    </tr>
+                    <!-- Thêm các trường khác theo nhu cầu -->
+                </table>
+            </div>
         </div>
     </div>
 </div>

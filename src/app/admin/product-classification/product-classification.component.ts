@@ -1,85 +1,165 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 
 export interface Category {
   id: number;
-  name: string;
+  ten_danh_muc: string;
+  phan_loai: string;
 }
-
 
 @Component({
   selector: 'app-product-classification',
   templateUrl: './product-classification.component.html',
-  styleUrl: './product-classification.component.css'
+  styleUrls: ['./product-classification.component.css'] // Fixed the property name here
 })
-export class ProductClassificationComponent {
-
+export class ProductClassificationComponent implements OnInit {
+  categories: Category[] = []; // Type the array correctly
   searchTerm: string = '';
-  newCategoryName: string = '';
-  newCategoryType: string = 'nam'; // Mặc định là 'nam'
-  filteredCategories: any[] = []; // Danh sách danh mục đã lọc
-  allCategories: any[] = []; // Danh sách tất cả danh mục
   isAddCategoryModalOpen: boolean = false;
+  newCategoryName: string = '';
+  newCategoryType: string = 'nam'; // Default value
+  filteredCategories: Category[] = [];
+  isEditCategoryModalOpen: boolean = false;
+  categoryToEdit: Category | null = null;
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    // Lấy danh sách danh mục từ server khi component được khởi tạo
-    this.fetchCategories();
+    this.getCategories();
   }
 
-  fetchCategories() {
-    // Giả sử bạn gọi API để lấy danh mục
-    // Thay thế bằng mã gọi API thực tế
-    this.allCategories = [
-      { id: 1, name: 'Áo Nam', type: 'nam' },
-      { id: 2, name: 'Giày Nữ', type: 'nu' },
-      { id: 3, name: 'Quần Jean Nam', type: 'nam' },
-      { id: 4, name: 'Đầm Nữ', type: 'nu' },
-    ];
-
-    this.filteredCategories = [...this.allCategories];
-  }
-
-  openAddCategoryModal() {
-    this.isAddCategoryModalOpen = true;
-  }
-
-  closeAddCategoryModal() {
-    this.isAddCategoryModalOpen = false;
-    this.resetNewCategoryForm();
-  }
-
-  addCategory() {
-    const newCategory = {
-      id: this.allCategories.length + 1, // Tạo ID tự động
-      name: this.newCategoryName,
-      type: this.newCategoryType // Thêm loại phân loại
-    };
-
-    // Gọi API để thêm danh mục mới vào cơ sở dữ liệu
-    // Thay thế bằng mã gọi API thực tế
-    this.allCategories.push(newCategory);
-    this.filteredCategories.push(newCategory);
-    this.closeAddCategoryModal();
-  }
-
-  editCategory(category: any) {
-    // Logic để sửa danh mục
-    // Thực hiện các bước để sửa thông tin danh mục
-  }
-
-  deleteCategory(categoryId: number) {
-    // Logic xóa danh mục
-    this.allCategories = this.allCategories.filter(category => category.id !== categoryId);
-    this.filteredCategories = this.filteredCategories.filter(category => category.id !== categoryId);
-  }
-
-  onSearchChange() {
-    this.filteredCategories = this.allCategories.filter(category =>
-      category.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+  // Fetch product categories
+  getCategories() {
+    this.http.get('http://localhost/api/product-catalog/get-catalog.php').subscribe(
+      (response: any) => {
+        if (response.status === 'success') {
+          this.categories = response.data;
+          this.filteredCategories = this.categories;
+        }
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
     );
   }
 
-  resetNewCategoryForm() {
+  // Open the add category modal
+  openAddCategoryModal() {
+    this.isAddCategoryModalOpen = true;
     this.newCategoryName = '';
-    this.newCategoryType = 'nam'; // Đặt lại phân loại về mặc định
+    this.newCategoryType = 'nam'; // Reset to default value
+  }
+
+  // Close the add category modal
+  closeAddCategoryModal() {
+    this.isAddCategoryModalOpen = false;
+  }
+
+  // Add a new category
+  addCategory() {
+    const newCategory: Category = {
+      id: this.categories.length + 1, // Assign a temporary ID
+      ten_danh_muc: this.newCategoryName,
+      phan_loai: this.newCategoryType
+    };
+
+    this.http.post('http://localhost/api/product-catalog/add-catalog.php', newCategory).subscribe(
+      (response: any) => {
+        if (response.status === 'success') {
+          this.categories.push(newCategory); // Update the list
+          alert(response.message);
+          this.closeAddCategoryModal(); // Close modal
+          this.getCategories(); // Refresh categories
+        }
+      },
+      (error) => {
+        alert('Error adding category!');
+      }
+    );
+  }
+
+
+  // Delete a category
+  deleteCategory(id: number) {
+    if (confirm('Are you sure you want to delete this category?')) {
+      this.http.delete('http://localhost/api/product-catalog/delete-catalog.php', {
+        body: { id: id }
+      }).subscribe(
+        (response: any) => {
+          if (response.status === 'success') {
+            this.categories = this.categories.filter(category => category.id !== id); // Update the list
+            alert(response.message);
+            this.getCategories(); // Refresh categories
+          }
+        },
+        (error) => {
+          console.error('Error deleting category:', error);
+        }
+      );
+    }
+  }
+
+  editCategory(category: Category) {
+    this.isEditCategoryModalOpen = true;
+    // Ensure categoryToEdit is fully populated
+    this.categoryToEdit = {
+        id: category.id,
+        ten_danh_muc: category.ten_danh_muc,
+        phan_loai: category.phan_loai
+    };
+}
+
+updateCategory() {
+  if (this.categoryToEdit) {
+      const { id, ten_danh_muc, phan_loai } = this.categoryToEdit;
+
+      // Ensure that 'id' is defined before updating the category
+      if (id !== undefined && ten_danh_muc !== undefined && phan_loai !== undefined) {
+          this.http.put('http://localhost/api/product-catalog/update-catalog.php', this.categoryToEdit).subscribe(
+              (response: any) => {
+                  if (response.status === 'success') {
+                      const index = this.categories.findIndex(cat => cat.id === id);
+                      if (index !== -1) {
+                          // Only assign if all properties are available
+                          this.categories[index] = {
+                              id: id, // Ensure id is of type number
+                              ten_danh_muc: ten_danh_muc, // Ensure ten_danh_muc is of type string
+                              phan_loai: phan_loai // Ensure phan_loai is of type string
+                          }; // Update the local list
+                      }
+                      alert(response.message);
+                      this.closeEditCategoryModal(); // Close modal
+                      this.getCategories(); // Refresh categories
+                  } else {
+                      alert(`Error: ${response.message}`);
+                  }
+              },
+              (error) => {
+                  console.error('Error updating category:', error);
+                  alert('Error updating category! Please try again later.');
+              }
+          );
+      } else {
+          alert('All fields are required to update the category.'); // Handle case where properties are undefined
+      }
+  } else {
+      alert('No category selected for editing.'); // Handle case where no category is selected
+  }
+}
+
+
+
+
+  // Close the edit category modal
+  closeEditCategoryModal() {
+    this.isEditCategoryModalOpen = false;
+    this.categoryToEdit = null; // Reset to null
+  }
+
+  // Search categories
+  onSearchChange() {
+    this.filteredCategories = this.categories.filter(category =>
+      category.ten_danh_muc.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 }

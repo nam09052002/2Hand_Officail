@@ -18,11 +18,11 @@
 
 .modal-content {
     width: 55vw;
-    /* Đặt chiều rộng cho modal */
     background-color: #fff;
-    /* Nền trắng cho nội dung modal */
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-height: 70%;
+    overflow-y: auto;
 }
 
 
@@ -30,12 +30,10 @@
 
 .modal-header {
     background-color: #f8f8f8;
-    /* Nền nhẹ cho tiêu đề modal */
     padding: 1rem;
     border-bottom: 1px solid #ddd;
     display: flex;
     justify-content: space-between;
-    /* Giữa nội dung và nút đóng */
     align-items: center;
 }
 
@@ -67,7 +65,6 @@
 
 form {
     padding: 1rem;
-    /* Thêm padding cho form */
 }
 
 
@@ -75,13 +72,9 @@ form {
 
 label {
     display: block;
-    /* Đảm bảo label chiếm toàn bộ chiều rộng */
     margin-bottom: 0.5rem;
-    /* Khoảng cách dưới label */
     font-weight: bold;
-    /* Đậm */
     color: #333;
-    /* Màu chữ */
 }
 
 
@@ -91,31 +84,19 @@ input[type="text"],
 input[type="email"],
 input[type="password"] {
     width: 100%;
-    /* Chiếm toàn bộ chiều rộng của form */
     padding: 0.5rem;
-    /* Padding cho input */
     margin-bottom: 1rem;
-    /* Khoảng cách dưới input */
     border: 1px solid #ccc;
-    /* Border nhẹ */
     border-radius: 4px;
-    /* Bo góc */
     box-sizing: border-box;
-    /* Bao gồm padding và border trong chiều rộng */
     transition: border-color 0.3s;
-    /* Hiệu ứng khi chọn input */
 }
-
-
-/* Border color when input is focused */
 
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
     border-color: #007bff;
-    /* Màu border khi input được chọn */
     outline: none;
-    /* Ẩn outline mặc định */
 }
 
 
@@ -123,27 +104,16 @@ input[type="password"]:focus {
 
 .btn-submit {
     padding: 0.5rem 1rem;
-    /* Padding cho nút submit */
     background-color: #007bff;
-    /* Màu nền nút */
     color: #fff;
-    /* Màu chữ */
     border: none;
-    /* Không có border */
     border-radius: 4px;
-    /* Bo góc */
     cursor: pointer;
-    /* Con trỏ chuột */
     transition: background-color 0.3s;
-    /* Hiệu ứng khi di chuột */
 }
-
-
-/* Hover effect for submit button */
 
 .btn-submit:hover {
     background-color: #0056b3;
-    /* Màu nền khi hover */
 }
 
 
@@ -151,55 +121,113 @@ input[type="password"]:focus {
 
 table {
     width: 100%;
-    /* Chiếm toàn bộ chiều rộng */
     border-collapse: collapse;
-    /* Hợp nhất border */
 }
-
-
-/* Table header and body styling */
 
 th,
 td {
     padding: 0.5rem;
-    /* Padding cho ô */
     text-align: left;
-    /* Căn trái */
     border-bottom: 1px solid #ddd;
-    /* Border dưới mỗi ô */
 }
 
 th {
     background-color: #f8f8f8;
-    /* Nền nhẹ cho header */
 }
 
 tr:hover {
     background-color: #f1f1f1;
-    /* Hiệu ứng hover cho hàng */
 }
+
+
+/* Order table styling */
 
 .order-table {
     width: 100%;
     border-collapse: collapse;
-    /* Hợp nhất border giữa các ô */
 }
 
 .order-table th,
 .order-table td {
     border: 1px solid #ddd;
-    /* Thêm border cho các ô */
     padding: 8px;
-    /* Thêm khoảng cách bên trong các ô */
     text-align: center;
-    /* Căn giữa nội dung */
 }
 
 .order-table th {
     background-color: #f2f2f2;
-    /* Màu nền cho tiêu đề */
 }
 
 .show:hover {
     cursor: pointer;
+}
+
+
+/* Order details styling */
+
+.order-details {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    max-width: 600px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.order-details h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.order-details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.order-details th,
+.order-details td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-details th {
+    background-color: #f2f2f2;
+    color: #555;
+}
+
+.order-details tr:hover {
+    background-color: #f9f9f9;
+}
+
+.order-details table th {
+    width: 150px;
+    /* Thay đổi kích thước cột 'Tên sản phẩm' */
+}
+
+
+/* Close button for order details */
+
+.close-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    float: right;
+}
+
+.close-button:hover {
+    background-color: #d32f2f;
 }

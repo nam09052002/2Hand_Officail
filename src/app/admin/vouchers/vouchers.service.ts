@@ -25,10 +25,10 @@ export class DiscountCodeService {
   }
 
   // Xóa mã giảm giá
-  deleteDiscountCode(id: number): Observable<any> {
+  deleteDiscountCode(ma_giam_gia: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/delete-voucher.php`, {
       body: {
-        id: id
+        ma_giam_gia: ma_giam_gia
       }
     });
   }

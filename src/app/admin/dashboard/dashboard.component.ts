@@ -16,6 +16,11 @@ export class DashboardComponent implements OnInit{
   constructor(private router: Router) {}
   ngOnInit(): void {
     this.showOverview()
+    this.getDataInt()
+  }
+
+  getDataInt() {
+
   }
 
   showStatisticsDropdown: boolean = false;

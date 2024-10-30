@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../management-products.service';
+import { log } from 'node:console';
 
 @Component({
   selector: 'app-add-products',
@@ -67,20 +68,23 @@ export class AddProductsComponent {
 // }
 
 productForm: FormGroup;
-  loaiSanPham: any[] = []; // Mảng chứa loại sản phẩm
+  danhMucSanPham: any[] = []; // Mảng chứa loại sản phẩm
   nhanHieuList: any[] = []; // Mảng chứa nhãn hiệu
   nhaCungCapList: any[] = []; // Mảng chứa nhà cung cấp
+  filteredCategories: string[] = [];
+  isModalOpen = false;
 
-  constructor(private fb: FormBuilder, private productService: ProductService) {
+  constructor(private fb: FormBuilder, private productService: ProductService, private http: HttpClient,) {
     this.productForm = this.fb.group({
       ten_san_pham: ['', Validators.required],
       mo_ta: ['', Validators.required],
-      gioi_tinh_id: ['', Validators.required],
-      id_loai_san_pham: ['', Validators.required],
-      id_nhan_hieu: ['', Validators.required],
-      id_nha_cung_cap: ['', Validators.required],
+      ten_gioi_tinh: ['', Validators.required],
+      ten_danh_muc: ['', Validators.required],
+      ten_nhan_hieu: ['', Validators.required],
+      ten_nha_cung_cap: ['', Validators.required],
       gia_nhap: ['', [Validators.required, Validators.min(0)]],
       gia_ban: ['', [Validators.required, Validators.min(0)]],
+      anh_san_pham: [null, Validators.required]
     });
   }
 
@@ -88,24 +92,57 @@ productForm: FormGroup;
     this.loadProductCategories();
     this.loadBrands();
     this.loadSuppliers();
+    this.isModalOpen = true;
   }
 
   loadProductCategories() {
-    // Gọi API để lấy danh sách loại sản phẩm
-    // this.productService.getProductCategories().subscribe(data => {
-    //   this.loaiSanPham = data;
-    // });
+
+    this.http.get('http://localhost/api/product-catalog/get-catalog.php').subscribe(
+      (response: any) => {
+          if (response.status === 'success') {
+            this.danhMucSanPham = response.data;
+          }
+      },
+      (error) => {
+          console.error('Lỗi khi lấy danh mục:', error);
+      }
+  );
+  }
+
+  onGenderChange(){
+    const valueGioiTinh = this.productForm.get('ten_gioi_tinh')?.value
+    console.log("CHECK DATAT", valueGioiTinh)
+
+    if (valueGioiTinh == 1) {
+      this.filteredCategories = [];
+      this.danhMucSanPham.forEach((item:any) => {
+        if(item.phan_loai === "nam") {
+          this.filteredCategories.push(item.ten_danh_muc)
+          console.log("this.filteredCategories", this.filteredCategories)
+
+        }
+      })
+    }
+
+     else {
+      this.filteredCategories = [];
+      this.danhMucSanPham.forEach((item:any) => {
+        if(item.phan_loai === "nu") {
+          this.filteredCategories.push(item.ten_danh_muc)
+          console.log("this.filteredCategories", this.filteredCategories)
+
+        }
+      })
+    }
   }
 
   loadBrands() {
-    // Gọi API để lấy danh sách nhãn hiệu
     // this.productService.getBrands().subscribe(data => {
     //   this.nhanHieuList = data;
     // });
   }
 
   loadSuppliers() {
-    // Gọi API để lấy danh sách nhà cung cấp
     // this.productService.getSuppliers().subscribe(data => {
     //   this.nhaCungCapList = data;
     // });
@@ -113,15 +150,36 @@ productForm: FormGroup;
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
-    // Xử lý file ảnh tại đây
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.productForm.patchValue({
+          anh_san_pham: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   onSubmit() {
-    if (this.productForm.valid) {
-      // Gọi API để thêm sản phẩm
-      this.productService.addProduct(this.productForm.value).subscribe(response => {
-        alert(response.message); // Hiển thị thông báo khi thêm sản phẩm thành công
+    // if (this.productForm.valid) {
+      const formValue = { ...this.productForm.value };
+
+      if (formValue.ten_gioi_tinh === '1') {
+        formValue.ten_gioi_tinh = "Nam";
+      } else if (formValue.ten_gioi_tinh === '2') {
+        formValue.ten_gioi_tinh = "Nữ";
+      }
+
+
+      this.productService.addProduct(formValue).subscribe(response => {
+        alert(response.message);
       });
-    }
+    // }
+
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
   }
 }

@@ -11,6 +11,7 @@ export class UserInfoComponent implements OnInit {
   activeModal: 'updateInfo' | 'changePassword' | 'orderHistory' | 'showOrder' | null = null;
   passwords = { currentPassword: '', newPassword: '', confirmPassword: '' };
   orderHistory: any[] = [];
+  selectedOrderDetails: any | null = null;
   userInfo!: User;
   showOrder = false;
 
@@ -146,10 +147,20 @@ export class UserInfoComponent implements OnInit {
     // });
   }
 
-  viewOrderDetails(orderId: number): void {
+  viewOrderDetails(id_don_hang: number): void {
     this.showOrder = true;
-    // Logic để hiển thị chi tiết đơn hàng, ví dụ:
-    console.log(`Xem chi tiết đơn hàng ID: ${orderId}`);
-    // Có thể mở modal hoặc chuyển hướng đến trang chi tiết đơn hàng
+    const selectedOrder = this.orderHistory.find((order: any) => order.id_don_hang === id_don_hang);
+
+    if (selectedOrder) {
+        this.selectedOrderDetails = selectedOrder; // Gán thông tin đơn hàng đã tìm thấy
+        console.log("Thông tin chi tiết đơn hàng:", this.selectedOrderDetails); // Log thông tin chi tiết
+    } else {
+        console.log("Không tìm thấy đơn hàng với ID:", id_don_hang);
+    }
   }
+
+  closeOrderDetails() {
+    this.showOrder = false; // Đóng modal
+    this.selectedOrderDetails = null; // Có thể đặt lại thông tin chi tiết
+}
 }

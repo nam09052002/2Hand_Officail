@@ -25,6 +25,14 @@ export class ViewsComponent implements OnInit {
   cartItems: CartItem[] = [];
   isHovered: boolean = false;
   errorMessage: string = '';
+  menDropdown  = false;
+  girlDropdown  = false;
+  menCategories: string[] = [];
+  girlCategories: string[] = [];
+  menProducts: Product[] = [];
+  girlProducts: Product[] = [];
+  isMenProduct = true;
+  isGirlProduct = true;
 
   constructor(
     private productService: ProductService,
@@ -39,10 +47,32 @@ export class ViewsComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user') || 'null');
     // this.cartCount = parseInt(localStorage.getItem('cartCount') || '0', 10);
     // this.cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]') || []; // Khôi phục giỏ hàng từ localStorage
-    this.loadCart(this.user.id_nguoi_dung);
+    if (this.user?.id_nguoi_dung) {
+      this.loadCart(this.user.id_nguoi_dung);
+    }
+    // this.loadCart(this.user.id_nguoi_dung);
+    this.getCatalog();
+    this.menFashion();
+    this.girlFashion();
+  }
+  getCatalog(){
+    this.http.get('http://localhost/api/product-catalog/get-catalog.php').subscribe(
+        (response: any) => {
+            if (response.status === 'success') {
+              const categories = response.data;
+              this.menCategories = categories.filter((item:any) => item.phan_loai === 'nam').map((item:any) => item.ten_danh_muc);
+              this.girlCategories = categories.filter((item:any) => item.phan_loai === 'nu').map((item:any) => item.ten_danh_muc);
+            }
+        },
+        (error) => {
+            console.error('Lỗi khi lấy danh mục:', error);
+        }
+    );
   }
 
   fetchProducts() {
+    this.isMenProduct = true;
+    this.isGirlProduct = true;
     this.productService.getProducts().subscribe(
       (data: ApiProductResponse) => {
         console.log("CHECK DATA", data);
@@ -187,6 +217,121 @@ export class ViewsComponent implements OnInit {
       },
       (error) => {
         alert('Đã có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.');
+      }
+    );
+
+  }
+  menFashion(){
+    this.productService.getProducts().subscribe(
+      (data: ApiProductResponse) => {
+        if (data && data.products) {
+          const baseUrl = 'http://localhost/api/';
+          this.products = data.products.map(product => ({
+            ...product,
+            anh_san_pham: `${baseUrl}${product.anh_san_pham}`
+          }));
+          // Lọc sản phẩm có giới tính 'Nam' sau khi đã lấy dữ liệu thành công
+          this.menProducts = this.products.filter(product => product.ten_gioi_tinh === 'Nam');
+        } else {
+          console.error("Không có sản phẩm nào được tìm thấy");
+          this.products = [];
+        }
+      },
+      error => {
+        console.error("Có lỗi xảy ra khi lấy dữ liệu:", error);
+      }
+    );
+  }
+  girlFashion() {
+    this.productService.getProducts().subscribe(
+      (data: ApiProductResponse) => {
+        if (data && data.products) {
+          const baseUrl = 'http://localhost/api/';
+          this.products = data.products.map(product => ({
+            ...product,
+            anh_san_pham: `${baseUrl}${product.anh_san_pham}`
+          }));
+          // Lọc sản phẩm có giới tính 'Nam' sau khi đã lấy dữ liệu thành công
+          this.girlProducts = this.products.filter(product => product.ten_gioi_tinh === 'Nữ');
+        } else {
+          console.error("Không có sản phẩm nào được tìm thấy");
+          this.products = [];
+        }
+      },
+      error => {
+        console.error("Có lỗi xảy ra khi lấy dữ liệu:", error);
+      }
+    );
+  }
+  menFashionItem(category: any) {
+    this.isMenProduct = false;
+    this.isGirlProduct = false;
+    console.log("CHEKC ", category);
+    this.productService.getProducts().subscribe(
+      (data: ApiProductResponse) => {
+        if (data && data.products) {
+          const baseUrl = 'http://localhost/api/';
+          this.products = data.products.map(product => ({
+            ...product,
+            anh_san_pham: `${baseUrl}${product.anh_san_pham}`
+          }));
+
+          // In ra tất cả sản phẩm để kiểm tra
+          console.log("Tất cả sản phẩm:", this.products);
+
+          // Thử lọc dựa trên danh mục và giới tính
+          this.filteredProducts = this.products.filter(product =>
+            product.ten_danh_muc?.trim().toLowerCase() === category.trim().toLowerCase() &&
+            product.ten_gioi_tinh === 'Nam'
+        );
+          console.log("Sản phẩm sau khi lọc:", this.filteredProducts);
+
+          if (this.filteredProducts.length === 0) {
+            console.warn("Không tìm thấy sản phẩm nào khớp với danh mục và giới tính");
+          }
+        } else {
+          console.error("Không có sản phẩm nào được tìm thấy");
+          this.products = [];
+        }
+      },
+      error => {
+        console.error("Có lỗi xảy ra khi lấy dữ liệu:", error);
+      }
+    );
+}
+
+  girlFashionItem(category: any){
+    this.isMenProduct = false;
+    this.isGirlProduct = false;
+    this.productService.getProducts().subscribe(
+      (data: ApiProductResponse) => {
+        if (data && data.products) {
+          const baseUrl = 'http://localhost/api/';
+          this.products = data.products.map(product => ({
+            ...product,
+            anh_san_pham: `${baseUrl}${product.anh_san_pham}`
+          }));
+
+          // In ra tất cả sản phẩm để kiểm tra
+          console.log("Tất cả sản phẩm:", this.products);
+
+          // Thử lọc dựa trên danh mục và giới tính
+          this.filteredProducts = this.products.filter(product =>
+            product.ten_danh_muc?.trim().toLowerCase() === category.trim().toLowerCase() &&
+            product.ten_gioi_tinh === 'Nữ'
+        );
+          console.log("Sản phẩm sau khi lọc:", this.filteredProducts);
+
+          if (this.filteredProducts.length === 0) {
+            console.warn("Không tìm thấy sản phẩm nào khớp với danh mục và giới tính");
+          }
+        } else {
+          console.error("Không có sản phẩm nào được tìm thấy");
+          this.products = [];
+        }
+      },
+      error => {
+        console.error("Có lỗi xảy ra khi lấy dữ liệu:", error);
       }
     );
 

@@ -3,11 +3,29 @@
         <li>
             <img src="https://2handofficial.com/wp-content/uploads/2024/09/header-logo-2handofficial.png" alt="Logo" class="logo" />
         </li>
-        <li><a routerLink="/"><span class="material-icons">home</span>Trang Chủ</a></li>
-        <li><a routerLink="/men-fashion"><span class="material-icons">male</span>Thời Trang Nam</a></li>
-        <li><a routerLink="/women-fashion"><span class="material-icons">female</span>Thời Trang Nữ</a></li>
-        <li><a routerLink="/about"><span class="material-icons">info</span>Giới Thiệu</a></li>
-        <li><a routerLink="/contact"><span class="material-icons">contact_mail</span>Liên Hệ</a></li>
+        <li><a (click)="fetchProducts()"><span class="material-icons">home</span>Trang Chủ</a></li>
+        <li (mouseenter)="menDropdown = true" (mouseleave)="menDropdown = false">
+            <a>
+                <span class="material-icons">male</span>Thời Trang Nam
+            </a>
+            <ul class="dropdown-category" *ngIf="menDropdown">
+                <li *ngFor="let category of menCategories">
+                    <a (click)="menFashionItem(category)">{{ category }}</a>
+                </li>
+            </ul>
+        </li>
+        <li (mouseenter)="girlDropdown = true" (mouseleave)="girlDropdown = false">
+            <a>
+                <span class="material-icons">female</span>Thời Trang Nữ
+            </a>
+            <ul class="dropdown-category" *ngIf="girlDropdown">
+                <li *ngFor="let category of girlCategories">
+                    <a (click)="girlFashionItem(category)">{{ category }}</a>
+                </li>
+            </ul>
+        </li>
+        <!-- <li><a routerLink="/about"><span class="material-icons">info</span>Giới Thiệu</a></li>
+        <li><a routerLink="/contact"><span class="material-icons">contact_mail</span>Liên Hệ</a></li> -->
         <li>
             <a (click)="toggleCartModal()">
                 <span class="material-icons">shopping_cart</span>
@@ -49,27 +67,79 @@
 
 <!-- Gợi ý sản phẩm-->
 <div class="product-container">
-    <h3>Gợi Ý Sản Phẩm</h3>
-    <div class="product-box">
-        <div class="product-card" *ngFor="let product of filteredProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
-            <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
-            <div class="product-name">
-                {{ product.ten_san_pham }}
+    <div class="product-container">
+        <h3>Gợi Ý Sản Phẩm</h3>
+        <div class="product-box">
+            <div class="product-card" *ngFor="let product of filteredProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
+                <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
+                <div class="product-name">
+                    {{ product.ten_san_pham }}
+                </div>
+                <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
+                <div class="product-info">
+                    <span class="sold">Đã bán: {{ product.da_ban }}</span>
+                    <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
+                </div>
             </div>
-            <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
-            <div class="product-info">
-                <span class="sold">Đã bán: {{ product.da_ban }}</span>
-                <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
-            </div>
-        </div>
-        <button *ngIf="filteredProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
+            <button *ngIf="filteredProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
           Bạn muốn xem thêm
       </button>
-        <button *ngIf="displayedProductsCount > 18" (click)="hideProducts()">
+            <button *ngIf="displayedProductsCount > 18" (click)="hideProducts()">
           Ẩn bớt
       </button>
 
+        </div>
     </div>
+
+
+    <div class="product-container" *ngIf="isMenProduct">
+        <h3>Thời Trang Nam</h3>
+        <div class="product-box">
+            <div class="product-card" *ngFor="let product of menProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
+                <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
+                <div class="product-name">
+                    {{ product.ten_san_pham }}
+                </div>
+                <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
+                <div class="product-info">
+                    <span class="sold">Đã bán: {{ product.da_ban }}</span>
+                    <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
+                </div>
+            </div>
+            <button *ngIf="menProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
+            Bạn muốn xem thêm
+        </button>
+            <button *ngIf="displayedProductsCount > 18" (click)="hideProducts()">
+            Ẩn bớt
+        </button>
+
+        </div>
+    </div>
+
+    <div class="product-container" *ngIf="isGirlProduct">
+        <h3>Thời Trang Nữ</h3>
+        <div class="product-box">
+            <div class="product-card" *ngFor="let product of girlProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
+                <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
+                <div class="product-name">
+                    {{ product.ten_san_pham }}
+                </div>
+                <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
+                <div class="product-info">
+                    <span class="sold">Đã bán: {{ product.da_ban }}</span>
+                    <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
+                </div>
+            </div>
+            <button *ngIf="girlProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
+          Bạn muốn xem thêm
+      </button>
+            <button *ngIf="displayedProductsCount > 18" (click)="hideProducts()">
+          Ẩn bớt
+      </button>
+
+        </div>
+    </div>
+
     <app-product-detail-modal [product]="selectedProduct" *ngIf="isSelectedProduct" (closeModal)="onCloseModal()" (addCart)="addToCart($event)" (onBuyNow)="buyNow($event)">
     </app-product-detail-modal>
 

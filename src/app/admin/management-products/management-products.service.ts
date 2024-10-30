@@ -18,7 +18,7 @@ export class ProductService {
 
   // Thêm sản phẩm
   addProduct(formData: FormData): Observable<any> {
-    return this.http.post(this.apiUrl, formData);
+    return this.http.post(`${this.apiUrl}add-product.php`, formData);
   }
 
   // Cập nhật sản phẩm
@@ -28,7 +28,7 @@ export class ProductService {
 
   deleteProduct(productId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}delete-product.php`, {
-        body: { id: productId } // Gửi ID sản phẩm trong body
+        body: { id_san_pham: productId } // Gửi ID sản phẩm trong body
     });
 }
 

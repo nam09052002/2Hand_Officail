@@ -5,7 +5,7 @@ export interface Product {
   gia_nhap?: number;
   gia_ban?: number;
   so_luong?: number;
-  ten_loai?: string;
+  ten_danh_muc?: string;
   ten_gioi_tinh?: string;
   ten_nhan_hieu?: string;
   ten_nha_cung_cap?: string;

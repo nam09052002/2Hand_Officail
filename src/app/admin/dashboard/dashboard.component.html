@@ -9,27 +9,28 @@
             <!-- Thêm lớp scrollable -->
             <ul>
                 <li><a (click)="showOverview()">Trang Chủ</a></li>
-                <li>
+                <!-- <li>
                     <a (click)="toggleStatisticsDropdown()">Thống Kê <span class="arrow" [class.active]="showStatisticsDropdown">&#9660;</span></a>
-                    <ul *ngIf="showStatisticsDropdown">
-                        <li><a (click)="showOverview()">Tổng Quan</a></li>
-                        <li><a (click)="showSalesStatistics()">Bán Hàng</a></li>
-                        <li><a routerLink="/statistics/purchases">Nhập Hàng</a></li>
-                    </ul>
-                </li>
-                <li>
+                    <ul *ngIf="showStatisticsDropdown"> -->
+                <li><a (click)="showOverview()">Tổng Quan</a></li>
+                <li><a (click)="showSalesStatistics()">Quản Lý Đơn Hàng</a></li>
+                <!-- <li><a routerLink="/statistics/purchases">Nhập Hàng</a></li> -->
+                <!-- </ul>
+                </li> -->
+                <!-- <li>
                     <a (click)="toggleManagementDropdown()">Quản Lý <span class="arrow" [class.active]="showManagementDropdown">&#9660;</span></a>
-                    <ul *ngIf="showManagementDropdown">
-                        <li><a (click)="showManagementProducts()">Sản Phẩm</a></li>
-                        <li><a (click)="showProductClassification()">Danh Mục Sản Phẩm</a></li>
-                        <li><a routerLink="/management/suppliers">Nhà Cung Cấp</a></li>
-                        <li><a routerLink="/management/brands">Nhãn Hiệu</a></li>
-                        <li><a routerLink="/management/sizes">Kích Thước</a></li>
-                        <li><a routerLink="/management/colors">Màu Sắc</a></li>
-                        <li><a (click)="showManagementUsers()">Người Dùng</a></li>
-                        <li><a (click)="showVouchers()">Mã Giảm Giá</a></li>
-                    </ul>
-                </li>
+                    <ul *ngIf="showManagementDropdown"> -->
+                <li><a (click)="showManagementProducts()">Quản Lý Sản Phẩm</a></li>
+                <li><a (click)="showProductClassification()">Quản Lý Danh Mục Sản Phẩm</a></li>
+                <!-- <li><a routerLink="/management/suppliers">Nhà Cung Cấp</a></li> -->
+                <!-- <li><a routerLink="/management/brands">Nhãn Hiệu</a></li> -->
+                <!-- <li><a routerLink="/management/sizes">Kích Thước</a></li> -->
+                <!-- <li><a routerLink="/management/colors">Màu Sắc</a></li> -->
+                <li><a (click)="showManagementUsers()">Quản Lý Người Dùng</a></li>
+                <li><a (click)="showVouchers()">Quản Lý Mã Giảm Giá</a></li>
+                <li><a (click)="logout()">Đăng Xuất</a></li>
+                <!-- </ul>
+                </li> -->
             </ul>
         </div>
     </div>

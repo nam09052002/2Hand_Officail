@@ -20,13 +20,8 @@ body {
     background-color: white;
     z-index: 100;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
     padding: 10px 0;
 }
-
-
-/* Danh sách menu */
 
 .navbar ul {
     display: flex;
@@ -35,17 +30,13 @@ body {
     width: 100%;
 }
 
-
-/* Các mục menu */
-
 .navbar li {
     margin: 0 15px;
     display: flex;
     align-items: center;
+    position: relative;
+    /* Required for dropdown positioning */
 }
-
-
-/* Liên kết menu */
 
 .navbar a {
     text-decoration: none;
@@ -57,7 +48,6 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
-    /* Khoảng cách giữa icon và chữ */
 }
 
 .navbar a:hover {
@@ -73,11 +63,46 @@ body {
 }
 
 
-/* Biểu tượng và căn giữa */
+/* Icon */
 
 .material-icons {
     font-size: 24px;
     vertical-align: middle;
+}
+
+
+/* Dropdown for "Thời Trang Nam" */
+
+.dropdown-category {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 10px 0;
+    min-width: 180px;
+    z-index: 99;
+}
+
+.navbar li:hover .dropdown-category {
+    display: block;
+}
+
+.dropdown-category li {
+    padding: 10px 20px;
+    white-space: nowrap;
+}
+
+.dropdown-category li a {
+    color: #333;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.dropdown-category li a:hover {
+    color: #007bff;
 }
 
 

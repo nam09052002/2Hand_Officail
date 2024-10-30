@@ -27,6 +27,7 @@ export class ManagementProductsComponent implements OnInit {
   products: Product[] = []; // Danh sách sản phẩm
   filteredProducts: Product[] = []; // Sản phẩm đã lọc theo tìm kiếm
   searchTerm: string = ''; // Từ khóa tìm kiếm
+  activeTab: string = 'products';
 
   constructor(
     private productService: ProductService,

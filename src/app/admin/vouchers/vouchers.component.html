@@ -42,7 +42,7 @@
     <table>
         <thead>
             <tr>
-                <th>ID</th>
+                <th>STT</th>
                 <th>Mã Giảm Giá</th>
                 <th>Phần Trăm</th>
                 <th>Ngày Bắt Đầu</th>
@@ -52,9 +52,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let code of filteredDiscountCodes">
-                <td>{{ code.id }}</td>
-                <td>{{ code.ma_giam }}</td>
+            <tr *ngFor="let code of filteredDiscountCodes, let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ code.ma_giam_gia }}</td>
                 <td>{{ code.phan_tram_giam }}%</td>
                 <td>{{ code.ngay_bat_dau | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ code.ngay_het_han | date: 'dd/MM/yyyy' }}</td>
@@ -63,7 +63,7 @@
                     <button (click)="toggleActiveStatus(code)">
                       {{ code.trang_thai ? 'Ngừng Hoạt Động' : 'Kích Hoạt' }}
                   </button>
-                    <button (click)="deleteDiscountCode(code.id)">Xóa</button>
+                    <button (click)="deleteDiscountCode(code.ma_giam_gia)">Xóa</button>
                 </td>
             </tr>
             <tr *ngIf="filteredDiscountCodes.length === 0">

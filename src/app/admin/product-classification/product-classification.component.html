@@ -1,34 +1,38 @@
 <div class="category-management">
     <h2>Quản lý Danh Mục Sản Phẩm</h2>
+
     <div class="search-bar">
         <input type="text" placeholder="Tìm kiếm danh mục..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" />
         <button (click)="openAddCategoryModal()">Thêm Danh Mục</button>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Tên Danh Mục</th>
-                <th>Phân Loại</th>
-                <th>Hành Động</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let category of filteredCategories; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ category?.name }}</td>
-                <td>{{ category?.type }}</td>
-                <td>
-                    <button (click)="editCategory(category)">Sửa</button>
-                    <button (click)="deleteCategory(category.id)">Xóa</button>
-                </td>
-            </tr>
-            <tr *ngIf="filteredCategories.length === 0">
-                <td colspan="4">Không có danh mục nào phù hợp</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên Danh Mục</th>
+                    <th>Phân Loại</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let category of filteredCategories; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ category?.ten_danh_muc }}</td>
+                    <td>{{ category?.phan_loai === 'nam' ? 'Thời Trang Nam' : 'Thời Trang Nữ' }}</td>
+                    <td>
+                        <button (click)="editCategory(category)">Sửa</button>
+                        <button (click)="deleteCategory(category.id)">Xóa</button>
+                    </td>
+                </tr>
+                <tr *ngIf="filteredCategories.length === 0">
+                    <td colspan="4">Không có danh mục nào phù hợp</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
 
     <div *ngIf="isAddCategoryModalOpen" class="modal">
         <div class="modal-content">
@@ -46,4 +50,23 @@
             <button (click)="addCategory()">Thêm</button>
         </div>
     </div>
+
+    <div *ngIf="isEditCategoryModalOpen && categoryToEdit" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="closeEditCategoryModal()">&times;</span>
+            <h3>Sửa Danh Mục</h3>
+            <label for="editCategoryName">Tên Danh Mục:</label>
+            <input type="text" id="editCategoryName" [(ngModel)]="categoryToEdit.ten_danh_muc" required />
+
+
+            <label for="editCategoryType">Phân Loại:</label>
+            <select id="editCategoryType" [(ngModel)]="categoryToEdit.phan_loai">
+              <option value="nam">Nam</option>
+              <option value="nu">Nữ</option>
+          </select>
+
+            <button (click)="updateCategory()">Cập Nhật</button>
+        </div>
+    </div>
+
 </div>

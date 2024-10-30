@@ -1,107 +1,56 @@
 .user-table {
-    width: 80%;
-    /* Chiều rộng của bảng */
-    max-width: 600px;
-    /* Chiều rộng tối đa */
-    margin: 0 auto;
-    /* Căn giữa */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    /* hoặc giá trị mong muốn */
+    background-color: #ffffff;
     padding: 20px;
-    /* Khoảng cách bên trong */
-    border: 1px solid #ccc;
-    /* Đường viền */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
-    /* Bo góc */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    /* Đổ bóng */
-    background-color: #fff;
-    /* Màu nền */
+    z-index: 9999;
+    /* Đảm bảo đây là z-index lớn nhất */
 }
 
 .user-table h2 {
     text-align: center;
-    /* Căn giữa tiêu đề */
-    margin-bottom: 20px;
-    /* Khoảng cách dưới tiêu đề */
+}
+
+.user-table form {
+    display: flex;
+    flex-direction: column;
 }
 
 .user-table label {
-    display: block;
-    /* Đặt mỗi nhãn trên một dòng mới */
-    margin-bottom: 5px;
-    /* Khoảng cách dưới nhãn */
+    margin-top: 10px;
+    font-weight: bold;
 }
 
 .user-table input {
-    width: 100%;
-    /* Đặt chiều rộng của input là 100% */
-    padding: 10px;
-    /* Khoảng cách bên trong input */
-    margin-bottom: 15px;
-    /* Khoảng cách dưới input */
+    margin-top: 5px;
+    padding: 8px;
     border: 1px solid #ccc;
-    /* Đường viền */
     border-radius: 4px;
-    /* Bo góc */
-    box-sizing: border-box;
-    /* Đảm bảo padding không ảnh hưởng đến chiều rộng */
 }
 
 .button-group {
     display: flex;
-    /* Sử dụng flexbox để căn giữa các nút */
     justify-content: space-between;
-    /* Đặt khoảng cách giữa các nút */
+    margin-top: 20px;
 }
 
 .button-group button {
-    padding: 10px 15px;
-    /* Khoảng cách bên trong nút */
+    width: 48%;
+    /* Để hai nút cân đối trong màn hình */
+    padding: 10px;
     border: none;
-    /* Bỏ viền */
-    border-radius: 4px;
-    /* Bo góc */
+    background-color: #007bff;
+    color: #fff;
     cursor: pointer;
-    /* Đổi con trỏ khi hover */
-    transition: background-color 0.3s;
-    /* Hiệu ứng chuyển tiếp khi hover */
+    border-radius: 4px;
 }
 
 .button-group button:hover {
-    background-color: #f0f0f0;
-    /* Màu nền khi hover */
-}
-
-.custom-modal {
-    display: flex;
-    justify-content: center;
-    /* Căn giữa theo chiều ngang */
-    align-items: center;
-    /* Căn giữa theo chiều dọc */
-    min-height: 100vh;
-    /* Đảm bảo modal có chiều cao tối thiểu 100% chiều cao viewport */
-}
-
-
-/* styles.css hoặc edit-user.component.css */
-
-.custom-modal .mat-dialog-container {
-    display: flex;
-    flex-direction: column;
-    /* Xếp chồng các thành phần theo cột */
-    justify-content: center;
-    /* Căn giữa theo chiều dọc */
-    align-items: center;
-    /* Căn giữa theo chiều ngang */
-    min-height: 300px;
-    /* Chiều cao tối thiểu để đảm bảo không bị kéo xuống */
-    width: 100%;
-    /* Chiều rộng 100% để không bị chèn */
-    max-width: 400px;
-    /* Chiều rộng tối đa của modal */
-    padding: 20px;
-    /* Khoảng cách bên trong */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    /* Đổ bóng cho modal */
-    border-radius: 8px;
-    /* Bo góc cho modal */
+    background-color: #0056b3;
 }

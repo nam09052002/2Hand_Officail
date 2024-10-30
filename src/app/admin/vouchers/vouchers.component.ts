@@ -3,7 +3,7 @@ import { DiscountCodeService } from './vouchers.service';
 
 export interface DiscountCode {
   id: number;
-  ma_giam: string;
+  ma_giam_gia: string;
   phan_tram_giam: number;
   ngay_bat_dau: string;
   ngay_het_han: string;
@@ -57,7 +57,7 @@ export class VouchersComponent {
   addDiscountCode(): void {
     const newCode: DiscountCode = {
       id: 0, // Nếu ID tự động tạo từ server, có thể bỏ qua hoặc để mặc định là 0
-      ma_giam: this.newDiscountCode,
+      ma_giam_gia: this.newDiscountCode,
       phan_tram_giam: this.newDiscountPercentage!,
       ngay_bat_dau: this.newStartDate,
       ngay_het_han: this.newExpirationDate,
@@ -76,12 +76,12 @@ export class VouchersComponent {
 
   onSearchChange(): void {
     this.filteredDiscountCodes = this.discountCodes.filter((code) =>
-      code.ma_giam.toLowerCase().includes(this.searchQuery.toLowerCase())
+      code.ma_giam_gia.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
   }
 
-  deleteDiscountCode(id: number): void {
-    this.discountCodeService.deleteDiscountCode(id).subscribe(() => {
+  deleteDiscountCode(ma_giam_gia: string): void {
+    this.discountCodeService.deleteDiscountCode(ma_giam_gia).subscribe(() => {
       this.loadDiscountCodes();
     });
   }

@@ -1,3 +1,5 @@
+/* Modal */
+
 .modal {
     display: flex;
     justify-content: center;
@@ -11,15 +13,22 @@
     z-index: 999;
 }
 
+
+/* Nội dung Modal */
+
 .modal-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     width: 80%;
     max-width: 80vw;
-    text-align: center;
+    text-align: left;
+    /* Thay đổi căn chỉnh về bên trái cho phần thông tin giao hàng */
     position: relative;
 }
+
+
+/* Nút đóng modal */
 
 .close {
     position: absolute;
@@ -29,15 +38,59 @@
     cursor: pointer;
 }
 
+
+/* Tiêu đề */
+
 h2 {
     margin-bottom: 20px;
+    text-align: center;
+    /* Căn giữa tiêu đề */
 }
 
-.cart-items {
-    margin: 0 auto;
-    width: 100%;
-    overflow-x: auto;
+
+/* Phần thông tin giao hàng */
+
+h3 {
+    margin-top: 20px;
+    /* Thêm khoảng cách trên */
+    margin-bottom: 10px;
+    /* Thêm khoảng cách dưới */
+    color: #333;
+    /* Màu sắc tiêu đề */
 }
+
+
+/* Nhãn và ô nhập liệu */
+
+label {
+    display: block;
+    /* Đặt nhãn trên mỗi ô nhập liệu */
+    margin-bottom: 5px;
+    /* Khoảng cách dưới nhãn */
+    font-weight: bold;
+    /* Đậm chữ */
+}
+
+
+/* Đặt chiều rộng cho ô nhập liệu trong bảng */
+
+input[type="text"] {
+    width: calc(100%);
+    /* Trừ đi padding để ô chiếm toàn bộ chiều rộng */
+    padding: 8px;
+    /* Thêm khoảng cách bên trong ô nhập liệu */
+    border: 1px solid #ddd;
+    /* Đường viền nhẹ */
+    border-radius: 4px;
+    /* Bo tròn góc */
+    margin-bottom: 15px;
+    /* Khoảng cách dưới ô nhập liệu */
+    box-sizing: border-box;
+    /* Đảm bảo rằng padding và border được tính vào chiều rộng */
+}
+
+
+/* Bảng sản phẩm */
 
 .cart-table {
     width: 100%;
@@ -53,11 +106,17 @@ h2 {
     vertical-align: middle;
 }
 
+
+/* Hình ảnh sản phẩm trong giỏ hàng */
+
 .cart-item-image {
     width: 60px;
     height: 60px;
     object-fit: cover;
 }
+
+
+/* Nút trong modal */
 
 .button-container {
     text-align: center;

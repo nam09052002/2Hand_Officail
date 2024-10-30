@@ -46,19 +46,19 @@
 
 
     <div class="modal-content" *ngIf="isCheckout">
-        <button (click)="backToCart()">Quay lại giỏ hàng</button>
+        <button (click)="backToCart()" style="float: left;">Quay lại giỏ hàng</button>
         <span class="close" (click)="closeCart()">&times;</span>
         <h2>Chi Tiết Thanh Toán</h2>
         <h3>Thông tin giao hàng</h3>
         <div>
-            <label for="fullName">Họ và tên:</label>
-            <input type="text" id="fullName" name="fullName" required />
+            <label for="ho_va_ten">Họ và tên:</label>
+            <input type="text" id="ho_va_ten" [(ngModel)]="user.ho_va_ten" name="ho_va_ten" required />
 
             <label for="phone">Số điện thoại:</label>
-            <input type="text" id="phone" name="phone" required />
+            <input type="text" id="phone" [(ngModel)]="user.so_dien_thoai" name="phone" required />
 
             <label for="address">Địa chỉ:</label>
-            <input type="text" id="address" name="address" required />
+            <input type="text" id="address" [(ngModel)]="user.dia_chi" name="address" required />
         </div>
 
         <h3>Sản phẩm đã chọn</h3>

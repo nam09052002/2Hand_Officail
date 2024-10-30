@@ -1,30 +1,23 @@
-/* Cơ bản cho modal */
+/* Container cho thống kê */
 
 .statistics-container {
     width: 100%;
-    /* Chiều rộng modal */
     max-width: 100%;
-    /* Chiều rộng tối đa */
     margin: auto;
-    /* Căn giữa màn hình */
     padding: 20px;
-    /* Khoảng cách bên trong modal */
     background-color: #fff;
-    /* Màu nền */
     border-radius: 8px;
-    /* Bo góc */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    /* Đổ bóng cho modal */
 }
 
 
-/* Tiêu đề modal */
+/* Tiêu đề thống kê */
 
 .statistics-container h2 {
     font-size: 24px;
-    /* Kích thước chữ */
     margin-bottom: 20px;
-    /* Khoảng cách dưới tiêu đề */
+    color: #333;
+    /* Màu chữ tối cho tiêu đề */
 }
 
 
@@ -32,44 +25,40 @@
 
 .overview-card {
     display: flex;
-    /* Sắp xếp theo hàng */
     align-items: center;
-    /* Căn giữa theo chiều dọc */
     background-color: #f9f9f9;
-    /* Màu nền của card */
     border: 1px solid #ddd;
-    /* Đường viền */
     border-radius: 8px;
-    /* Bo góc */
     padding: 15px;
-    /* Khoảng cách bên trong */
     margin-bottom: 15px;
-    /* Khoảng cách dưới card */
+    transition: background-color 0.3s;
+    /* Hiệu ứng khi hover */
+}
+
+.overview-card:hover {
+    background-color: #e9f7ef;
+    /* Màu nền khi hover */
 }
 
 .overview-card i {
     font-size: 36px;
-    /* Kích thước icon */
     margin-right: 15px;
-    /* Khoảng cách bên phải icon */
     color: #4CAF50;
-    /* Màu icon */
 }
 
 .overview-card h3 {
     font-size: 20px;
-    /* Kích thước tiêu đề card */
     margin: 0;
-    /* Xóa khoảng cách */
+    color: #4CAF50;
+    /* Màu chữ cho tiêu đề card */
 }
 
 .overview-card p {
-    font-size: 18px;
-    /* Kích thước văn bản doanh thu */
+    font-size: 20px;
     margin: 0;
-    /* Xóa khoảng cách */
     color: #333;
-    /* Màu văn bản */
+    font-weight: bold;
+    margin-left: 20px;
 }
 
 
@@ -77,26 +66,27 @@
 
 .filters {
     display: flex;
-    /* Sắp xếp theo hàng */
     gap: 10px;
-    /* Khoảng cách giữa các thành phần */
     margin-bottom: 20px;
-    /* Khoảng cách dưới phần lọc */
 }
 
 .filters input[type="text"],
 .filters input[type="date"],
 .filters select {
     flex: 1;
-    /* Chiếm toàn bộ chiều rộng có sẵn */
     padding: 10px;
-    /* Khoảng cách bên trong */
     border: 1px solid #ccc;
-    /* Đường viền */
     border-radius: 4px;
-    /* Bo góc */
     font-size: 16px;
-    /* Kích thước chữ */
+    transition: border-color 0.3s;
+    /* Hiệu ứng khi hover */
+}
+
+.filters input[type="text"]:focus,
+.filters input[type="date"]:focus,
+.filters select:focus {
+    border-color: #4CAF50;
+    /* Màu viền khi focus */
 }
 
 
@@ -104,26 +94,23 @@
 
 table {
     width: 100%;
-    /* Chiếm toàn bộ chiều rộng */
     border-collapse: collapse;
-    /* Xóa khoảng cách giữa các ô */
+    margin-top: 20px;
+    /* Khoảng cách giữa phần lọc và bảng */
 }
 
 th,
 td {
     padding: 12px;
-    /* Khoảng cách bên trong */
     text-align: left;
-    /* Căn trái nội dung */
     border: 1px solid #ddd;
-    /* Đường viền cho các ô */
 }
 
 th {
     background-color: #f2f2f2;
-    /* Màu nền cho tiêu đề bảng */
     font-weight: bold;
-    /* Chữ in đậm */
+    color: #333;
+    /* Màu chữ cho tiêu đề bảng */
 }
 
 
@@ -131,7 +118,130 @@ th {
 
 tbody tr:empty td {
     text-align: center;
-    /* Căn giữa nội dung */
     color: #888;
-    /* Màu văn bản nhạt */
+}
+
+
+/* Hiệu ứng hover cho hàng bảng */
+
+tbody tr:hover {
+    background-color: #f5f5f5;
+    /* Màu nền khi hover */
+}
+
+
+/* Điều chỉnh chiều rộng cho các cột */
+
+td:nth-child(1) {
+    width: 3%;
+}
+
+
+/* STT */
+
+td:nth-child(2) {
+    width: 10%;
+}
+
+
+/* Mã Đơn Hàng */
+
+td:nth-child(3) {
+    width: 15%;
+}
+
+
+/* Tên Khách Hàng */
+
+td:nth-child(4) {
+    width: 25%;
+}
+
+
+/* Địa Chỉ */
+
+td:nth-child(5) {
+    width: 15%;
+}
+
+
+/* Số Điện Thoại */
+
+td:nth-child(6) {
+    width: 10%;
+}
+
+
+/* Trạng Thái */
+
+td:nth-child(7) {
+    width: 10%;
+}
+
+
+/* Ngày Mua */
+
+td:nth-child(8) {
+    width: 15%;
+}
+
+
+/* Tổng Tiền */
+
+.modal {
+    display: flex;
+    /* Sử dụng flex để căn giữa modal */
+    position: fixed;
+    z-index: 1000;
+    /* Đảm bảo modal ở trên cùng */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng */
+    height: 100%;
+    /* Chiếm toàn bộ chiều cao */
+    overflow: auto;
+    /* Cuộn nếu nội dung lớn hơn màn hình */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Màu nền tối */
+    .modal-content {
+        background-color: #fff;
+        /* Màu nền của nội dung modal */
+        margin: auto;
+        /* Căn giữa modal */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        /* Chiều rộng của modal */
+        max-width: 600px;
+        /* Đặt chiều rộng tối đa */
+        border-radius: 10px;
+        /* Bo tròn góc */
+        .close {
+            float: right;
+        }
+        .close:hover {
+            cursor: pointer;
+            color: red;
+        }
+    }
+    table {
+        width: 100%;
+        /* Chiếm toàn bộ chiều rộng */
+        border-collapse: collapse;
+        /* Xóa khoảng cách giữa các ô */
+    }
+    th,
+    td {
+        border: 1px solid #ddd;
+        /* Viền cho các ô */
+        padding: 8px;
+        /* Khoảng cách giữa nội dung và viền ô */
+        text-align: left;
+        /* Căn trái nội dung ô */
+    }
+    th {
+        background-color: #f2f2f2;
+        /* Màu nền cho tiêu đề bảng */
+    }
 }

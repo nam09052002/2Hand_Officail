@@ -7,7 +7,7 @@ body {
 }
 
 .dashboard {
-    max-width: 100%;
+    max-width: 97%;
 }
 
 .sidebar {
@@ -95,13 +95,13 @@ ul li a:hover {
     /* Đẩy nội dung sang bên phải sidebar */
     padding: 20px;
     /* Khoảng cách bên trong */
-    width: calc(100% - 250px);
+    /* width: calc(100% - 250px); */
     /* Độ rộng của nội dung */
     height: 100vh;
     /* Chiều cao của nội dung */
-    overflow-y: auto;
+    /* overflow-y: auto; */
     /* Cuộn dọc nếu cần */
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     /* Màu nền cho nội dung */
 }
 

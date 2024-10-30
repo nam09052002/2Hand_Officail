@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CartItem } from '../../models/cart-item.model';
 import { CartService } from './cart.service';
+import { HttpClient } from '@angular/common/http';
+import { OrderItem } from '../../models/order-item.model';
 
 @Component({
   selector: 'app-cart-modal',
@@ -19,7 +21,11 @@ export class CartModalComponent {
   @Input() cartItems: any[] = []; // Danh sách sản phẩm trong giỏ hàng
   @Output() close = new EventEmitter<void>();
   @Output() removeItem = new EventEmitter<CartItem>();
-  constructor(private cartService: CartService) { }
+  constructor(
+    private cartService: CartService,
+    private http: HttpClient,
+  ) { }
+
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -52,7 +58,49 @@ export class CartModalComponent {
   backToCart(){
     this.isCheckout = false;
   }
-  onBuyNow(){}
+  onBuyNow() {
+    // Lọc các sản phẩm được chọn
+    // this.selectedItemsBuy = this.cartItems.filter(item => item.isSelected);
+
+    for (let item of this.selectedItemsBuy) {
+      const id_nguoi_dung = this.user && !isNaN(Number(this.user.id_nguoi_dung))
+        ? Number(this.user.id_nguoi_dung)
+        : 0;
+
+      // Tạo đối tượng đơn hàng cho từng sản phẩm được chọn
+      const orderItem: OrderItem = {
+        id_nguoi_dung,
+        ho_va_ten: this.user.ho_va_ten,
+        so_dien_thoai: this.user.so_dien_thoai,
+        dia_chi: this.user.dia_chi,
+        ten_san_pham: item.ten_san_pham,  // Lấy thuộc tính từ item
+        anh_san_pham: item.anh_san_pham,
+        mau_sac: item.mau_sac,
+        kich_thuoc: item.kich_thuoc,
+        don_gia: Number(item.don_gia),
+        so_luong: item.so_luong,
+        tong_tien: Number(item.don_gia) * item.so_luong,
+      };
+
+      const apiUrl = 'http://localhost/api/orders/add-order.php';
+      this.http.post(apiUrl, orderItem).subscribe(
+        (response: any) => {
+          // Kiểm tra mã trạng thái phản hồi
+          if (response.status === 200 || response.status === 201) {
+            alert(response.message);
+            window.location.reload();  // Tải lại trang
+          } else {
+            alert(response.message);
+            // window.location.reload();
+          }
+        },
+        (error) => {
+          alert('Đã có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.');
+        }
+      );
+    }
+  }
+
 
   onCheckout() {
     this.selectedItemsBuy = [];

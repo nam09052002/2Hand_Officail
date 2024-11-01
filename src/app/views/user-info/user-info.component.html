@@ -128,6 +128,10 @@
                     </tr>
                     <!-- Thêm các trường khác theo nhu cầu -->
                 </table>
+
+                <div *ngIf="selectedOrderDetails.trang_thai === 'cho_xu_ly'">
+                    <button (click)="cancelOrder(selectedOrderDetails.id_don_hang)" class="cancel-button">Hủy đơn</button>
+                </div>
             </div>
         </div>
     </div>

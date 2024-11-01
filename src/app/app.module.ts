@@ -18,9 +18,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddProductsComponent } from './admin/management-products/add-products/add-products.component';
 import { HeaderComponent } from './views/header/header.component';
 import { ViewsComponent } from './views/views.component';
-import { BestSellerComponent } from './views/best-seller/best-seller.component';
-import { MenProductsComponent } from './views/men-products/men-products.component';
-import { GirlProductsComponent } from './views/girl-products/girl-products.component';
 import { ProductDetailModalComponent } from './views/product-detail-modal/product-detail-modal.component';
 import { LoginComponent } from './views/login/login.component';
 import { CartModalComponent } from './views/cart-modal/cart-modal.component';
@@ -29,6 +26,8 @@ import { SalesStatisticsComponent } from './admin/sales-statistics/sales-statist
 import { ProductClassificationComponent } from './admin/product-classification/product-classification.component';
 import { VouchersComponent } from './admin/vouchers/vouchers.component';
 import { UserInfoComponent } from './views/user-info/user-info.component';
+import { VoucherComponent } from './views/voucher/voucher.component';
+
 
 @NgModule({
   declarations: [
@@ -42,9 +41,6 @@ import { UserInfoComponent } from './views/user-info/user-info.component';
     AddProductsComponent,
     ViewsComponent,
     HeaderComponent,
-    BestSellerComponent,
-    MenProductsComponent,
-    GirlProductsComponent,
     ProductDetailModalComponent,
     LoginComponent,
     CartModalComponent,
@@ -52,7 +48,8 @@ import { UserInfoComponent } from './views/user-info/user-info.component';
     SalesStatisticsComponent,
     ProductClassificationComponent,
     VouchersComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    VoucherComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +61,6 @@ import { UserInfoComponent } from './views/user-info/user-info.component';
     MatTabsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    FormsModule
   ],
   providers: [
     provideClientHydration()

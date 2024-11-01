@@ -5,18 +5,19 @@ import { Router } from '@angular/router';
 import { CartItem } from '../models/cart-item.model';
 import { HttpClient } from '@angular/common/http';
 import { CartService } from './cart-modal/cart.service';
+import { OrderItem } from './../models/order-item.model';
 
 @Component({
   selector: 'app-views',
   templateUrl: './views.component.html',
-  styleUrls: ['./views.component.css'] // Sửa từ 'styleUrl' thành 'styleUrls'
+  styleUrls: ['./views.component.css']
 })
 export class ViewsComponent implements OnInit {
   products: Product[] = [];
   filteredProducts: Product[] = [];
   displayedProductsCount = 18;
   showAllProducts = false;
-  selectedProduct: any; // Hoặc kiểu dữ liệu cụ thể của sản phẩm
+  selectedProduct: any;
   isSelectedProduct?: boolean;
   searchTerm: string = '';
   cartCount = 0;
@@ -33,6 +34,8 @@ export class ViewsComponent implements OnInit {
   girlProducts: Product[] = [];
   isMenProduct = true;
   isGirlProduct = true;
+  isAdmin = false;
+  isVoucherModalVisible = false;
 
   constructor(
     private productService: ProductService,
@@ -43,12 +46,13 @@ export class ViewsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchProducts();
-    this.isSelectedProduct = false; // Gọi hàm để lấy sản phẩm khi component khởi tạo
+    this.isSelectedProduct = false;
     this.user = JSON.parse(localStorage.getItem('user') || 'null');
-    // this.cartCount = parseInt(localStorage.getItem('cartCount') || '0', 10);
-    // this.cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]') || []; // Khôi phục giỏ hàng từ localStorage
     if (this.user?.id_nguoi_dung) {
       this.loadCart(this.user.id_nguoi_dung);
+    }
+    if (this.user?.vai_tro === "admin"){
+      this.isAdmin = true
     }
     // this.loadCart(this.user.id_nguoi_dung);
     this.getCatalog();
@@ -75,15 +79,18 @@ export class ViewsComponent implements OnInit {
     this.isGirlProduct = true;
     this.productService.getProducts().subscribe(
       (data: ApiProductResponse) => {
-        console.log("CHECK DATA", data);
+        // console.log("CHECK DATA", data);
 
         if (data && data.products) {
           const baseUrl = 'http://localhost/api/'; // Địa chỉ cơ sở
-          this.products = data.products.map(product => ({
+          this.products = data.products
+          .filter(product => (product.ton_kho ?? 0) > 0)
+          .map(product => ({
             ...product,
-            anh_san_pham: `${baseUrl}${product.anh_san_pham}` // Thêm đường dẫn cơ sở
-          }));
-          this.filteredProducts = [...this.products]; // Mặc định hiển thị tất cả sản phẩm
+            anh_san_pham: `${baseUrl}${product.anh_san_pham}`
+          }))
+          .sort((a, b) => (b.da_ban ?? 0) - (a.da_ban ?? 0));
+        this.filteredProducts = [...this.products];
         } else {
           console.error("Không có sản phẩm nào được tìm thấy");
           this.products = []; // Đặt sản phẩm thành mảng rỗng nếu không có
@@ -205,14 +212,18 @@ export class ViewsComponent implements OnInit {
         if (response.status === 200 || response.status === 201) {
 
           alert(response.message);
+          this.updateProduct(oderItem);
           this.onCloseModal(); // Đóng modal sau khi thêm sản phẩm
           window.location.reload();
+
         } else {
           // this.cartCount++
           // this.loadCart(this.user.id_nguoi_dung);
+          this.updateProduct(oderItem);
           alert(response.message);
           this.onCloseModal();
           window.location.reload();
+
         }
       },
       (error) => {
@@ -221,6 +232,44 @@ export class ViewsComponent implements OnInit {
     );
 
   }
+  async updateProduct(oderItem: any) {
+    try {
+        await this.fetchProducts(); // Đảm bảo lấy danh sách sản phẩm mới
+
+        const updateProduct = this.products.find(i => i.ten_san_pham === oderItem.ten_san_pham);
+
+        if (!updateProduct) {
+            alert("Sản phẩm không tìm thấy!");
+            return;
+        }
+
+        const params = {
+            id_san_pham: updateProduct.id_san_pham,
+            ten_san_pham: updateProduct.ten_san_pham,
+            anh_san_pham: updateProduct.anh_san_pham,
+            mo_ta: updateProduct.mo_ta,
+            ten_gioi_tinh: updateProduct.ten_gioi_tinh,
+            ten_danh_muc: updateProduct.ten_danh_muc,
+            ten_nhan_hieu: updateProduct.ten_nhan_hieu,
+            ten_nha_cung_cap: updateProduct.ten_nha_cung_cap,
+            gia_nhap: updateProduct.gia_nhap,
+            gia_ban: updateProduct.gia_ban,
+            da_ban: (updateProduct.da_ban ?? 0) + 1,
+            ton_kho: (updateProduct.ton_kho ?? 0) - 1
+        };
+
+        const response: any = await this.http.post('http://localhost/api/management-products/update-product.php', params).toPromise();
+
+        if (response.status === "success") {
+            //
+        } else {
+            //
+        }
+    } catch (error) {
+        //
+    }
+}
+
   menFashion(){
     this.productService.getProducts().subscribe(
       (data: ApiProductResponse) => {
@@ -347,11 +396,21 @@ export class ViewsComponent implements OnInit {
 
   }
 
-  orderHistory(){}
+  orderHistory(){
+  }
+
+  showVoucher() {
+    this.isVoucherModalVisible = true;
+
+  }
+
+  closeVoucherModal(){
+    this.isVoucherModalVisible = false;
+  }
 
   logout() {
     localStorage.removeItem('user');
     this.cartCount = 0;
-    this.user = null; // Cập nhật trạng thái
+    this.user = null;
   }
 }

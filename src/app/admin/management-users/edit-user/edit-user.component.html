@@ -13,6 +13,12 @@
         <label for="phone">Số Điện Thoại:</label>
         <input type="text" id="phone" [(ngModel)]="user.so_dien_thoai" name="phone">
 
+        <label for="vai_tro">Vai Trò:</label>
+        <select id="vai_tro" [(ngModel)]="user.vai_tro" name="vai_tro">
+          <option value="admin">Admin</option>
+          <option value="user">Người dùng</option>
+      </select>
+
         <div class="button-group">
             <button (click)="save()" type="button">Lưu</button>
             <button (click)="cancel()" type="button">Hủy</button>

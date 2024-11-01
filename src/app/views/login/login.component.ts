@@ -7,10 +7,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  ho_va_ten: string = '';
+  dia_chi: string = '';
   ten_dang_nhap: string = '';
   mat_khau: string = '';
   errorMessage: string = '';
   email: string = '';
+  so_dien_thoai: string = '';
   islogin: boolean = true;
     // Mặc định hiển thị modal đăng nhập
   isRegister: boolean = false; // Mặc định không hiển thị modal đăng ký
@@ -65,18 +68,26 @@ export class LoginComponent {
 
   }
   onRegisterSubmit() {
-    // Kiểm tra định dạng email bằng biểu thức chính quy
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!emailPattern.test(this.email)) {
       this.errorMessage = 'Email không hợp lệ. Vui lòng nhập lại.';
-      return; // Ngừng thực hiện hàm nếu email không hợp lệ
+      return;
+    }
+
+    const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+    if (!phoneRegex.test(this.so_dien_thoai)) {
+      this.errorMessage = 'Số điện thoại không hợp lệ!'
+      return
     }
 
     const formData = new FormData();
     formData.append('email', this.email);
     formData.append('ten_dang_nhap', this.ten_dang_nhap);
     formData.append('mat_khau', this.mat_khau);
+    formData.append('ho_va_ten', this.ho_va_ten);
+    formData.append('so_dien_thoai', this.so_dien_thoai);
+    formData.append('dia_chi', this.dia_chi);
 
     fetch('http://localhost/api/users/user-register.php', {
       method: 'POST',

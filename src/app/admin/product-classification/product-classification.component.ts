@@ -81,7 +81,7 @@ export class ProductClassificationComponent implements OnInit {
 
   // Delete a category
   deleteCategory(id: number) {
-    if (confirm('Are you sure you want to delete this category?')) {
+    if (confirm('Bạn chắc chắn sẽ xóa danh mục sản phẩm này chứ?')) {
       this.http.delete('http://localhost/api/product-catalog/delete-catalog.php', {
         body: { id: id }
       }).subscribe(

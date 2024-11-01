@@ -17,9 +17,14 @@ export class DashboardComponent implements OnInit{
   ngOnInit(): void {
     this.showOverview()
     this.getDataInt()
+
   }
 
   getDataInt() {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      this.router.navigate(['/admin']);
+    }
 
   }
 
@@ -67,7 +72,7 @@ export class DashboardComponent implements OnInit{
 
 
   logout(): void {
-    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('user');
     this.router.navigate(['/admin']);
   }
 

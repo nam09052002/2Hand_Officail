@@ -174,60 +174,84 @@ tr:hover {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 1);
     z-index: 1000;
     max-width: 600px;
     width: 100%;
     overflow-y: auto;
-}
-
-.order-details h3 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    color: #333;
-}
-
-.order-details table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.order-details th,
-.order-details td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.order-details th {
-    background-color: #f2f2f2;
-    color: #555;
-}
-
-.order-details tr:hover {
-    background-color: #f9f9f9;
-}
-
-.order-details table th {
-    width: 150px;
-    /* Thay đổi kích thước cột 'Tên sản phẩm' */
-}
-
-
-/* Close button for order details */
-
-.close-button {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    float: right;
-}
-
-.close-button:hover {
-    background-color: #d32f2f;
+    .close-button {
+        background-color: #ff4d4d;
+        /* Màu đỏ cho nút đóng */
+        color: white;
+        /* Màu chữ trắng */
+        border: none;
+        /* Không viền */
+        border-radius: 5px;
+        /* Bo tròn góc */
+        padding: 10px 15px;
+        /* Khoảng cách bên trong */
+        cursor: pointer;
+        /* Con trỏ khi hover */
+        float: right;
+        /* Đưa nút đóng về bên phải */
+    }
+    .close-button:hover {
+        background-color: #e60000;
+        /* Màu đỏ đậm khi hover */
+    }
+    h3 {
+        color: #333;
+        /* Màu chữ tiêu đề */
+        margin-bottom: 15px;
+        /* Khoảng cách dưới tiêu đề */
+    }
+    table {
+        width: 100%;
+        /* Chiều rộng 100% */
+        border-collapse: collapse;
+        /* Gộp viền */
+    }
+    th,
+    td {
+        border: 1px solid #ddd;
+        /* Đường viền cho các ô */
+        padding: 10px;
+        /* Khoảng cách bên trong */
+        text-align: left;
+        /* Căn trái */
+    }
+    th {
+        background-color: #f0f0f0;
+        /* Màu nền cho tiêu đề */
+        color: #555;
+        /* Màu chữ cho tiêu đề */
+    }
+    td {
+        background-color: white;
+        /* Màu nền cho ô dữ liệu */
+    }
+    .product-image {
+        border-radius: 4px;
+        /* Bo tròn ảnh sản phẩm */
+    }
+    .cancel-button {
+        background-color: #ffa500;
+        /* Màu cam cho nút hủy */
+        color: white;
+        /* Màu chữ trắng */
+        border: none;
+        /* Không viền */
+        border-radius: 5px;
+        /* Bo tròn góc */
+        padding: 10px 15px;
+        /* Khoảng cách bên trong */
+        cursor: pointer;
+        /* Con trỏ khi hover */
+        margin-top: 15px;
+        /* Khoảng cách trên */
+    }
+    .cancel-button:hover {
+        background-color: #e59400;
+        /* Màu cam đậm khi hover */
+    }
 }

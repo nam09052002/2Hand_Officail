@@ -29,7 +29,7 @@ export class ManagementUsersComponent implements OnInit {
   }
 
   deleteUser(id_nguoi_dung: number) {
-    this.http.delete('http://localhost/api/routes/userRoutes.php', { body: { id_nguoi_dung } }) // Gọi API để xóa người dùng
+    this.http.delete('http://localhost/api/users/delete-user.php', { body: { id_nguoi_dung } }) // Gọi API để xóa người dùng
       .subscribe(response => {
         console.log(response);
         this.users = this.users.filter(user => user.id_nguoi_dung !== id_nguoi_dung);
@@ -53,16 +53,16 @@ export class ManagementUsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Gọi API để cập nhật người dùng
-        this.http.put('http://localhost/api/routes/userRoutes.php', result)
-          .subscribe(response => {
-            console.log(response);
-            const index = this.users.findIndex(u => u.id_nguoi_dung === result.id_nguoi_dung);
-            if (index > -1) {
-              this.users[index] = result;
+        this.http.post('http://localhost/api/users/update-user.php', result)
+          .subscribe((response: any) => {
+            if (response.status === "success") {
+              alert(response.message)
             }
-          }, error => {
-            console.error('Error updating user:', error);
-          });
+
+          },
+          (error) => {
+            console.error("Lỗi khi gọi API:", error);
+          })
       }
     });
   }

@@ -1,0 +1,31 @@
+<!-- voucher-modal.component.html -->
+<div class="voucher-modal">
+    <div class="voucher-modal-content">
+        <button class="close-button" (click)="closeModal()">×</button>
+        <h2>Danh Sách Mã Giảm Giá</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã Giảm Giá</th>
+                    <th>Phần Trăm Giảm</th>
+                    <th>Ngày Bắt Đầu</th>
+                    <th>Ngày Hết Hạn</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let voucher of vouchers; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ voucher.ma_giam_gia }}</td>
+                    <td>{{ voucher.phan_tram_giam }}%</td>
+                    <td>{{ voucher.ngay_bat_dau | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ voucher.ngay_het_han | date: 'dd/MM/yyyy' }}</td>
+                    <td>
+                        <button (click)="copyCode(voucher.ma_giam_gia)">Sao Chép</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

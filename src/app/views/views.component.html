@@ -24,6 +24,13 @@
                 </li>
             </ul>
         </li>
+
+        <li>
+            <a (click)="showVoucher()" aria-label="Mã Giảm Giá">
+                <span class="material-icons" aria-hidden="true">local_offer</span>
+                <span>Mã Giảm Giá</span>
+            </a>
+        </li>
         <!-- <li><a routerLink="/about"><span class="material-icons">info</span>Giới Thiệu</a></li>
         <li><a routerLink="/contact"><span class="material-icons">contact_mail</span>Liên Hệ</a></li> -->
         <li>
@@ -42,6 +49,9 @@
 
             <div class="dropdown-content" *ngIf="isHovered">
                 <ul>
+                    <li>
+                        <a routerLink="/admin/dashboard" *ngIf="isAdmin"><span class="material-icons">admin_panel_settings</span>Truy cập trang quản trị</a>
+                    </li>
                     <li><a (click)="userActionsModal.openModal('updateInfo')"><span class="material-icons">edit</span>Cập nhật thông tin</a></li>
                     <li><a (click)="userActionsModal.openModal('changePassword')"><span class="material-icons">lock</span>Đổi mật khẩu</a></li>
                     <li><a (click)="userActionsModal.openModal('orderHistory')"><span class="material-icons">history</span>Lịch sử đơn hàng</a></li>
@@ -145,5 +155,6 @@
 
     <app-cart-modal *ngIf="isOpenModalCart" [cartItems]="cartItems" [isOpen]="isOpenModalCart" (close)="closeCart()" (removeItem)="handleRemoveItem($event)"></app-cart-modal>
 
+    <app-voucher *ngIf="isVoucherModalVisible" (closeModalEvent)="closeVoucherModal()"></app-voucher>
 
 </div>

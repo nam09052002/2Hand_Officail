@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { DiscountCodeService } from './vouchers.service';
+import { response } from 'express';
 
 export interface DiscountCode {
-  id: number;
   ma_giam_gia: string;
   phan_tram_giam: number;
   ngay_bat_dau: string;
@@ -55,24 +55,38 @@ export class VouchersComponent {
 
 
   addDiscountCode(): void {
+    const existingCode = this.filteredDiscountCodes.find((code: any) => code.ma_giam_gia === this.newDiscountCode);
+
+    if (existingCode) {
+        alert("Mã giảm giá đã tồn tại");
+        return;
+    }
+
     const newCode: DiscountCode = {
-      id: 0, // Nếu ID tự động tạo từ server, có thể bỏ qua hoặc để mặc định là 0
-      ma_giam_gia: this.newDiscountCode,
-      phan_tram_giam: this.newDiscountPercentage!,
-      ngay_bat_dau: this.newStartDate,
-      ngay_het_han: this.newExpirationDate,
-      trang_thai: this.isActive
+        ma_giam_gia: this.newDiscountCode,
+        phan_tram_giam: this.newDiscountPercentage!,
+        ngay_bat_dau: this.newStartDate,
+        ngay_het_han: this.newExpirationDate,
+        trang_thai: this.isActive
     };
 
-    this.discountCodeService.addDiscountCode(newCode).subscribe(() => {
-      this.loadDiscountCodes();
-      this.newDiscountCode = '';
-      this.newDiscountPercentage = null;
-      this.newStartDate = '';
-      this.newExpirationDate = '';
-      this.isActive = true;
-    });
-  }
+    this.discountCodeService.addDiscountCode(newCode).subscribe(
+      (response: any) => {
+          if (response.status === 'success') {
+            this.loadDiscountCodes();
+            this.newDiscountCode = '';
+            this.newDiscountPercentage = null;
+            this.newStartDate = '';
+            this.newExpirationDate = '';
+            this.isActive = true;
+            alert(response.message)
+          }
+      },
+      (error) => {
+          //
+      })
+
+}
 
   onSearchChange(): void {
     this.filteredDiscountCodes = this.discountCodes.filter((code) =>

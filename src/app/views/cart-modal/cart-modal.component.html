@@ -92,10 +92,10 @@
         </table>
         <div>
             <label for="discount">Mã giảm giá:</label>
-            <input type="text" id="discount" name="discount" />
+            <input type="text" id="discount" name="discount" [(ngModel)]="ma_giam_gia" (blur)="applyDiscount()" />
         </div>
         <div class="button-container">
-            <button (click)="onBuyNow()">Thanh Toán</button>
+            <button (click)="onBuyNow()">Thanh Toán {{ totalAmount | currency:'VND' }}</button>
         </div>
     </div>
 </div>

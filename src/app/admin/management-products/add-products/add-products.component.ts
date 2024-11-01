@@ -84,7 +84,10 @@ productForm: FormGroup;
       ten_nha_cung_cap: ['', Validators.required],
       gia_nhap: ['', [Validators.required, Validators.min(0)]],
       gia_ban: ['', [Validators.required, Validators.min(0)]],
-      anh_san_pham: [null, Validators.required]
+      anh_san_pham: [null, Validators.required],
+      da_ban: ['', [Validators.required, Validators.min(0)]],
+      ton_kho: ['',[Validators.required, Validators.min(0)]],
+
     });
   }
 
@@ -111,7 +114,7 @@ productForm: FormGroup;
 
   onGenderChange(){
     const valueGioiTinh = this.productForm.get('ten_gioi_tinh')?.value
-    console.log("CHECK DATAT", valueGioiTinh)
+    // console.log("CHECK DATAT", valueGioiTinh)
 
     if (valueGioiTinh == 1) {
       this.filteredCategories = [];

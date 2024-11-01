@@ -2,22 +2,17 @@
 <div class="login-background">
     <div class="login-container">
         <h2>Đăng Nhập Hệ Thống Quản Trị Viên</h2>
-        <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+        <form (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="username">Tên Đăng Nhập:</label>
-                <input id="username" formControlName="username" type="text" />
-                <div *ngIf="username && username.invalid && (username.dirty || username.touched)" class="error">
-                    <div *ngIf="username.errors?.['required']">Tên đăng nhập là bắt buộc.</div>
-                </div>
+                <label for="ten_dang_nhap">Tên Đăng Nhập:</label>
+                <input type="text" id="ten_dang_nhap" [(ngModel)]="ten_dang_nhap" name="ten_dang_nhap" required />
+
             </div>
             <div class="form-group">
                 <label for="password">Mật Khẩu:</label>
-                <input id="password" formControlName="password" type="password" />
-                <div *ngIf="password && password.invalid && (password.dirty || password.touched)" class="error">
-                    <div *ngIf="password.errors?.['required']">Mật khẩu là bắt buộc.</div>
-                </div>
+                <input type="password" id="mat_khau" [(ngModel)]="mat_khau" name="mat_khau" required />
             </div>
-            <button type="submit" [disabled]="loginForm.invalid">Đăng Nhập</button>
+            <button type="submit">Đăng Nhập</button>
         </form>
     </div>
 </div>

@@ -12,6 +12,7 @@ export class EditUserComponent {
 
 
 user: User;
+vai_tro: string = 'user';
 
   constructor(
     public dialogRef: MatDialogRef<EditUserComponent>,

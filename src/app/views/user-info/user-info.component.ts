@@ -49,7 +49,13 @@ export class UserInfoComponent implements OnInit {
   openModal(type: 'updateInfo' | 'changePassword' | 'orderHistory') {
     this.activeModal = type;
     if (type === 'orderHistory') {
-      this.fetchOrderHistory();
+      if (this.orderHistory.length == 0){
+        this.closeModal();
+        alert("Bạn chưa mua đơn hàng nào !")
+        return
+      } else {
+        this.fetchOrderHistory();
+      }
     }
   }
 
@@ -162,5 +168,25 @@ export class UserInfoComponent implements OnInit {
   closeOrderDetails() {
     this.showOrder = false; // Đóng modal
     this.selectedOrderDetails = null; // Có thể đặt lại thông tin chi tiết
+}
+
+cancelOrder(id_don_hang: any){
+ const payload = {
+        id_don_hang: id_don_hang,
+        trang_thai: 'da_huy'
+    };
+
+    this.http.post('http://localhost/api/orders/update-order.php', payload)
+    .subscribe(
+      (response: any) => {
+        if (response.status === "success") {
+          this.fetchOrderHistory();
+          alert(response.message)
+        }
+
+      },
+      (error) => {
+        console.error("Lỗi khi gọi API:", error);
+      })
 }
 }

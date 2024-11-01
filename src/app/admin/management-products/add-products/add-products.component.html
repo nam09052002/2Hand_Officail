@@ -42,6 +42,15 @@
             <label for="gia_ban">Giá bán:</label>
             <input id="gia_ban" type="number" formControlName="gia_ban" required min="0">
         </div>
+
+        <div class="form-group">
+            <label for="da_ban">Đã bán:</label>
+            <input id="da_ban" type="number" formControlName="da_ban" required min="0">
+        </div>
+        <div class="form-group">
+            <label for="ton_kho">Tồn kho:</label>
+            <input id="ton_kho" type="number" formControlName="ton_kho" required min="0">
+        </div>
         <div class="form-group">
             <label for="anh_san_pham">Hình ảnh sản phẩm:</label>
             <input type="file" (change)="onFileSelected($event)" required>

@@ -42,7 +42,7 @@ export class ManagementProductsComponent implements OnInit {
 fetchProducts() {
   this.productService.getProducts().subscribe(
     (data: ApiProductResponse) => {
-      console.log("CHECK DATA", data);
+      // console.log("CHECK DATA", data);
 
       // Kiểm tra xem data.products có tồn tại và là một mảng
       if (data && data.products) {

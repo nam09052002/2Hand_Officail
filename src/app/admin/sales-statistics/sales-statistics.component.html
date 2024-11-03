@@ -43,7 +43,7 @@
                 <th>Số Điện Thoại</th>
                 <th>Trạng Thái</th>
                 <th>Ngày Mua</th>
-                <th>Tổng Tiền (VND)</th>
+                <!-- <th>Tổng Tiền (VND)</th> -->
                 <th>Xem Chi Tiết</th>
                 <!-- Cột mới -->
                 <th>Cập Nhật Trạng Thái</th>
@@ -59,17 +59,34 @@
                 <td>{{ order.so_dien_thoai }}</td>
                 <td>{{ statusDisplayNames[order.trang_thai] }}</td>
                 <td>{{ order.ngay_mua | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ order.tong_tien | currency:'VND' }}</td>
+                <!-- <td>{{ order.tong_tien | currency:'VND' }}</td> -->
                 <td>
                     <button (click)="viewOrderDetails(order)">Xem</button>
                     <!-- Nút xem chi tiết -->
                 </td>
-                <td>
-                    <select [(ngModel)]="order.trang_thai" (change)="updateOrderStatus(order)">
-                      <option *ngFor="let status of status" [value]="status">{{ changeStatus[status] }}</option>
-                  </select>
-                    <!-- Dropdown cập nhật trạng thái -->
+                <td style="min-width: 150px;">
+                    <ng-container *ngIf="order.trang_thai !== 'da_huy' && order.trang_thai !== 'da_giao'">
+                        <select [(ngModel)]="order.trang_thai" (change)="updateOrderStatus(order)">
+                          <option *ngIf="order.trang_thai === 'cho_xu_ly'" value="cho_xu_ly">{{ changeStatus['cho_xu_ly'] }}</option>
+                          <option *ngIf="order.trang_thai === 'cho_xu_ly'" value="da_xac_nhan">{{ changeStatus['da_xac_nhan'] }}</option>
+
+                          <option *ngIf="order.trang_thai === 'da_xac_nhan'" value="da_xac_nhan">{{ changeStatus['da_xac_nhan'] }}</option>
+                          <option *ngIf="order.trang_thai === 'da_xac_nhan'" value="dang_giao">{{ changeStatus['dang_giao'] }}</option>
+
+                          <option *ngIf="order.trang_thai === 'dang_giao'" value="dang_giao">{{ changeStatus['dang_giao'] }}</option>
+                          <option *ngIf="order.trang_thai === 'dang_giao'" value="da_giao">{{ changeStatus['da_giao'] }}</option>
+                          <option *ngIf="order.trang_thai === 'dang_giao'" value="da_huy">{{ changeStatus['da_huy'] }}</option>
+                      </select>
+                    </ng-container>
+
+                    <ng-container *ngIf="order.trang_thai === 'da_huy' || order.trang_thai === 'da_giao'">
+                        <span>{{ changeStatus[order.trang_thai] }}</span>
+                    </ng-container>
                 </td>
+
+
+
+
             </tr>
             <tr *ngIf="filteredOrders.length === 0">
                 <td colspan="10">Không có đơn hàng nào phù hợp</td>
@@ -81,8 +98,9 @@
     <div *ngIf="isOrderDetailModalOpen" class="modal">
         <div class="modal-content">
             <span class="close" (click)="closeOrderDetailModal()">&times;</span>
-            <h3 style="text-align: center;">Chi Tiết Đơn Hàng</h3>
+            <h4 style="text-align: center;">Chi Tiết Người Nhận</h4>
 
+            <!-- Bảng thông tin người đặt hàng -->
             <table>
                 <thead>
                     <tr>
@@ -107,38 +125,9 @@
                         <td>Số Điện Thoại</td>
                         <td>{{ selectedOrder.so_dien_thoai }}</td>
                     </tr>
-
-                    <tr>
-                        <td>Tên Sản Phẩm</td>
-                        <td>{{ selectedOrder.ten_san_pham }}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Ảnh Sản Phẩm</td>
-                        <td><img [src]="selectedOrder.anh_san_pham || 'default-image-url.jpg'" alt="{{ selectedOrder.ten_san_pham }}" class="product-image " style="width: 100px; height: 100px" /></td>
-                    </tr>
-
-
-                    <tr>
-                        <td>Màu Sắc</td>
-                        <td>{{ selectedOrder.mau_sac }}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Kích Thước</td>
-                        <td>{{ selectedOrder.kich_thuoc }}</td>
-                    </tr>
-                    <tr>
-                        <td>Số Lượng</td>
-                        <td>{{ selectedOrder.so_luong }}</td>
-                    </tr>
                     <tr>
                         <td>Ngày Mua</td>
                         <td>{{ selectedOrder.ngay_mua | date: 'dd/MM/yyyy' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Tổng Tiền</td>
-                        <td>{{ selectedOrder.tong_tien | currency:'VND' }}</td>
                     </tr>
                     <tr>
                         <td>Trạng Thái</td>
@@ -147,11 +136,46 @@
                     <!-- Thêm thông tin khác nếu cần -->
                 </tbody>
             </table>
+
+            <!-- Bảng thông tin sản phẩm đã đặt -->
+            <h4 style="text-align: center; margin-top: 20px;">Thông Tin Sản Phẩm</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Ảnh Sản Phẩm</th>
+                        <th>Màu Sắc</th>
+                        <th>Kích Thước</th>
+                        <th>Số Lượng</th>
+                        <th>Tổng Tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of showOrder">
+                        <td>{{ product.ten_san_pham }}</td>
+                        <td>
+                            <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" style="width: 100px; height: 100px;" />
+                        </td>
+                        <td>{{ product.mau_sac }}</td>
+                        <td>{{ product.kich_thuoc }}</td>
+                        <td>{{ product.so_luong }}</td>
+                        <td>{{ product.tong_tien | currency:'VND' }}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" style="text-align: right;"><strong>Tổng Tiền:</strong></td>
+                        <td><strong>{{ getTotalAmount() | currency:'VND' }}</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+
             <div *ngIf="selectedOrder.trang_thai === 'cho_xu_ly'" style="text-align: center; margin-top: 20px;">
                 <button (click)="printOrder()">In Đơn Hàng</button>
             </div>
         </div>
     </div>
+
 
 
 </div>

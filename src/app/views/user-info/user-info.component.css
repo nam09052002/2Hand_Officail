@@ -147,6 +147,17 @@ tr:hover {
     border-collapse: collapse;
 }
 
+.order-table thead {
+    position: sticky;
+    /* Makes the header sticky */
+    top: 0;
+    /* Stick the header to the top of the scrolling area */
+    background-color: #fff;
+    /* Background color for the sticky header */
+    z-index: 10;
+    /* Ensure the header is above other content */
+}
+
 .order-table th,
 .order-table td {
     border: 1px solid #ddd;
@@ -176,7 +187,7 @@ tr:hover {
     padding: 20px;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 1);
     z-index: 1000;
-    max-width: 600px;
+    max-width: 55vw;
     width: 100%;
     overflow-y: auto;
     .close-button {

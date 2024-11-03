@@ -5,7 +5,6 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Màu nền mờ */
     z-index: 9998;
     /* Lớp phủ */
 }
@@ -25,13 +24,16 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    max-height: 80%;
+    /* Giới hạn chiều cao tối đa của form */
+    overflow-y: auto;
+    /* Cho phép cuộn dọc khi nội dung vượt quá chiều cao */
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    /* Căn chỉnh các ô input rộng như nút */
+    /* Không cần giới hạn chiều cao nữa vì chúng ta đã thêm cuộn dọc vào product-form */
 }
 
 .form-group label {
@@ -56,6 +58,7 @@
 
 textarea {
     resize: vertical;
+    /* Cho phép thay đổi chiều cao của textarea */
 }
 
 .submit-button {

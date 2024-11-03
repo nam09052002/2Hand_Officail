@@ -26,6 +26,18 @@
                   <option *ngFor="let loai of filteredCategories" [value]="loai">{{ loai }}</option>
               </select>
         </div>
+
+        <div class="form-group">
+            <label for="mau_sac">Màu sắc:</label>
+            <input type="text" id="mau_sac" formControlName="mau_sac" required [placeholder]="" />
+        </div>
+
+        <div class="form-group">
+            <label for="kich_thuoc">Kích thước:</label>
+            <input type="text" id="kich_thuoc" formControlName="kich_thuoc" required [placeholder]="" />
+        </div>
+
+
         <div class="form-group">
             <label for="ten_nhan_hieu">Nhà sản xuất:</label>
             <input type="text" id="ten_nhan_hieu" formControlName="ten_nhan_hieu" required [placeholder]="'Nhà sản xuất'" />

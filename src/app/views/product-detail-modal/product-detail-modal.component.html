@@ -14,8 +14,8 @@
                     <div class="color-container">
                         <label>Chọn màu:</label>
                         <div class="checkbox-group">
-                            <div *ngFor="let color of availableColors">
-                                <input type="checkbox" [value]="color" (change)="toggleColor(color)" [checked]="selectedColor === color" /> {{ color }}
+                            <div *ngFor="let color of mauSacArray">
+                                <input type="radio" [value]="color" (change)="toggleColor(color)" [checked]="selectedColor === color" name="color" /> {{ color }}
                             </div>
                         </div>
                     </div>
@@ -24,8 +24,8 @@
                     <div class="size-container">
                         <label>Chọn kích thước:</label>
                         <div class="checkbox-group">
-                            <div *ngFor="let size of availableSizes">
-                                <input type="checkbox" [value]="size" (change)="toggleSize(size)" [checked]="selectedSize === size" /> {{ size }}
+                            <div *ngFor="let size of kichThuocArray">
+                                <input type="radio" [value]="size" (change)="toggleSize(size)" [checked]="selectedSize === size" /> {{ size }}
                             </div>
                         </div>
                     </div>

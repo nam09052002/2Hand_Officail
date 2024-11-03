@@ -162,3 +162,134 @@ td button:last-child {
     margin-right: 0;
     /* Xóa khoảng cách bên phải của nút cuối cùng */
 }
+
+.modal {
+    display: block;
+    /* Hiển thị modal */
+    position: fixed;
+    /* Đặt vị trí cố định */
+    z-index: 1000;
+    /* Đảm bảo modal ở trên cùng */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Chiều rộng 100% */
+    height: 100%;
+    /* Chiều cao 100% */
+    overflow: auto;
+    /* Thêm thanh cuộn nếu cần */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Nền mờ với độ trong suốt */
+}
+
+.modal-content {
+    position: absolute;
+    /* Đặt vị trí tuyệt đối để căn giữa */
+    top: 50%;
+    /* Căn giữa theo chiều dọc */
+    left: 50%;
+    /* Căn giữa theo chiều ngang */
+    transform: translate(-50%, -50%);
+    /* Dịch chuyển để căn giữa chính xác */
+    background-color: #fefefe;
+    /* Màu nền cho nội dung modal */
+    margin: 0;
+    /* Không có lề */
+    padding: 20px;
+    /* Padding cho nội dung */
+    border-radius: 8px;
+    /* Bo góc cho modal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Đổ bóng cho modal */
+    width: 80%;
+    /* Chiều rộng modal, có thể điều chỉnh theo ý muốn */
+    max-width: 500px;
+    /* Chiều rộng tối đa của modal */
+}
+
+.modal-content .close {
+    float: right;
+}
+
+.modal-content .close:hover {
+    color: red;
+    cursor: pointer;
+}
+
+
+/* Định dạng cho thẻ label */
+
+.modal-content label {
+    display: block;
+    /* Đặt label trên một dòng mới */
+    margin-bottom: 8px;
+    /* Khoảng cách dưới label */
+    font-weight: bold;
+    /* Đậm chữ */
+}
+
+
+/* Định dạng cho thẻ input và textarea */
+
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content textarea {
+    width: 100%;
+    /* Chiều rộng 100% */
+    padding: 10px;
+    /* Padding cho input và textarea */
+    margin-bottom: 15px;
+    /* Khoảng cách dưới */
+    border: 1px solid #ccc;
+    /* Đường viền xám */
+    border-radius: 4px;
+    /* Bo góc cho input và textarea */
+    box-sizing: border-box;
+    /* Đảm bảo padding không làm tăng kích thước tổng thể */
+}
+
+
+/* Định dạng cho thẻ textarea */
+
+.modal-content textarea {
+    resize: vertical;
+    /* Cho phép người dùng thay đổi chiều cao */
+    min-height: 100px;
+    /* Chiều cao tối thiểu */
+}
+
+
+/* Định dạng cho nút lưu */
+
+.modal-content button {
+    background-color: #4CAF50;
+    /* Màu nền xanh */
+    color: white;
+    /* Màu chữ trắng */
+    border: none;
+    /* Không có đường viền */
+    padding: 10px 15px;
+    /* Padding cho nút */
+    text-align: center;
+    /* Căn giữa văn bản */
+    text-decoration: none;
+    /* Không có gạch chân */
+    display: inline-block;
+    /* Đặt nút ở dòng riêng */
+    font-size: 16px;
+    /* Kích thước chữ */
+    border-radius: 4px;
+    /* Bo góc cho nút */
+    cursor: pointer;
+    /* Hiển thị con trỏ khi di chuột */
+    transition: background-color 0.3s;
+    /* Hiệu ứng chuyển đổi màu nền */
+}
+
+
+/* Hiệu ứng khi di chuột qua nút */
+
+.modal-content button:hover {
+    background-color: #45a049;
+    /* Màu nền khi di chuột qua */
+}

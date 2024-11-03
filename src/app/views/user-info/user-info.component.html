@@ -51,88 +51,100 @@
 
         <!-- Phần hiển thị lịch sử đơn hàng -->
         <div *ngIf="activeModal === 'orderHistory'">
-            <table class="order-table">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>ID Đơn hàng</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Ảnh</th>
-                        <th>Số lượng</th>
-                        <th>Tổng tiền</th>
-                        <th>Ngày mua</th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let order of orderHistory; let i = index">
-                        <td>{{ i + 1 }}</td>
-                        <td>{{ order.id_don_hang }}</td>
-                        <td>{{ order.ten_san_pham }}</td>
-                        <td>
-                            <img [src]="order.anh_san_pham || 'default-image-url.jpg'" alt="{{ order.ten_san_pham }}" width="100px" height="100px" />
-                        </td>
-                        <td>{{ order.so_luong }}</td>
-                        <td>{{ order.tong_tien | currency:'VND' }}</td>
-                        <td>{{ order.ngay_mua | date: 'dd/MM/yyyy' }}</td>
-                        <td>
-                            {{ order.trang_thai === 'cho_xu_ly' ? 'Chờ xử lý' : order.trang_thai === 'da_xac_nhan' ? 'Đã xác nhận' : order.trang_thai === 'da_giao' ? 'Đã giao' : order.trang_thai === 'da_huy' ? 'Đã hủy' : order.trang_thai }}
-                        </td>
-                        <td>
-                            <button (click)="viewOrderDetails(order.id_don_hang)" class="show">Xem chi tiết</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div *ngIf="activeModal === 'orderHistory'">
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>ID Đơn hàng</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Ảnh</th>
+                            <th>Số lượng</th>
+                            <th>Màu sắc</th>
+                            <th>Kích thước</th>
+                            <th>Tổng tiền</th>
+                            <th>Ngày mua</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let order of orderHistory; let i = index">
+                            <ng-container *ngFor="let product of order.products; let j = index">
+                                <tr>
+                                    <!-- Only show the sequence number (STT) and order details in the first row -->
+                                    <td *ngIf="j === 0" [attr.rowspan]="order.products.length">{{ i + 1 }}</td>
+                                    <td *ngIf="j === 0" [attr.rowspan]="order.products.length">{{ order.id_don_hang }}</td>
+                                    <td style="max-width: 200px">{{ product.tenSanPham }}</td>
+                                    <td>
+                                        <img [src]="product.anhSanPham || 'default-image-url.jpg'" alt="{{ product.tenSanPham }}" width="100px" height="100px" />
+                                    </td>
+                                    <td>{{ product.soLuong }}</td>
+                                    <td>{{ product.mau_sac }}</td>
+                                    <td>{{ product.kich_thuoc }}</td>
+                                    <td>{{ product.tongTien | currency:'VND' }}</td>
+                                    <!-- Only show the order date, status, and action button in the first row -->
+                                    <td *ngIf="j === 0" [attr.rowspan]="order.products.length">{{ order.ngay_mua | date: 'dd/MM/yyyy' }}</td>
+                                    <td *ngIf="j === 0" [attr.rowspan]="order.products.length">
+                                        {{ order.trang_thai === 'cho_xu_ly' ? 'Chờ xử lý' : order.trang_thai === 'da_xac_nhan' ? 'Đã xác nhận' : order.trang_thai === 'da_giao' ? 'Đã giao' : order.trang_thai === 'da_huy' ? 'Đã hủy' : order.trang_thai }}
+                                    </td>
+                                    <td *ngIf="j === 0" [attr.rowspan]="order.products.length">
+                                        <button (click)="viewOrderDetails(order.id_don_hang)" class="show">Xem chi tiết</button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+
+
+            </div>
+
             <div *ngIf="showOrder" class="order-details">
                 <button (click)="closeOrderDetails()" class="close-button">Đóng</button>
                 <h3>Thông tin chi tiết đơn hàng {{ selectedOrderDetails?.id_don_hang }}</h3>
+
                 <table>
-                    <tr>
-                        <th>Tên thông tin</th>
-                        <td>Giá trị</td>
-                    </tr>
-                    <tr>
-                        <th>Tên sản phẩm</th>
-                        <td>{{ selectedOrderDetails?.ten_san_pham }}</td>
-                    </tr>
-                    <tr>
-                        <td>Ảnh Sản Phẩm</td>
-                        <td><img [src]="selectedOrderDetails.anh_san_pham || 'default-image-url.jpg'" alt="{{ selectedOrderDetails.ten_san_pham }}" class="product-image " style="width: 100px; height: 100px" /></td>
-                    </tr>
-                    <tr>
-                        <th>Màu sắc</th>
-                        <td>{{ selectedOrderDetails?.mau_sac }}</td>
-                    </tr>
-                    <tr>
-                        <th>Kích thước</th>
-                        <td>{{ selectedOrderDetails?.kich_thuoc }}</td>
-                    </tr>
-                    <tr>
-                        <th>Số lượng</th>
-                        <td>{{ selectedOrderDetails?.so_luong }}</td>
-                    </tr>
-                    <tr>
-                        <th>Tổng tiền</th>
-                        <td>{{ selectedOrderDetails?.tong_tien | currency:'VND' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Ngày mua</th>
-                        <td>{{ selectedOrderDetails?.ngay_mua | date: 'dd/MM/yyyy' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Trạng thái</th>
-                        <td>{{ selectedOrderDetails.trang_thai === 'cho_xu_ly' ? 'Chờ xử lý' : selectedOrderDetails.trang_thai === 'da_xac_nhan' ? 'Đã xác nhận' : selectedOrderDetails.trang_thai === 'da_giao' ? 'Đã giao' : selectedOrderDetails.trang_thai
-                            === 'da_huy' ? 'Đã hủy' : selectedOrderDetails.trang_thai }}</td>
-                    </tr>
-                    <!-- Thêm các trường khác theo nhu cầu -->
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Ảnh sản phẩm</th>
+                            <th>Màu sắc</th>
+                            <th>Kích thước</th>
+                            <th>Số lượng</th>
+                            <th>Tổng tiền</th>
+                            <th>Ngày mua</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of selectedOrderDetails?.products; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ product.tenSanPham }}</td>
+                            <td>
+                                <img [src]="product.anhSanPham || 'default-image-url.jpg'" alt="{{ product.tenSanPham }}" class="product-image" style="width: 100px; height: 100px;" />
+                            </td>
+                            <td>{{ product.mau_sac }}</td>
+                            <td>{{ product.kich_thuoc }}</td>
+                            <td>{{ product.soLuong }}</td>
+                            <td>{{ product.tongTien | currency:'VND' }}</td>
+                            <td>{{ selectedOrderDetails.ngay_mua | date: 'dd/MM/yyyy' }}</td>
+                            <td>
+                                {{ selectedOrderDetails.trang_thai === 'cho_xu_ly' ? 'Chờ xử lý' : selectedOrderDetails.trang_thai === 'da_xac_nhan' ? 'Đã xác nhận' : selectedOrderDetails.trang_thai === 'dang-giao' ? 'Đang vận chuyển' : selectedOrderDetails.trang_thai === 'da_giao'
+                                ? 'Đã giao' : selectedOrderDetails.trang_thai === 'da_huy' ? 'Đã hủy' : product.trang_thai }}
+                            </td>
+
+                        </tr>
+                    </tbody>
                 </table>
 
                 <div *ngIf="selectedOrderDetails.trang_thai === 'cho_xu_ly'">
-                    <button (click)="cancelOrder(selectedOrderDetails.id_don_hang)" class="cancel-button">Hủy đơn</button>
+                    <button (click)="cancelOrder(selectedOrderDetails.id_don_hang)" class="cancel-button">Hủy</button>
                 </div>
             </div>
+
+
         </div>
     </div>
 </div>

@@ -20,7 +20,7 @@ export class OverviewComponent implements OnInit {
   doanhThuHomNay: number = 0;
   doanhThuTuan: number = 0;
   doanhThuThang: number = 0
-
+  chiTietOrder: any[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -54,6 +54,16 @@ export class OverviewComponent implements OnInit {
       }
     )
 
+    this.http.get('http://localhost/api/orders/get-all-order.php').subscribe(
+      (response: any) => {
+        if(response.status === "success"){
+          this.chiTietOrder = response.data
+          console.log("CHI tiết", this.chiTietOrder)
+      }
+    }
+
+    )
+
     this.http.get('http://localhost/api/orders/get-order.php').subscribe(
       (response: any) => {
         if (response.status === "success") {
@@ -79,44 +89,100 @@ export class OverviewComponent implements OnInit {
           const firstDayOfMonthString = firstDayOfMonth.toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit' })
             .split('/').reverse().join('-');
           response.data.forEach((order: any) => {
-            if (order.trang_thai === 'da_giao') {
-              this.tongDoanhThu += parseFloat(order.tong_tien);
+            // if (order.trang_thai === 'da_giao') {
+            //   const chiTietAllOrder = this.chiTietOrder.filter((i:any) => i.id_don_hang === order.id_don_hang)
+            //   console.log("CHECK chiTietAllOrder", chiTietAllOrder)
+            //   this.tongDoanhThu += parseFloat(chiTietAllOrder.tong_tien);
+            //   console.log("this.tongDoanhThu" , this.tongDoanhThu)
 
-              this.products.forEach((item: any) => {
-                if (item.ten_san_pham === order.ten_san_pham) {
-                  this.tongLoiNhuan += (parseFloat(order.tong_tien) - parseFloat(item.gia_nhap)) * parseFloat(order.so_luong);
-                }
+            //   chiTietAllOrder.forEach((chiTiet: any) => {
+            //     this.products.forEach((item: any) => {
+            //         console.log("CHECK itemitem", item);
+            //         if (item.ten_san_pham === chiTiet.ten_san_pham) {
+            //             const loiNhuan = (parseFloat(chiTiet.tong_tien) - parseFloat(item.gia_nhap)) * parseFloat(chiTiet.so_luong);
+            //             this.tongLoiNhuan += loiNhuan;
+            //         }
+            //     });
+            // });
+            if (order.trang_thai === 'da_giao') {
+              // Lọc chi tiết đơn hàng tương ứng với id_don_hang
+              const chiTietAllOrder = this.chiTietOrder.filter((i: any) => i.id_don_hang === order.id_don_hang);
+              console.log("CHECK chiTietAllOrder", chiTietAllOrder);
+
+              // Tính tổng doanh thu từ chi tiết đơn hàng
+              const tongTienChiTiet = chiTietAllOrder.reduce((total: number, chiTiet: any) => {
+                  return total + (parseFloat(chiTiet.tong_tien) || 0); // Cộng dồn vào tổng
+              }, 0);
+
+              this.tongDoanhThu += tongTienChiTiet; // Cập nhật tổng doanh thu
+              console.log("this.tongDoanhThu", this.tongDoanhThu);
+
+              // Tính lợi nhuận cho từng sản phẩm trong chi tiết đơn hàng
+              chiTietAllOrder.forEach((chiTiet: any) => {
+                  this.products.forEach((item: any) => {
+                      console.log("CHECK itemitem", item);
+                      if (item.ten_san_pham === chiTiet.ten_san_pham) {
+                          // Tính lợi nhuận từ sản phẩm
+                          const loiNhuan = (parseFloat(chiTiet.tong_tien) - parseFloat(item.gia_nhap)) * parseFloat(chiTiet.so_luong);
+                          this.tongLoiNhuan += loiNhuan; // Cập nhật tổng lợi nhuận
+                      }
+                  });
               });
+
+
             }
             const orderDate = order.ngay_mua.split(' ')[0].trim();
 
-              if (orderDate === todayString) {
-                this.donHangHomNay += 1;
-                this.doanhThuHomNay = response.data
-                .filter((order: any) => {
-                  const orderDate = order.ngay_mua.split(' ')[0].trim();
-                  return order.trang_thai === 'da_giao' && orderDate === todayString;
-                })
-                .reduce((total: number, order: any) => total + parseFloat(order.tong_tien), 0);
+            if (orderDate === todayString) {
+              this.donHangHomNay += 1;
+              if (order.trang_thai === 'da_giao') {
+                  // Lấy chi tiết đơn hàng tương ứng
+                  const chiTietAllOrder = this.chiTietOrder.filter((i: any) => i.id_don_hang === order.id_don_hang);
+
+                  // Tính tổng tiền từ chi tiết đơn hàng
+                  chiTietAllOrder.forEach((chiTiet: any) => {
+                      this.doanhThuHomNay += parseFloat(chiTiet.tong_tien) || 0; // Cộng dồn vào doanh thu hôm nay
+                  });
               }
-              if (orderDate >= firstDayOfWeekString && orderDate <= todayString) {
-                this.donHangTuan += 1;
-                this.doanhThuTuan = response.data
-                .filter((order: any) => {
-                  const orderDate = order.ngay_mua.split(' ')[0].trim();
-                  return order.trang_thai === 'da_giao' && (orderDate >= firstDayOfWeekString && orderDate <= todayString)
-                })
-                .reduce((total: number, order: any) => total + parseFloat(order.tong_tien), 0);
-              }
-              if (orderDate >= firstDayOfMonthString && orderDate <= todayString) {
-                this.donHangThang += 1;
-                this.doanhThuThang = response.data
-                .filter((order: any) => {
-                  const orderDate = order.ngay_mua.split(' ')[0].trim();
-                  return order.trang_thai === 'da_giao' && (orderDate >= firstDayOfMonthString && orderDate <= todayString)
-                })
-                .reduce((total: number, order: any) => total + parseFloat(order.tong_tien), 0);
-              }
+            }
+
+              // Tính doanh thu tuần
+            if (orderDate >= firstDayOfWeekString && orderDate <= todayString) {
+              this.donHangTuan += 1;
+
+              // Lấy chi tiết đơn hàng và tính doanh thu cho tuần
+              const chiTietDonHangTuan = this.chiTietOrder.filter((chiTiet: any) => {
+                  return response.data.some((order: any) =>
+                      order.id_don_hang === chiTiet.id_don_hang &&
+                      order.trang_thai === 'da_giao' &&
+                      order.ngay_mua.split(' ')[0].trim() >= firstDayOfWeekString &&
+                      order.ngay_mua.split(' ')[0].trim() <= todayString
+                  );
+              });
+
+              this.doanhThuTuan += chiTietDonHangTuan.reduce((total: number, chiTiet: any) => {
+                  return total + (parseFloat(chiTiet.tong_tien) || 0); // Cộng dồn vào doanh thu tuần
+              }, 0);
+            }
+
+            // Tính doanh thu tháng
+            if (orderDate >= firstDayOfMonthString && orderDate <= todayString) {
+              this.donHangThang += 1;
+
+              // Lấy chi tiết đơn hàng và tính doanh thu cho tháng
+              const chiTietDonHangThang = this.chiTietOrder.filter((chiTiet: any) => {
+                  return response.data.some((order: any) =>
+                      order.id_don_hang === chiTiet.id_don_hang &&
+                      order.trang_thai === 'da_giao' &&
+                      order.ngay_mua.split(' ')[0].trim() >= firstDayOfMonthString &&
+                      order.ngay_mua.split(' ')[0].trim() <= todayString
+                  );
+              });
+
+              this.doanhThuThang += chiTietDonHangThang.reduce((total: number, chiTiet: any) => {
+                  return total + (parseFloat(chiTiet.tong_tien) || 0); // Cộng dồn vào doanh thu tháng
+              }, 0);
+            }
           });
         } else {
           this.tongDoanhThu = 0;

@@ -46,7 +46,7 @@
                     <td style="min-width: 150px">
                         <!-- <button (click)="editProduct(product)">Sửa</button> -->
                         <button (click)="deleteProduct(product.id_san_pham ?? 0)">Xóa</button>
-                        <button (click)="viewProduct(product.id_san_pham ?? 0)">Xem</button>
+                        <button (click)="viewProduct(product)">Xem</button>
                     </td>
                 </tr>
             </tbody>
@@ -56,5 +56,42 @@
     <div class="tab-content" *ngIf="activeTab === 'addProduct'">
         <h3>Thêm Sản Phẩm Mới</h3>
         <button (click)="openAddProductDialog()">Thêm Sản Phẩm</button>
+    </div>
+
+    <div *ngIf="isViewModalOpen" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="closeViewModal()">&times;</span>
+            <h4>Thông Tin Sản Phẩm</h4>
+            <div>
+                <label>Tên Sản Phẩm:</label>
+                <input type="text" [(ngModel)]="selectedProduct.ten_san_pham" />
+            </div>
+            <div>
+                <label>Mô Tả:</label>
+                <textarea [(ngModel)]="selectedProduct.mo_ta"></textarea>
+            </div>
+            <div>
+                <label>Thương Hiệu:</label>
+                <input type="text" [(ngModel)]="selectedProduct.ten_nhan_hieu" />
+            </div>
+            <div>
+                <label>Nhà Cung Cấp:</label>
+                <input type="text" [(ngModel)]="selectedProduct.ten_nha_cung_cap" />
+            </div>
+            <div>
+                <label>Giá Bán:</label>
+                <input type="text" [(ngModel)]="selectedProduct.gia_ban" placeholder="Nhập giá bán" />
+            </div>
+            <div>
+                <label>Giá Nhập:</label>
+                <input type="text" [(ngModel)]="selectedProduct.gia_nhap" placeholder="Nhập giá nhập" />
+            </div>
+            <div>
+                <label>Số Lượng Kho:</label>
+                <input type="text" [(ngModel)]="selectedProduct.ton_kho" placeholder="Nhập số lượng kho" />
+            </div>
+            <!-- Thêm các trường khác tương tự -->
+            <button (click)="saveProduct()">Lưu</button>
+        </div>
     </div>
 </div>

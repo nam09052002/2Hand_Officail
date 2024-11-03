@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user.model';
 import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-user-info',
@@ -27,23 +28,72 @@ export class UserInfoComponent implements OnInit {
     this.userInfo = JSON.parse(localStorage.getItem('user') || 'null');
     this.getOrder()
   }
-  getOrder(){
-    this.http.get('http://localhost/api/orders/get-order.php')
-      .subscribe(
-        (response: any) => {
-          if (response.status === 'success') {
-            const allOrder = response.data;
-            this.orderHistory = allOrder.filter((order: any) => order.id_nguoi_dung === this.userInfo.id_nguoi_dung)
+  // getOrder(){
+  //   this.http.get('http://localhost/api/orders/get-order.php')
+  //     .subscribe(
+  //       (response: any) => {
+  //         if (response.status === 'success') {
+  //           const allOrder = response.data;
+  //           this.orderHistory = allOrder.filter((order: any) => order.id_nguoi_dung === this.userInfo.id_nguoi_dung)
+  //           this.http.get('http://localhost/api/orders/get-all-order.php').subscribe((response:any) => {
+  //             if (response.status === 'success') {
 
-          } else {
-            alert('Lỗi: ' + response.message);
-          }
-        },
-        (error) => {
-          alert('Có lỗi xảy ra khi cập nhật thông tin!');
-          console.error(error);
+  //               this.orderHistory.products = response.data.id_don_hang
+  //             }
+
+  //           })
+
+
+  //         } else {
+  //           alert('Lỗi: ' + response.message);
+  //         }
+  //       },
+  //       (error) => {
+  //         alert('Có lỗi xảy ra khi cập nhật thông tin!');
+  //         console.error(error);
+  //       }
+  //     );
+  // }
+
+  getOrder() {
+    const userOrders$ = this.http.get<{ status: string, data: any[], message?: string }>('http://localhost/api/orders/get-order.php');
+    const allOrderDetails$ = this.http.get<{ status: string, data: any[], message?: string }>('http://localhost/api/orders/get-all-order.php');
+
+    forkJoin([userOrders$, allOrderDetails$]).subscribe(
+      ([userOrdersResponse, allOrderDetailsResponse]) => {
+        if (userOrdersResponse.status === 'success' && allOrderDetailsResponse.status === 'success') {
+          const userOrders = userOrdersResponse.data;
+          const allOrderDetails = allOrderDetailsResponse.data;
+
+          // Filter user-specific orders
+          this.orderHistory = userOrders.filter(order => order.id_nguoi_dung === this.userInfo.id_nguoi_dung);
+
+          // Format orderHistory to include detailed product information
+          this.orderHistory = this.orderHistory.map(order => {
+            const products = allOrderDetails.filter(detail => detail.id_don_hang === order.id_don_hang);
+            return {
+              ...order,
+              products: products.map(product => ({
+                tenSanPham: product.ten_san_pham,
+                soLuong: product.so_luong,
+                donGia: product.don_gia,
+                anhSanPham: product.anh_san_pham,
+                tongTien: product.tong_tien,
+                mau_sac: product.mau_sac,
+                kich_thuoc: product.kich_thuoc,
+              }))
+            };
+          });
+          console.log("CHECK this.orderHistory", this.orderHistory)
+        } else {
+          alert('Lỗi khi lấy thông tin đơn hàng hoặc chi tiết đơn hàng.');
         }
-      );
+      },
+      (error) => {
+        alert('Có lỗi xảy ra khi lấy thông tin đơn hàng!');
+        console.error('API Error:', error);
+      }
+    );
   }
 
   openModal(type: 'updateInfo' | 'changePassword' | 'orderHistory') {
@@ -154,6 +204,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   viewOrderDetails(id_don_hang: number): void {
+    console.log("id_don_hang", id_don_hang)
     this.showOrder = true;
     const selectedOrder = this.orderHistory.find((order: any) => order.id_don_hang === id_don_hang);
 

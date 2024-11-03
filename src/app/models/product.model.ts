@@ -13,6 +13,8 @@ export interface Product {
   da_ban?: number;
   ton_kho?: number;
   ngay_tao?: Date;
+  mau_sac?: string | string[] ;
+  kich_thuoc?: string | string[]
 }
 
 export interface ApiProductResponse {

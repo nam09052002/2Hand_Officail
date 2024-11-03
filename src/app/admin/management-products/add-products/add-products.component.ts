@@ -87,6 +87,8 @@ productForm: FormGroup;
       anh_san_pham: [null, Validators.required],
       da_ban: ['', [Validators.required, Validators.min(0)]],
       ton_kho: ['',[Validators.required, Validators.min(0)]],
+      mau_sac: ['', Validators.required],
+      kich_thuoc: ['', Validators.required]
 
     });
   }

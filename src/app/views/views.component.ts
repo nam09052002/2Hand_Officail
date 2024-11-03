@@ -87,10 +87,28 @@ export class ViewsComponent implements OnInit {
           .filter(product => (product.ton_kho ?? 0) > 0)
           .map(product => ({
             ...product,
-            anh_san_pham: `${baseUrl}${product.anh_san_pham}`
-          }))
+            anh_san_pham: `${baseUrl}${product.anh_san_pham}`,
+            mau_sac: Array.isArray(product.mau_sac) // Kiểm tra xem mau_sac có phải là mảng không
+            ? product.mau_sac.map(color => color.charAt(0).toUpperCase() + color.slice(1).toLowerCase()) // Chuyển đổi đầu hoa
+            : typeof product.mau_sac === 'string' // Nếu mau_sac là chuỗi
+              ? product.mau_sac.split(',').map(color => {
+                  const trimmedColor = color.trim();
+                  return trimmedColor.charAt(0).toUpperCase() + trimmedColor.slice(1).toLowerCase(); // Chuyển đổi đầu hoa
+                })
+              : [], // Trả về mảng rỗng nếu mau_sac không phải chuỗi hoặc mảng
+
+              kich_thuoc: Array.isArray(product.kich_thuoc) // Kiểm tra xem mau_sac có phải là mảng không
+            ? product.kich_thuoc.map(kich_thuoc => kich_thuoc.charAt(0).toUpperCase() + kich_thuoc.slice(1).toLowerCase()) // Chuyển đổi đầu hoa
+            : typeof product.kich_thuoc === 'string' // Nếu mau_sac là chuỗi
+              ? product.kich_thuoc.split(',').map(kich_thuoc => {
+                  const trimmedColor = kich_thuoc.trim();
+                  return trimmedColor.charAt(0).toUpperCase() + trimmedColor.slice(1).toLowerCase(); // Chuyển đổi đầu hoa
+                })
+              : [] // Trả về mảng rỗng nếu mau_sac không phải chuỗi hoặc mảng
+        }))
           .sort((a, b) => (b.da_ban ?? 0) - (a.da_ban ?? 0));
         this.filteredProducts = [...this.products];
+        console.log("CHECK this.filteredProducts", this.filteredProducts)
         } else {
           console.error("Không có sản phẩm nào được tìm thấy");
           this.products = []; // Đặt sản phẩm thành mảng rỗng nếu không có

@@ -107,69 +107,119 @@ export class CartModalComponent {
     this.isCheckout = false;
   }
   onBuyNow() {
-    // Lọc các sản phẩm được chọn
-    // this.selectedItemsBuy = this.cartItems.filter(item => item.isSelected);
-    console.log("CHECK this.selectedItemsBuy", this.selectedItemsBuy)
+    this.selectedItemsBuy = this.cartItems.filter(item => item.isSelected);
 
-    for (let item of this.selectedItemsBuy) {
-      const id_nguoi_dung = this.user && !isNaN(Number(this.user.id_nguoi_dung))
+    if (this.selectedItemsBuy.length === 0) {
+        alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán.");
+        return;
+    }
+
+    const id_nguoi_dung = this.user && !isNaN(Number(this.user.id_nguoi_dung))
         ? Number(this.user.id_nguoi_dung)
         : 0;
-      const voucher = this.vouchers.find((voucher: any) => voucher.ma_giam_gia === this.ma_giam_gia);
 
+    const voucher = this.vouchers.find((voucher: any) => voucher.ma_giam_gia === this.ma_giam_gia);
 
-      // Tạo đối tượng đơn hàng cho từng sản phẩm được chọn
-      const orderItem: OrderItem = {
+    const orderItems = this.selectedItemsBuy.map(item => {
+        return {
+            ten_san_pham: item.ten_san_pham,
+            anh_san_pham: item.anh_san_pham,
+            mau_sac: item.mau_sac,
+            kich_thuoc: item.kich_thuoc,
+            don_gia: Number(item.don_gia),
+            so_luong: item.so_luong,
+            ma_giam_gia: voucher?.ma_giam_gia,
+            phan_tram_giam: voucher?.phan_tram_giam,
+            tong_tien: (Number(item.don_gia) * item.so_luong) - (Number(item.don_gia) * item.so_luong * (voucher?.phan_tram_giam ?? 0) / 100),
+        };
+    });
+
+    const order = {
         id_nguoi_dung,
         ho_va_ten: this.user.ho_va_ten,
         so_dien_thoai: this.user.so_dien_thoai,
         dia_chi: this.user.dia_chi,
-        ten_san_pham: item.ten_san_pham,  // Lấy thuộc tính từ item
-        anh_san_pham: item.anh_san_pham,
-        mau_sac: item.mau_sac,
-        kich_thuoc: item.kich_thuoc,
-        don_gia: Number(item.don_gia),
-        so_luong: item.so_luong,
-        ma_giam_gia: voucher?.ma_giam_gia,
-        phan_tram_giam: voucher?.phan_tram_giam,
-        tong_tien: (Number(item.don_gia) * item.so_luong) - (Number(item.don_gia) * item.so_luong * (voucher?.phan_tram_giam ?? 0) / 100),
-      };
+        orderItems // Đưa mảng sản phẩm vào đơn hàng
+    };
 
-      const apiUrl = 'http://localhost/api/orders/add-order.php';
-      this.http.post(apiUrl, orderItem).subscribe(
+    const apiUrl = 'http://localhost/api/orders/add-order.php';
+    this.http.post(apiUrl, order).subscribe(
         (response: any) => {
-          // Kiểm tra mã trạng thái phản hồi
-          if (response.status === 200 || response.status === 201) {
-            alert(response.message);
-            this.updateProduct(orderItem)
-            this.onRemoveItem(item )
-            // window.location.reload();  // Tải lại trang
-          } else {
-            alert(response.message);
-            this.updateProduct(orderItem)
-            this.onRemoveItem(item)
-
-            // window.location.reload();
-          }
+            // Kiểm tra mã trạng thái phản hồi
+            if (response.status === 200 || response.status === 201) {
+                alert(response.message);
+                this.updateProduct(orderItems); // Cập nhật sản phẩm
+                this.selectedItemsBuy.forEach(item => this.onRemoveItem(item)); // Xóa tất cả sản phẩm khỏi giỏ hàng
+                window.location.reload(); // Tải lại trang nếu cần
+            } else {
+                alert(response.message);
+                this.updateProduct(orderItems);
+                this.selectedItemsBuy.forEach(item => this.onRemoveItem(item)); // Xóa tất cả sản phẩm khỏi giỏ hàng
+                window.location.reload();
+            }
         },
         (error) => {
-          alert('Đã có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.');
+            alert('Đã có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.');
         }
-      );
-    }
-  }
-  async updateProduct(oderItem: any) {
-    try {
-        await this.fetchProducts(); // Đảm bảo lấy danh sách sản phẩm mới
+    );
+}
 
-        const updateProduct = this.products.find(i => i.ten_san_pham === oderItem.ten_san_pham);
+//   async updateProduct(oderItem: any) {
+//     try {
+//         await this.fetchProducts(); // Đảm bảo lấy danh sách sản phẩm mới
 
-        if (!updateProduct) {
-            alert("Sản phẩm không tìm thấy!");
-            return;
-        }
+//         const updateProduct = this.products.find(i =>
+//           i.ten_san_pham === oderItem.ten_san_pham
+//         );
 
-        const params = {
+//         if (!updateProduct) {
+//             alert("Sản phẩm không tìm thấy!");
+//             return;
+//         }
+
+//         const params = {
+//             id_san_pham: updateProduct.id_san_pham,
+//             ten_san_pham: updateProduct.ten_san_pham,
+//             anh_san_pham: updateProduct.anh_san_pham,
+//             mo_ta: updateProduct.mo_ta,
+//             ten_gioi_tinh: updateProduct.ten_gioi_tinh,
+//             ten_danh_muc: updateProduct.ten_danh_muc,
+//             ten_nhan_hieu: updateProduct.ten_nhan_hieu,
+//             ten_nha_cung_cap: updateProduct.ten_nha_cung_cap,
+//             gia_nhap: updateProduct.gia_nhap,
+//             gia_ban: updateProduct.gia_ban,
+//             da_ban: (updateProduct.da_ban ?? 0) + oderItem.so_luong,
+//             ton_kho: (updateProduct.ton_kho ?? 0) - oderItem.so_luong
+//         };
+
+//         const response: any = await this.http.post('http://localhost/api/management-products/update-product.php', params).toPromise();
+
+//         if (response.status === "success") {
+//             //
+//         } else {
+//             //
+//         }
+//     } catch (error) {
+//         //
+//     }
+// }
+
+async updateProduct(orderItems: any[]) {
+  try {
+      await this.fetchProducts(); // Fetch the current list of products
+
+      for (let orderItem of orderItems) {
+          // Find the product in the current list of products
+          const updateProduct = this.products.find(product =>
+              product.ten_san_pham === orderItem.ten_san_pham
+          );
+
+          if (!updateProduct) {
+            continue;
+          }
+
+
+          const params = {
             id_san_pham: updateProduct.id_san_pham,
             ten_san_pham: updateProduct.ten_san_pham,
             anh_san_pham: updateProduct.anh_san_pham,
@@ -180,21 +230,19 @@ export class CartModalComponent {
             ten_nha_cung_cap: updateProduct.ten_nha_cung_cap,
             gia_nhap: updateProduct.gia_nhap,
             gia_ban: updateProduct.gia_ban,
-            da_ban: (updateProduct.da_ban ?? 0) + oderItem.so_luong,
-            ton_kho: (updateProduct.ton_kho ?? 0) - oderItem.so_luong
-        };
+            da_ban: (updateProduct.da_ban ?? 0) + orderItem.so_luong,
+            ton_kho: (updateProduct.ton_kho ?? 0) - orderItem.so_luong
+          };
 
-        const response: any = await this.http.post('http://localhost/api/management-products/update-product.php', params).toPromise();
+          // Send an HTTP request to update the product quantity in the database
+          await this.http.post('http://localhost/api/management-products/update-product.php', params).toPromise();
+      }
 
-        if (response.status === "success") {
-            //
-        } else {
-            //
-        }
     } catch (error) {
-        //
+      console.error('Lỗi khi cập nhật số lượng sản phẩm:', error);
     }
-}
+  }
+
 
 
   onCheckout() {
@@ -212,8 +260,11 @@ export class CartModalComponent {
     }
 }
   calculateTotalAmount() {
-    return this.selectedItemsBuy.reduce((sum, item) => sum + (item.tong_tien || 0), 0);
-  }
+    return this.selectedItemsBuy.reduce((sum, item) => {
+      // Chuyển đổi tong_tien thành số, nếu không có giá trị thì mặc định là 0
+      const itemTotal = Number(item.tong_tien) || 0;
+      return sum + itemTotal; // Cộng dồn tổng
+  }, 0);  }
 
 
   onRemoveItem(item: CartItem) {

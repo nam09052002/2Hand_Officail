@@ -28,7 +28,6 @@ import { VouchersComponent } from './admin/vouchers/vouchers.component';
 import { UserInfoComponent } from './views/user-info/user-info.component';
 import { VoucherComponent } from './views/voucher/voucher.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +60,7 @@ import { VoucherComponent } from './views/voucher/voucher.component';
     MatTabsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+
   ],
   providers: [
     provideClientHydration()

@@ -110,4 +110,8 @@ fetchProducts() {
   editProduct(product: Product) {
     // Thêm logic để sửa sản phẩm nếu cần
   }
+
+  viewProduct(productId: number) {
+
+  }
 }

@@ -17,6 +17,9 @@ export class OverviewComponent implements OnInit {
   donHangHomNay: number = 0;
   donHangTuan: number = 0;
   donHangThang: number = 0;
+  doanhThuHomNay: number = 0;
+  doanhThuTuan: number = 0;
+  doanhThuThang: number = 0
 
 
   constructor(private http: HttpClient) {}
@@ -89,12 +92,30 @@ export class OverviewComponent implements OnInit {
 
               if (orderDate === todayString) {
                 this.donHangHomNay += 1;
+                this.doanhThuHomNay = response.data
+                .filter((order: any) => {
+                  const orderDate = order.ngay_mua.split(' ')[0].trim();
+                  return order.trang_thai === 'da_giao' && orderDate === todayString;
+                })
+                .reduce((total: number, order: any) => total + parseFloat(order.tong_tien), 0);
               }
               if (orderDate >= firstDayOfWeekString && orderDate <= todayString) {
                 this.donHangTuan += 1;
+                this.doanhThuTuan = response.data
+                .filter((order: any) => {
+                  const orderDate = order.ngay_mua.split(' ')[0].trim();
+                  return order.trang_thai === 'da_giao' && (orderDate >= firstDayOfWeekString && orderDate <= todayString)
+                })
+                .reduce((total: number, order: any) => total + parseFloat(order.tong_tien), 0);
               }
               if (orderDate >= firstDayOfMonthString && orderDate <= todayString) {
                 this.donHangThang += 1;
+                this.doanhThuThang = response.data
+                .filter((order: any) => {
+                  const orderDate = order.ngay_mua.split(' ')[0].trim();
+                  return order.trang_thai === 'da_giao' && (orderDate >= firstDayOfMonthString && orderDate <= todayString)
+                })
+                .reduce((total: number, order: any) => total + parseFloat(order.tong_tien), 0);
               }
           });
         } else {

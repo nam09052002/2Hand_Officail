@@ -19,11 +19,6 @@
         <p>{{ tongDonHang }}</p>
     </div>
 
-    <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">monetization_on</i>
-        <h3>Tổng Doanh Thu</h3>
-        <p>{{ tongDoanhThu | currency:'VND' }}</p>
-    </div>
 
     <!-- Thêm phần Tổng Lợi Nhuận -->
     <div class="overview-card">
@@ -50,5 +45,23 @@
         <i class="material-icons" aria-hidden="true">shopping_cart</i>
         <h3>Đơn Hàng Trong Tháng</h3>
         <p>{{ donHangThang }}</p>
+    </div>
+
+    <div class="overview-card">
+        <i class="material-icons" aria-hidden="true">monetization_on</i>
+        <h3>Doanh Thu Hôm Nay</h3>
+        <p>{{ doanhThuHomNay | currency:'VND' }}</p>
+    </div>
+
+    <div class="overview-card">
+        <i class="material-icons" aria-hidden="true">monetization_on</i>
+        <h3>Doanh Thu Tuần</h3>
+        <p>{{ doanhThuTuan | currency:'VND' }}</p>
+    </div>
+
+    <div class="overview-card">
+        <i class="material-icons" aria-hidden="true">monetization_on</i>
+        <h3>Doanh Thu Tháng</h3>
+        <p>{{ doanhThuThang | currency:'VND' }}</p>
     </div>
 </div>

@@ -109,6 +109,7 @@ export class CartModalComponent {
   onBuyNow() {
     // Lọc các sản phẩm được chọn
     // this.selectedItemsBuy = this.cartItems.filter(item => item.isSelected);
+    console.log("CHECK this.selectedItemsBuy", this.selectedItemsBuy)
 
     for (let item of this.selectedItemsBuy) {
       const id_nguoi_dung = this.user && !isNaN(Number(this.user.id_nguoi_dung))
@@ -141,10 +142,13 @@ export class CartModalComponent {
           if (response.status === 200 || response.status === 201) {
             alert(response.message);
             this.updateProduct(orderItem)
+            this.onRemoveItem(item )
             // window.location.reload();  // Tải lại trang
           } else {
             alert(response.message);
             this.updateProduct(orderItem)
+            this.onRemoveItem(item)
+
             // window.location.reload();
           }
         },
@@ -213,15 +217,17 @@ export class CartModalComponent {
 
 
   onRemoveItem(item: CartItem) {
+    console.log("CHECK 1", item)
     if (item.id_gio_hang !== undefined) {
       this.cartService.deleteCartItem(item.id_gio_hang).subscribe(
         response => {
           if (response.status === "success") {
-            alert(response.message)
+            // alert(response.message)
+            alert("Cập nhật giỏ hàng thành công")
             this.cartItems = this.cartItems.filter(cartItem => cartItem.id_gio_hang !== item.id_gio_hang);
             this.removeItem.emit(item);
           } else {
-            alert(response.message);
+            // alert(response.message);
           }
         },
         error => {

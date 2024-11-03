@@ -16,20 +16,22 @@ export class SalesStatisticsComponent {
   endDate: string | null = null;
   orders: any[] = []; // Store all orders
   filteredOrders: any[] = []; // Store filtered orders
-  statuses: string[] = ['tat_ca', 'cho_xu_ly', 'da_xac_nhan', 'da_giao', 'da_huy']; // Danh sách trạng thái
-  status: string[] = ['cho_xu_ly', 'da_xac_nhan', 'da_giao', 'da_huy'];
+  statuses: string[] = ['tat_ca', 'cho_xu_ly','dang_giao', 'da_xac_nhan', 'da_giao', 'da_huy']; // Danh sách trạng thái
+  status: string[] = ['cho_xu_ly','dang_giao', 'da_xac_nhan', 'da_giao'];
   statusDisplayNames: { [key: string]: string } = {
     tat_ca: 'Tất cả đơn hàng',
     cho_xu_ly: 'Chờ xử lý',
     da_xac_nhan: 'Đã xác nhận',
+    dang_giao: 'Đang vận chuyển',
     da_giao: 'Đã giao',
     da_huy: 'Đã hủy'
   };
   changeStatus: { [key: string]: string } = {
     cho_xu_ly: 'Chờ xử lý',
     da_xac_nhan: 'Đã xác nhận',
+    dang_giao: 'Đang vận chuyển',
     da_giao: 'Đã giao',
-    da_huy: 'Đã hủy'
+    // da_huy: 'Đã hủy'
   };
   message: string = '';
   isOrderDetailModalOpen = false;
@@ -100,7 +102,8 @@ export class SalesStatisticsComponent {
 
   applyFilters(): void {
     this.filteredOrders = this.orders.filter(order => {
-      const matchesSearchTerm = order.ho_va_ten.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchesSearchTerm = order.ho_va_ten.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      order.so_dien_thoai?.toString().includes(this.searchTerm);
       const matchesStatus = this.selectedStatus === 'tat_ca' || order.trang_thai === this.selectedStatus; // Thay đổi ở đây
       const matchesDate =
         (!this.startDate || order.ngay_mua >= this.startDate) &&
@@ -149,6 +152,11 @@ export class SalesStatisticsComponent {
     this.isOrderDetailModalOpen = false; // Đóng modal
     this.selectedOrder = null; // Reset thông tin đơn hàng
   }
+
+  printOrder() {
+    // Cách đơn giản để in chi tiết đơn hàng là mở cửa sổ in trình duyệt
+    window.print();
+}
 
 
 }

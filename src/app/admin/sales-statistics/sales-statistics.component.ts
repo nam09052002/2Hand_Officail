@@ -38,7 +38,7 @@ export class SalesStatisticsComponent {
   isOrderDetailModalOpen = false;
   selectedOrder: any;
   showOrder: any;
-  showAllOrder: any;
+  showAllOrder: any[] = [];
   tongSoDonHang: number = 0;
   soDonChoXuLy: number = 0;
   soDonDaXacNhan: number = 0;
@@ -53,6 +53,9 @@ export class SalesStatisticsComponent {
   ngOnInit(): void {
     this.loadOrders();
     this.loadAllOrrder();
+    this.selectedStatus = 'tat_ca';
+    this.applyFilters();
+
   }
 
   loadOrders() {
@@ -82,8 +85,9 @@ export class SalesStatisticsComponent {
 
           this.filteredOrders = this.orders.slice().sort((a, b) => {
             return b.id_don_hang - a.id_don_hang; // Sắp xếp theo thứ tự giảm dần
-        }
-      );
+          });
+          this.applyFilters();
+          this.calculateTotals();
         } else {
           this.resetCounts(); // Reset counts on error
         }
@@ -100,17 +104,17 @@ export class SalesStatisticsComponent {
         if (response.status === "success") {
           if (Array.isArray(response.data)) {
             this.showAllOrder = response.data; // Gán dữ liệu sản phẩm cho selectedOrder
-            console.log("CHECK this.selectedOrder", this.selectedOrder)
-        } else {
+            console.log("CHECK this.showAllOrder", this.showAllOrder);
+          } else {
             console.error("Dữ liệu sản phẩm không hợp lệ:", response.data);
+          }
+        } else {
+          console.error("Trạng thái không thành công:", response.message);
         }
-    } else {
-        console.error("Trạng thái không thành công:", response.message);
-    }
-},
-(error) => {
-    console.error("Lỗi khi gọi API:", error);
-}
+      },
+      (error) => {
+        console.error("Lỗi khi gọi API:", error);
+      }
     );
   }
 
@@ -142,11 +146,47 @@ export class SalesStatisticsComponent {
       const matchesStatus = this.selectedStatus === 'tat_ca' || order.trang_thai === this.selectedStatus;
       const matchesDate =
         (!this.startDate || order.ngay_mua >= this.startDate) &&
-        (!this.endDate || order.ngay_mua <= this.endDate+1);
+        (!this.endDate || order.ngay_mua <= this.endDate + 1);
 
       return matchesSearchTerm && matchesStatus && matchesDate;
-    }) // Sắp xếp theo id_don_hang giảm dần
+    });
+
+    this.calculateTotals();
   }
+
+  calculateTotals() {
+    this.tongSoDonHang = this.filteredOrders.length;
+    this.soDonChoXuLy = this.filteredOrders.filter(order => order.trang_thai === 'cho_xu_ly').length;
+    this.soDonDaXacNhan = this.filteredOrders.filter(order => order.trang_thai === 'da_xac_nhan').length;
+    this.soDonDangGiao = this.filteredOrders.filter(order => order.trang_thai === 'dang_giao').length;
+    this.soDonDaGiao = this.filteredOrders.filter(order => order.trang_thai === 'da_giao').length;
+    this.soDonDaHuy = this.filteredOrders.filter(order => order.trang_thai === 'da_huy').length;
+
+    this.tongDoanhThu = this.filteredOrders.reduce((total, order) => {
+        // Lọc các chi tiết đơn hàng từ showAllOrder
+        const chiTietAllOrder = this.showAllOrder.filter((i: any) => i.id_don_hang === order.id_don_hang);
+
+        console.log("CHECK chiTietAllOrder", chiTietAllOrder);
+
+        if (order.trang_thai === 'da_giao' || this.selectedStatus === 'tat_ca') {
+            const orderTotal = chiTietAllOrder.reduce((subTotal, chiTiet) => {
+                const chiTietTotal = parseFloat(chiTiet.tong_tien); // Giả sử chi tiết cũng có thuộc tính tong_tien
+                return subTotal + (isNaN(chiTietTotal) ? 0 : chiTietTotal);
+            }, 0);
+            console.log(orderTotal)
+
+            return total + orderTotal; // Cộng dồn vào tổng doanh thu
+        }
+
+        return total; // Nếu không phải "đã giao", trả về tổng hiện tại mà không thay đổi
+    }, 0);
+
+    // Tính tổng lợi nhuận
+    this.tongLoiNhuan = this.filteredOrders.reduce((total, order) => {
+        const orderProfit = parseFloat(order.loi_nhuan);
+        return total + (isNaN(orderProfit) ? 0 : orderProfit);
+    }, 0);
+}
 
   onSearchChange(): void {
     this.applyFilters();
@@ -161,30 +201,33 @@ export class SalesStatisticsComponent {
   }
 
   viewOrderDetails(order: any) {
-    console.log("CHECK zzz", order)
+    console.log("CHECK zzz", order);
     this.showOrder = this.showAllOrder.filter((orderItem: any) => orderItem.id_don_hang === order.id_don_hang);
-    console.log("CHECK showOrder" , this.showOrder)
+    console.log("CHECK showOrder", this.showOrder);
     this.selectedOrder = order; // Lưu thông tin đơn hàng đã chọn
     this.isOrderDetailModalOpen = true;
   }
+
   updateOrderStatus(order: any) {
     const payload = {
-        id_don_hang: order.id_don_hang,
-        trang_thai: order.trang_thai
+      id_don_hang: order.id_don_hang,
+      trang_thai: order.trang_thai
     };
 
     this.http.post('http://localhost/api/orders/update-order.php', payload)
-    .subscribe(
-      (response: any) => {
-        if (response.status === "success") {
-          alert(response.message)
+      .subscribe(
+        (response: any) => {
+          if (response.status === "success") {
+            alert(response.message);
+            this.loadOrders(); // Tải lại danh sách đơn hàng sau khi cập nhật trạng thái
+          }
+        },
+        (error) => {
+          console.error("Lỗi khi gọi API:", error);
         }
-
-      },
-      (error) => {
-        console.error("Lỗi khi gọi API:", error);
-      })
+      );
   }
+
   closeOrderDetailModal() {
     this.isOrderDetailModalOpen = false; // Đóng modal
     this.selectedOrder = null; // Reset thông tin đơn hàng
@@ -193,16 +236,22 @@ export class SalesStatisticsComponent {
   printOrder() {
     // Cách đơn giản để in chi tiết đơn hàng là mở cửa sổ in trình duyệt
     window.print();
-}
+  }
 
-// Trong component TypeScript
-getTotalAmount(): number {
-  return this.showOrder.reduce((total: number, product: any) => {
+  // Trong component TypeScript
+  getTotalAmount(): number {
+    return this.showOrder.reduce((total: number, product: any) => {
       const productTotal = parseFloat(product.tong_tien);
       return total + (isNaN(productTotal) ? 0 : productTotal);
-  }, 0);
-}
+    }, 0);
+  }
 
-
-
+  // Bổ sung phương thức cho tính năng mới nếu cần
+  resetFilters(): void {
+    this.searchTerm = '';
+    this.selectedStatus = 'tat_ca';
+    this.startDate = null;
+    this.endDate = null;
+    this.applyFilters();
+  }
 }

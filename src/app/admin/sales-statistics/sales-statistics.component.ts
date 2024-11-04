@@ -39,6 +39,14 @@ export class SalesStatisticsComponent {
   selectedOrder: any;
   showOrder: any;
   showAllOrder: any;
+  tongSoDonHang: number = 0;
+  soDonChoXuLy: number = 0;
+  soDonDaXacNhan: number = 0;
+  soDonDangGiao: number = 0;
+  soDonDaGiao: number = 0;
+  soDonDaHuy: number = 0;
+  tongDoanhThu: number = 0;
+  tongLoiNhuan: number = 0;
 
   constructor(private http: HttpClient) {}
 
@@ -74,7 +82,8 @@ export class SalesStatisticsComponent {
 
           this.filteredOrders = this.orders.slice().sort((a, b) => {
             return b.id_don_hang - a.id_don_hang; // Sắp xếp theo thứ tự giảm dần
-        });
+        }
+      );
         } else {
           this.resetCounts(); // Reset counts on error
         }
@@ -133,10 +142,10 @@ export class SalesStatisticsComponent {
       const matchesStatus = this.selectedStatus === 'tat_ca' || order.trang_thai === this.selectedStatus;
       const matchesDate =
         (!this.startDate || order.ngay_mua >= this.startDate) &&
-        (!this.endDate || order.ngay_mua <= this.endDate);
+        (!this.endDate || order.ngay_mua <= this.endDate+1);
 
       return matchesSearchTerm && matchesStatus && matchesDate;
-    }).sort((a, b) => b.id_don_hang - a.id_don_hang); // Sắp xếp theo id_don_hang giảm dần
+    }) // Sắp xếp theo id_don_hang giảm dần
   }
 
   onSearchChange(): void {

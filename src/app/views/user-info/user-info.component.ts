@@ -90,7 +90,7 @@ export class UserInfoComponent implements OnInit {
         }
       },
       (error) => {
-        alert('Có lỗi xảy ra khi lấy thông tin đơn hàng!');
+        // alert('Có lỗi xảy ra khi lấy thông tin đơn hàng!');
         console.error('API Error:', error);
       }
     );

@@ -55,7 +55,7 @@ export class SalesStatisticsComponent {
     this.loadOrders();
     this.loadAllOrrder();
     this.loadProducts();
-    this.selectedStatus = 'cho_xu_ly';
+    this.selectedStatus = 'tat_ca';
     this.applyFilters();
 
   }
@@ -181,30 +181,49 @@ export class SalesStatisticsComponent {
 
         console.log("CHECK chiTietAllOrder", chiTietAllOrder);
 
-        if (order.trang_thai === 'da_giao' || this.selectedStatus === 'tat_ca') {
-            const orderTotal = chiTietAllOrder.reduce((subTotal, chiTiet) => {
-                const chiTietTotal = parseFloat(chiTiet.tong_tien); // Giả sử chi tiết cũng có thuộc tính tong_tien
-                return subTotal + (isNaN(chiTietTotal) ? 0 : chiTietTotal);
-            }, 0);
-            console.log(orderTotal)
+        if (this.selectedStatus === 'da_giao' || this.selectedStatus === 'tat_ca') {
 
-            return total + orderTotal; // Cộng dồn vào tổng doanh thu
+          if(order.trang_thai === 'da_giao') {
+            const orderTotal = chiTietAllOrder.reduce((subTotal, chiTiet) => {
+              const chiTietTotal = parseFloat(chiTiet.tong_tien); // Giả sử chi tiết cũng có thuộc tính tong_tien
+              return subTotal + (isNaN(chiTietTotal) ? 0 : chiTietTotal);
+          }, 0);
+          console.log(orderTotal)
+
+          return total + orderTotal;
+          }
         }
+
+
+
+        // if (order.trang_thai === 'da_giao' || this.selectedStatus === 'tat_ca') {
+        //     const orderTotal = chiTietAllOrder.reduce((subTotal, chiTiet) => {
+        //         const chiTietTotal = parseFloat(chiTiet.tong_tien); // Giả sử chi tiết cũng có thuộc tính tong_tien
+        //         return subTotal + (isNaN(chiTietTotal) ? 0 : chiTietTotal);
+        //     }, 0);
+        //     console.log(orderTotal)
+
+        //     return total + orderTotal; // Cộng dồn vào tổng doanh thu
+        // }
 
         return total; // Nếu không phải "đã giao", trả về tổng hiện tại mà không thay đổi
     }, 0);
     this.tongLoiNhuan = 0;
     this.filteredOrders.forEach((order) => {
-      const chiTietAllOrder = this.showAllOrder.filter((i: any) => i.id_don_hang === order.id_don_hang);
+      if (order.trang_thai === 'da_giao') {
+        const chiTietAllOrder = this.showAllOrder.filter((i: any) => i.id_don_hang === order.id_don_hang);
 
-      chiTietAllOrder.forEach((chiTiet: any) => {
-          const product = this.products.find((item: any) => item.ten_san_pham === chiTiet.ten_san_pham);
+        chiTietAllOrder.forEach((chiTiet: any) => {
+            const product = this.products.find((item: any) => item.ten_san_pham === chiTiet.ten_san_pham);
 
-          if (product && product.gia_nhap !== undefined) {
-              const loiNhuan = (chiTiet.tong_tien - product.gia_nhap) * chiTiet.so_luong;
-              this.tongLoiNhuan += loiNhuan;
-          }
-      });
+            if (product && product.gia_nhap !== undefined) {
+                const loiNhuan = (chiTiet.tong_tien - product.gia_nhap) * chiTiet.so_luong;
+                this.tongLoiNhuan += loiNhuan;
+            }
+        });
+      }
+
+
   });
 }
 

@@ -47,13 +47,15 @@ export class SalesStatisticsComponent {
   soDonDaHuy: number = 0;
   tongDoanhThu: number = 0;
   tongLoiNhuan: number = 0;
+  products: Product[] = [];
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadOrders();
     this.loadAllOrrder();
-    this.selectedStatus = 'tat_ca';
+    this.loadProducts();
+    this.selectedStatus = 'cho_xu_ly';
     this.applyFilters();
 
   }
@@ -114,6 +116,17 @@ export class SalesStatisticsComponent {
       },
       (error) => {
         console.error("Lỗi khi gọi API:", error);
+      }
+    );
+  }
+  loadProducts() {
+    this.http.get('http://localhost/api/management-products/get-products.php').subscribe(
+      (response: any) => {
+          this.products = response.products;
+
+      },
+      (error) => {
+        //
       }
     );
   }
@@ -180,12 +193,19 @@ export class SalesStatisticsComponent {
 
         return total; // Nếu không phải "đã giao", trả về tổng hiện tại mà không thay đổi
     }, 0);
+    this.tongLoiNhuan = 0;
+    this.filteredOrders.forEach((order) => {
+      const chiTietAllOrder = this.showAllOrder.filter((i: any) => i.id_don_hang === order.id_don_hang);
 
-    // Tính tổng lợi nhuận
-    this.tongLoiNhuan = this.filteredOrders.reduce((total, order) => {
-        const orderProfit = parseFloat(order.loi_nhuan);
-        return total + (isNaN(orderProfit) ? 0 : orderProfit);
-    }, 0);
+      chiTietAllOrder.forEach((chiTiet: any) => {
+          const product = this.products.find((item: any) => item.ten_san_pham === chiTiet.ten_san_pham);
+
+          if (product && product.gia_nhap !== undefined) {
+              const loiNhuan = (chiTiet.tong_tien - product.gia_nhap) * chiTiet.so_luong;
+              this.tongLoiNhuan += loiNhuan;
+          }
+      });
+  });
 }
 
   onSearchChange(): void {

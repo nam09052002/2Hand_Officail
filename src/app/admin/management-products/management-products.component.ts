@@ -100,6 +100,7 @@ export class ManagementProductsComponent implements OnInit {
 
   viewProduct(product: Product) {
     this.selectedProduct = { ...product };
+    console.log("this.selectedProduct", this.selectedProduct)
     this.isViewModalOpen = true; // Mở modal
   }
 

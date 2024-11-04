@@ -1,24 +1,4 @@
 <div class="statistics-container">
-    <h2>Thống Kê</h2>
-
-    <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">shopping_cart</i>
-        <h3>Đơn Hàng Hôm Nay:</h3>
-        <p>{{ donHangHomNay }}</p>
-    </div>
-
-    <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">shopping_cart</i>
-        <h3>Đơn Hàng Trong Tuần:</h3>
-        <p>{{ donHangTuan }}</p>
-    </div>
-
-    <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">shopping_cart</i>
-        <h3>Đơn Hàng Trong Tháng:</h3>
-        <p>{{ donHangThang }}</p>
-    </div>
-
     <h2>Chi Tiết Đơn Hàng</h2>
 
     <div class="filters">
@@ -31,6 +11,56 @@
 
         <input type="date" [(ngModel)]="startDate" (change)="onDateChange()">
         <input type="date" [(ngModel)]="endDate" (change)="onDateChange()">
+    </div>
+
+    <div class="overview-cards">
+        <div class="overview-card">
+            <i class="material-icons" aria-hidden="true">shopping_cart</i>
+            <h3>Số Đơn Hàng:</h3>
+            <p>{{ tongSoDonHang }}</p>
+        </div>
+
+        <div class="overview-card">
+            <i class="material-icons" aria-hidden="true">shopping_cart</i>
+            <h3>Chờ xử lý:</h3>
+            <p>{{ soDonChoXuLy }}</p>
+        </div>
+
+        <div class="overview-card">
+            <i class="material-icons" aria-hidden="true">shopping_cart</i>
+            <h3>Đã xác nhận:</h3>
+            <p>{{ soDonDaXacNhan }}</p>
+        </div>
+
+        <div class="overview-card">
+            <i class="material-icons" aria-hidden="true">shopping_cart</i>
+            <h3>Đang vận chuyển:</h3>
+            <p>{{ soDonDangGiao }}</p>
+        </div>
+
+        <div class="overview-card">
+            <i class="material-icons" aria-hidden="true">shopping_cart</i>
+            <h3>Đã giao thành công:</h3>
+            <p>{{ soDonDaGiao }}</p>
+        </div>
+
+        <div class="overview-card">
+            <i class="material-icons" aria-hidden="true">shopping_cart</i>
+            <h3>Đã hủy:</h3>
+            <p>{{ soDonDaHuy }}</p>
+        </div>
+
+        <div class="overview-card">
+            <i class="material-icons" aria-hidden="true">account_balance_wallet</i>
+            <h3>Tổng Doanh Thu</h3>
+            <p>{{ tongDoanhThu | currency:'VND' }}</p>
+        </div>
+
+        <div class="overview-card">
+            <i class="material-icons" aria-hidden="true">account_balance_wallet</i>
+            <h3>Tổng Lợi Nhuận</h3>
+            <p>{{ tongLoiNhuan | currency:'VND' }}</p>
+        </div>
     </div>
 
     <table>

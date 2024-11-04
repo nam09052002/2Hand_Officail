@@ -23,8 +23,10 @@
     width: 80%;
     max-width: 80vw;
     text-align: left;
+    max-height: 80vh;
     /* Thay đổi căn chỉnh về bên trái cho phần thông tin giao hàng */
     position: relative;
+    overflow-y: auto
 }
 
 

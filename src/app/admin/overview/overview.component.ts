@@ -147,41 +147,36 @@ export class OverviewComponent implements OnInit {
             }
 
               // Tính doanh thu tuần
-            if (orderDate >= firstDayOfWeekString && orderDate <= todayString) {
-              this.donHangTuan += 1;
+              if (orderDate >= firstDayOfWeekString && orderDate <= todayString) {
+                this.donHangTuan += 1;
 
-              // Lấy chi tiết đơn hàng và tính doanh thu cho tuần
-              const chiTietDonHangTuan = this.chiTietOrder.filter((chiTiet: any) => {
-                  return response.data.some((order: any) =>
-                      order.id_don_hang === chiTiet.id_don_hang &&
-                      order.trang_thai === 'da_giao' &&
-                      order.ngay_mua.split(' ')[0].trim() >= firstDayOfWeekString &&
-                      order.ngay_mua.split(' ')[0].trim() <= todayString
-                  );
-              });
+                if (order.trang_thai === 'da_giao') {
+                  // Lấy chi tiết đơn hàng tương ứng
+                  const chiTietAllOrder = this.chiTietOrder.filter((i: any) => i.id_don_hang === order.id_don_hang);
 
-              this.doanhThuTuan += chiTietDonHangTuan.reduce((total: number, chiTiet: any) => {
-                  return total + (parseFloat(chiTiet.tong_tien) || 0); // Cộng dồn vào doanh thu tuần
-              }, 0);
+                  // Tính tổng tiền từ chi tiết đơn hàng
+                  chiTietAllOrder.forEach((chiTiet: any) => {
+                      this.doanhThuTuan += parseFloat(chiTiet.tong_tien) || 0; // Cộng dồn vào doanh thu hôm nay
+                  });
+              }
             }
+
+
 
             // Tính doanh thu tháng
             if (orderDate >= firstDayOfMonthString && orderDate <= todayString) {
               this.donHangThang += 1;
 
               // Lấy chi tiết đơn hàng và tính doanh thu cho tháng
-              const chiTietDonHangThang = this.chiTietOrder.filter((chiTiet: any) => {
-                  return response.data.some((order: any) =>
-                      order.id_don_hang === chiTiet.id_don_hang &&
-                      order.trang_thai === 'da_giao' &&
-                      order.ngay_mua.split(' ')[0].trim() >= firstDayOfMonthString &&
-                      order.ngay_mua.split(' ')[0].trim() <= todayString
-                  );
-              });
+              if (order.trang_thai === 'da_giao') {
+                // Lấy chi tiết đơn hàng tương ứng
+                const chiTietAllOrder = this.chiTietOrder.filter((i: any) => i.id_don_hang === order.id_don_hang);
 
-              this.doanhThuThang += chiTietDonHangThang.reduce((total: number, chiTiet: any) => {
-                  return total + (parseFloat(chiTiet.tong_tien) || 0); // Cộng dồn vào doanh thu tháng
-              }, 0);
+                // Tính tổng tiền từ chi tiết đơn hàng
+                chiTietAllOrder.forEach((chiTiet: any) => {
+                    this.doanhThuThang += parseFloat(chiTiet.tong_tien) || 0; // Cộng dồn vào doanh thu hôm nay
+                });
+            }
             }
           });
         } else {

@@ -136,7 +136,7 @@
                                     {{ selectedOrderDetails.ngay_mua | date: 'dd/MM/yyyy' }}
                                 </td>
                                 <td *ngIf="i === 0" [attr.rowspan]="selectedOrderDetails.products.length">
-                                    {{ selectedOrderDetails.trang_thai === 'cho_xu_ly' ? 'Chờ xử lý' : selectedOrderDetails.trang_thai === 'da_xac_nhan' ? 'Đã xác nhận' : selectedOrderDetails.trang_thai === 'dang-giao' ? 'Đang vận chuyển' : selectedOrderDetails.trang_thai === 'da_giao'
+                                    {{ selectedOrderDetails.trang_thai === 'cho_xu_ly' ? 'Chờ xử lý' : selectedOrderDetails.trang_thai === 'da_xac_nhan' ? 'Đã xác nhận' : selectedOrderDetails.trang_thai === 'dang_giao' ? 'Đang vận chuyển' : selectedOrderDetails.trang_thai === 'da_giao'
                                     ? 'Đã giao' : selectedOrderDetails.trang_thai === 'da_huy' ? 'Đã hủy' : product.trang_thai }} </td>
                             </tr>
                         </ng-container>

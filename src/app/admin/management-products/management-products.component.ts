@@ -26,6 +26,7 @@ export class ManagementProductsComponent implements OnInit {
   isViewModalOpen: boolean = false; // Trạng thái modal xem sản phẩm
   selectedProduct: Product = {} as Product; // Sản phẩm được chọn để xem
   formattedPrice: string = ''; // Giá đã định dạng
+  sortDirection: { [key: string]: 'asc' | 'desc' | null } = {};
 
 
   constructor(
@@ -61,7 +62,11 @@ export class ManagementProductsComponent implements OnInit {
 
   filterProducts() {
     this.filteredProducts = this.products.filter(product =>
-      product?.ten_san_pham?.toLowerCase().includes(this.searchTerm.toLowerCase())
+      product?.ten_san_pham?.toLowerCase().includes(this.searchTerm.toLowerCase().trim()) ||
+      product?.ten_danh_muc?.toLowerCase().includes(this.searchTerm.toLowerCase().trim()) ||
+      product?.ten_nhan_hieu?.toLowerCase().includes(this.searchTerm.toLowerCase().trim()) ||
+      product?.ten_nha_cung_cap?.toLowerCase().includes(this.searchTerm.toLowerCase().trim())
+      // || product?.gia_ban?.toString().includes(this.searchTerm)
     );
   }
 

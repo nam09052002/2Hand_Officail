@@ -155,7 +155,9 @@ export class SalesStatisticsComponent {
   applyFilters(): void {
     this.filteredOrders = this.orders.filter(order => {
       const matchesSearchTerm = order.ho_va_ten.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        order.so_dien_thoai?.toString().includes(this.searchTerm);
+        order.so_dien_thoai?.toString().includes(this.searchTerm) ||
+        order.id_don_hang?.toString().includes(this.searchTerm)
+        ;
       const matchesStatus = this.selectedStatus === 'tat_ca' || order.trang_thai === this.selectedStatus;
       const matchesDate =
         (!this.startDate || order.ngay_mua >= this.startDate) &&

@@ -84,6 +84,8 @@ export class UserInfoComponent implements OnInit {
               }))
             };
           });
+          this.orderHistory.sort((a, b) => b.id_don_hang - a.id_don_hang)
+
           console.log("CHECK this.orderHistory", this.orderHistory)
         } else {
           alert('Lỗi khi lấy thông tin đơn hàng hoặc chi tiết đơn hàng.');

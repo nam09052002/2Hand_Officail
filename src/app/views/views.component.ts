@@ -36,6 +36,7 @@ export class ViewsComponent implements OnInit {
   isGirlProduct = true;
   isAdmin = false;
   isVoucherModalVisible = false;
+  isChatModalOpen = false;
 
   constructor(
     private productService: ProductService,
@@ -431,4 +432,8 @@ export class ViewsComponent implements OnInit {
     this.cartCount = 0;
     this.user = null;
   }
+
+  openMessengerChat(): void {
+    window.open('https://m.me/465523839984428', '_blank');
+}
 }

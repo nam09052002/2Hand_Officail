@@ -15,6 +15,10 @@
     text-align: center;
 }
 
+.overview-card:hover {
+    cursor: pointer;
+}
+
 .overview-card i {
     font-size: 48px;
     /* Kích thước biểu tượng */

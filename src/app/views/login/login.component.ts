@@ -22,13 +22,18 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   onLoginSubmit() {
-    const formData = new FormData();
-    formData.append('ten_dang_nhap', this.ten_dang_nhap);
-    formData.append('mat_khau', this.mat_khau);
+    const apiUrl = 'http://localhost:3000/api/users/login';
 
-    fetch('http://localhost/api/users/user-login.php', {
+    // Dữ liệu gửi đến backend
+    const loginData = {
+        ten_dang_nhap: this.ten_dang_nhap,
+        mat_khau: this.mat_khau,
+    };
+
+    fetch(apiUrl, {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginData),
     })
     .then(response => {
         if (!response.ok) {
@@ -80,36 +85,39 @@ export class LoginComponent {
       this.errorMessage = 'Số điện thoại không hợp lệ!'
       return
     }
+    const formData = {
+      email: this.email,
+      ten_dang_nhap: this.ten_dang_nhap,
+      mat_khau: this.mat_khau,
+      ho_va_ten: this.ho_va_ten,
+      so_dien_thoai: this.so_dien_thoai,
+      dia_chi: this.dia_chi,
+    };
 
-    const formData = new FormData();
-    formData.append('email', this.email);
-    formData.append('ten_dang_nhap', this.ten_dang_nhap);
-    formData.append('mat_khau', this.mat_khau);
-    formData.append('ho_va_ten', this.ho_va_ten);
-    formData.append('so_dien_thoai', this.so_dien_thoai);
-    formData.append('dia_chi', this.dia_chi);
-
-    fetch('http://localhost/api/users/user-register.php', {
+    fetch('http://localhost:3000/api/users/register', {
       method: 'POST',
-      body: formData
+      headers: {
+        'Content-Type': 'application/json', // Đảm bảo đúng kiểu dữ liệu
+      },
+      body: JSON.stringify(formData),
     })
     .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
+      .then(data => {
+        if (data.status === 'success') {
         // Đăng ký thành công
         alert(data.message)
         // Điều hướng đến trang đăng nhập hoặc trang chủ sau khi đăng ký
         this.router.navigate(['/login']);
         this.toggleLogin();
-      } else {
+        } else {
         // Đăng ký thất bại
         this.errorMessage = data.message;
-      }
-    })
+        }
+      })
     .catch(error => {
-      console.error('Error:', error);
-      this.errorMessage = 'Có lỗi xảy ra. Vui lòng thử lại!';
-    });
+        console.error('Error:', error);
+        this.errorMessage = 'Có lỗi xảy ra. Vui lòng thử lại!';
+      });
   }
 
 

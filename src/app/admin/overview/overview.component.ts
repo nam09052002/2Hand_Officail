@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product.model';
+import { ManagementUsersComponent } from '../management-users/management-users.component';
+import { ManagementProductsComponent } from '../management-products/management-products.component';
+import { SalesStatisticsComponent } from '../sales-statistics/sales-statistics.component';
 
 @Component({
   selector: 'app-overview',
@@ -21,6 +24,7 @@ export class OverviewComponent implements OnInit {
   doanhThuTuan: number = 0;
   doanhThuThang: number = 0
   chiTietOrder: any[] = [];
+  currentComponent: any = null;
 
   constructor(private http: HttpClient) {}
 
@@ -194,6 +198,20 @@ export class OverviewComponent implements OnInit {
       }
     );
 
+
+  }
+
+  showManagementUsers() {
+    console.log("CHECK")
+    this.currentComponent = ManagementUsersComponent;
+  }
+
+  showManagementProducts() {
+    this.currentComponent = ManagementProductsComponent;
+  }
+
+  showSalesStatistics() {
+    this.currentComponent = SalesStatisticsComponent;
 
   }
 

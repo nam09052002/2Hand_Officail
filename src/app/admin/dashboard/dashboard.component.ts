@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit{
 
   // Phương thức để hiển thị quản lý người dùng
   showManagementUsers() {
-    this.currentComponent = ManagementUsersComponent; // Gán component quản lý người dùng
+    this.currentComponent = ManagementUsersComponent;
   }
 
   showManagementProducts() {

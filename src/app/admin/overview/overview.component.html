@@ -1,19 +1,19 @@
 <div class="overview-container">
     <h2>Tổng Quan</h2>
 
-    <div class="overview-card">
+    <div class="overview-card" (click)="showManagementProducts()">
         <i class="material-icons" aria-hidden="true">inventory</i>
         <h3>Tổng Sản Phẩm</h3>
         <p>{{ tongSanPham }}</p>
     </div>
 
-    <div class="overview-card">
+    <div class="overview-card" (click)="showManagementUsers()">
         <i class="material-icons" aria-hidden="true">people</i>
         <h3>Tổng Thành Viên</h3>
         <p>{{ tongThanhVien }} </p>
     </div>
 
-    <div class="overview-card">
+    <div class="overview-card" (click)="showSalesStatistics()">
         <i class="material-icons" aria-hidden="true">shopping_cart</i>
         <h3>Tổng Đơn Hàng</h3>
         <p>{{ tongDonHang }}</p>
@@ -64,4 +64,10 @@
         <h3>Doanh Thu Tháng</h3>
         <p>{{ doanhThuThang | currency:'VND' }}</p>
     </div>
+
+
+</div>
+
+<div class="content">
+    <ng-container *ngComponentOutlet="currentComponent"></ng-container>
 </div>

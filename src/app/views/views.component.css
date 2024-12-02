@@ -224,6 +224,7 @@ body {
 .product-image {
     width: 100%;
     min-height: 17vw;
+    max-height: 17vw;
 }
 
 .product-name {

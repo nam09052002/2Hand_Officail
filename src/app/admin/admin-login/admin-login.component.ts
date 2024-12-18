@@ -23,14 +23,19 @@ export class AdminLoginComponent implements OnInit {
     ngOnInit(): void {}
 
     onSubmit() {
-      const formData = new FormData();
-      formData.append('ten_dang_nhap', this.ten_dang_nhap);
-      formData.append('mat_khau', this.mat_khau);
+      const apiUrl = 'http://localhost:3000/api/users/login';
 
-      fetch('http://localhost/api/users/user-login.php', {
-          method: 'POST',
-          body: formData,
-      })
+    // Dữ liệu gửi đến backend
+    const loginData = {
+        ten_dang_nhap: this.ten_dang_nhap,
+        mat_khau: this.mat_khau,
+    };
+
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginData),
+    })
       .then(response => {
           if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);

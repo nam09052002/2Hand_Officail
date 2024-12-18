@@ -41,10 +41,10 @@ export class ManagementProductsComponent implements OnInit {
 
   fetchProducts() {
     this.productService.getProducts().subscribe(
-      (data: ApiProductResponse) => {
-        if (data && data.products) {
-          const baseUrl = 'http://localhost/api/'; // Địa chỉ cơ sở
-          this.products = data.products.map(product => ({
+      (response: any) => {
+        if (response.status === "success") {
+          const baseUrl = 'http://localhost:3000/api'; // Địa chỉ cơ sở
+          this.products = response.data.map((product:any) => ({
             ...product,
             anh_san_pham: `${baseUrl}${product.anh_san_pham}` // Thêm đường dẫn cơ sở
           }));
@@ -58,6 +58,8 @@ export class ManagementProductsComponent implements OnInit {
         console.error("Có lỗi xảy ra khi lấy dữ liệu:", error);
       }
     );
+
+
   }
 
   filterProducts() {
@@ -129,7 +131,7 @@ export class ManagementProductsComponent implements OnInit {
 
 
     console.log('Sending update with params:', params);
-    this.http.post('http://localhost/api/management-products/update-product1.php', params)
+    this.http.post('http://localhost:3000/api/management-products/update-product1', params)
     .subscribe(
       (response: any) => {
         if (response.status === 'success') {
@@ -146,6 +148,27 @@ export class ManagementProductsComponent implements OnInit {
       }
     );
   }
+  sortTable(column: string, order: 'asc' | 'desc') {
+    const sorted = [...this.filteredProducts].sort((a, b) => {
+      let valA = (a as any)[column];
+      let valB = (b as any)[column];
+
+
+        if (typeof valA === 'string') {
+            valA = valA.toLowerCase();
+            valB = valB.toLowerCase();
+        }
+
+        if (order === 'asc') {
+            return valA > valB ? 1 : valA < valB ? -1 : 0;
+        } else {
+            return valA < valB ? 1 : valA > valB ? -1 : 0;
+        }
+    });
+
+    this.filteredProducts = sorted;
+}
+
 
 
 }

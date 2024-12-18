@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
-  private apiUrl = 'http://localhost/api/carts/get-cart.php'; // Thay đổi URL nếu cần
+  private apiUrl = 'http://localhost:3000/api/carts/get-cart'; // Thay đổi URL nếu cần
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +15,7 @@ export class CartService {
   }
 
   deleteCartItem(id_gio_hang: number): Observable<any> {
-    return this.http.delete(`http://localhost/api/carts/delete-cart.php`, {
+    return this.http.delete(`http://localhost:3000/api/carts/delete-cart`, {
       body: { id_gio_hang: id_gio_hang }
     });
   }

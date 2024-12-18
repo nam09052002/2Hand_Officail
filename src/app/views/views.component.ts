@@ -61,7 +61,7 @@ export class ViewsComponent implements OnInit {
     this.girlFashion();
   }
   getCatalog(){
-    this.http.get('http://localhost/api/product-catalog/get-catalog.php').subscribe(
+    this.http.get('http://localhost:3000/api/product-catalog/get-catalog').subscribe(
         (response: any) => {
             if (response.status === 'success') {
               const categories = response.data;
@@ -79,51 +79,55 @@ export class ViewsComponent implements OnInit {
     this.isMenProduct = true;
     this.isGirlProduct = true;
     this.productService.getProducts().subscribe(
-      (data: ApiProductResponse) => {
-        // console.log("CHECK DATA", data);
+      (response: any) => {
+        if (response.status === "success") {
+          console.log("CHECK DATA", response.data);
+          const baseUrl = 'http://localhost:3000/api'; // Địa chỉ cơ sở
+          this.products = response.data
+            .filter((product:any) => (product.ton_kho ?? 0) > 0)  // Kiểm tra tồn kho
+            .map((product: any) => ({
+              ...product,
+              anh_san_pham: `${baseUrl}${product.anh_san_pham}`,
+              mau_sac: Array.isArray(product.mau_sac)
+                ? product.mau_sac.map((color: any) => color.charAt(0).toUpperCase() + color.slice(1).toLowerCase())
+                : typeof product.mau_sac === 'string'
+                  ? product.mau_sac.split(',').map((color: any) => {
+                      const trimmedColor = color.trim();
+                      return trimmedColor.charAt(0).toUpperCase() + trimmedColor.slice(1).toLowerCase();
+                    })
+                  : [],
+              kich_thuoc: Array.isArray(product.kich_thuoc)
+                ? product.kich_thuoc.map((kich_thuoc: any) => kich_thuoc.charAt(0).toUpperCase() + kich_thuoc.slice(1).toLowerCase())
+                : typeof product.kich_thuoc === 'string'
+                  ? product.kich_thuoc.split(',').map((kich_thuoc:any ) => {
+                      const trimmedSize = kich_thuoc.trim();
+                      return trimmedSize.charAt(0).toUpperCase() + trimmedSize.slice(1).toLowerCase();
+                    })
+                  : []
+            }))
+            .sort((a: any, b: any) => (b.da_ban ?? 0) - (a.da_ban ?? 0));
 
-        if (data && data.products) {
-          const baseUrl = 'http://localhost/api/'; // Địa chỉ cơ sở
-          this.products = data.products
-          .filter(product => (product.ton_kho ?? 0) > 0)
-          .map(product => ({
-            ...product,
-            anh_san_pham: `${baseUrl}${product.anh_san_pham}`,
-            mau_sac: Array.isArray(product.mau_sac) // Kiểm tra xem mau_sac có phải là mảng không
-            ? product.mau_sac.map(color => color.charAt(0).toUpperCase() + color.slice(1).toLowerCase()) // Chuyển đổi đầu hoa
-            : typeof product.mau_sac === 'string' // Nếu mau_sac là chuỗi
-              ? product.mau_sac.split(',').map(color => {
-                  const trimmedColor = color.trim();
-                  return trimmedColor.charAt(0).toUpperCase() + trimmedColor.slice(1).toLowerCase(); // Chuyển đổi đầu hoa
-                })
-              : [], // Trả về mảng rỗng nếu mau_sac không phải chuỗi hoặc mảng
-
-              kich_thuoc: Array.isArray(product.kich_thuoc) // Kiểm tra xem mau_sac có phải là mảng không
-            ? product.kich_thuoc.map(kich_thuoc => kich_thuoc.charAt(0).toUpperCase() + kich_thuoc.slice(1).toLowerCase()) // Chuyển đổi đầu hoa
-            : typeof product.kich_thuoc === 'string' // Nếu mau_sac là chuỗi
-              ? product.kich_thuoc.split(',').map(kich_thuoc => {
-                  const trimmedColor = kich_thuoc.trim();
-                  return trimmedColor.charAt(0).toUpperCase() + trimmedColor.slice(1).toLowerCase(); // Chuyển đổi đầu hoa
-                })
-              : [] // Trả về mảng rỗng nếu mau_sac không phải chuỗi hoặc mảng
-        }))
-          .sort((a, b) => (b.da_ban ?? 0) - (a.da_ban ?? 0));
-        this.filteredProducts = [...this.products];
-        console.log("CHECK this.filteredProducts", this.filteredProducts)
+          if (this.products.length > 0) {
+            this.filteredProducts = [...this.products];
+            console.log("CHECK this.filteredProducts", this.filteredProducts);
+          } else {
+            console.error("Không có sản phẩm nào có tồn kho");
+            this.products = [];
+          }
         } else {
-          console.error("Không có sản phẩm nào được tìm thấy");
-          this.products = []; // Đặt sản phẩm thành mảng rỗng nếu không có
+          console.error("Không có sản phẩm nào được tìm thấy hoặc dữ liệu không hợp lệ");
+          this.products = [];
         }
       },
-      error => {
-        console.error("Có lỗi xảy ra khi lấy dữ liệu:", error);
+      (error) => {
+      //
       }
     );
   }
   loadCart(id_nguoi_dung: number): void {
     this.cartService.getCart(id_nguoi_dung).subscribe(
       (response) => {
-        if (response.success === true) {
+        if (response.status === "success") {
           this.cartItems = response.data || [];
           this.cartCount = this.cartItems.length;
         } else {
@@ -163,7 +167,7 @@ export class ViewsComponent implements OnInit {
       this.router.navigate(['/login']);
       return
     }
-    const apiUrl = 'http://localhost/api/carts/add-cart.php';
+    const apiUrl = 'http://localhost:3000/api/carts/add-cart';
     this.http.post(apiUrl, cartItem).subscribe(
       (response: any) => {
         // Kiểm tra mã trạng thái phản hồi
@@ -224,7 +228,7 @@ export class ViewsComponent implements OnInit {
       this.router.navigate(['/login']);
       return
     }
-    const apiUrl = 'http://localhost/api/orders/add-order.php';
+    const apiUrl = 'http://localhost:3000/api/orders/add-order';
     this.http.post(apiUrl, oderItem).subscribe(
       (response: any) => {
         // Kiểm tra mã trạng thái phản hồi
@@ -277,7 +281,7 @@ export class ViewsComponent implements OnInit {
             ton_kho: (updateProduct.ton_kho ?? 0) - 1
         };
 
-        const response: any = await this.http.post('http://localhost/api/management-products/update-product.php', params).toPromise();
+        const response: any = await this.http.post('http://localhost:3000/api/management-products/update-product', params).toPromise();
 
         if (response.status === "success") {
             //
@@ -291,15 +295,15 @@ export class ViewsComponent implements OnInit {
 
   menFashion(){
     this.productService.getProducts().subscribe(
-      (data: ApiProductResponse) => {
-        if (data && data.products) {
-          const baseUrl = 'http://localhost/api/';
-          this.products = data.products.map(product => ({
+      (response: any) => {
+        if (response.status === "success") {
+          const baseUrl = 'http://localhost:3000/api';
+          this.products = response.data.map((product :any) => ({
             ...product,
             anh_san_pham: `${baseUrl}${product.anh_san_pham}`
           }));
           // Lọc sản phẩm có giới tính 'Nam' sau khi đã lấy dữ liệu thành công
-          this.menProducts = this.products.filter(product => product.ten_gioi_tinh === 'Nam');
+          this.menProducts = this.products.filter(product => product.ten_gioi_tinh === "1");
         } else {
           console.error("Không có sản phẩm nào được tìm thấy");
           this.products = [];
@@ -312,15 +316,15 @@ export class ViewsComponent implements OnInit {
   }
   girlFashion() {
     this.productService.getProducts().subscribe(
-      (data: ApiProductResponse) => {
-        if (data && data.products) {
-          const baseUrl = 'http://localhost/api/';
-          this.products = data.products.map(product => ({
+      (response: any) => {
+        if (response.status === "success") {
+          const baseUrl = 'http://localhost:3000/api';
+          this.products = response.data.map((product: any) => ({
             ...product,
             anh_san_pham: `${baseUrl}${product.anh_san_pham}`
           }));
           // Lọc sản phẩm có giới tính 'Nam' sau khi đã lấy dữ liệu thành công
-          this.girlProducts = this.products.filter(product => product.ten_gioi_tinh === 'Nữ');
+          this.girlProducts = this.products.filter(product => product.ten_gioi_tinh === '2');
         } else {
           console.error("Không có sản phẩm nào được tìm thấy");
           this.products = [];
@@ -336,10 +340,10 @@ export class ViewsComponent implements OnInit {
     this.isGirlProduct = false;
     console.log("CHEKC ", category);
     this.productService.getProducts().subscribe(
-      (data: ApiProductResponse) => {
-        if (data && data.products) {
-          const baseUrl = 'http://localhost/api/';
-          this.products = data.products.map(product => ({
+      (response: any) => {
+        if (response.status === "success") {
+          const baseUrl = 'http://localhost:3000/api';
+          this.products = response.data.map((product: any) => ({
             ...product,
             anh_san_pham: `${baseUrl}${product.anh_san_pham}`
           }));
@@ -350,7 +354,7 @@ export class ViewsComponent implements OnInit {
           // Thử lọc dựa trên danh mục và giới tính
           this.filteredProducts = this.products.filter(product =>
             product.ten_danh_muc?.trim().toLowerCase() === category.trim().toLowerCase() &&
-            product.ten_gioi_tinh === 'Nam'
+            product.ten_gioi_tinh === "1"
         );
           console.log("Sản phẩm sau khi lọc:", this.filteredProducts);
 
@@ -372,10 +376,10 @@ export class ViewsComponent implements OnInit {
     this.isMenProduct = false;
     this.isGirlProduct = false;
     this.productService.getProducts().subscribe(
-      (data: ApiProductResponse) => {
-        if (data && data.products) {
-          const baseUrl = 'http://localhost/api/';
-          this.products = data.products.map(product => ({
+      (response: any) => {
+        if (response.status === "success") {
+          const baseUrl = 'http://localhost:3000/api';
+          this.products = response.data.map((product: any) => ({
             ...product,
             anh_san_pham: `${baseUrl}${product.anh_san_pham}`
           }));
@@ -386,7 +390,7 @@ export class ViewsComponent implements OnInit {
           // Thử lọc dựa trên danh mục và giới tính
           this.filteredProducts = this.products.filter(product =>
             product.ten_danh_muc?.trim().toLowerCase() === category.trim().toLowerCase() &&
-            product.ten_gioi_tinh === 'Nữ'
+            product.ten_gioi_tinh === "2"
         );
           console.log("Sản phẩm sau khi lọc:", this.filteredProducts);
 

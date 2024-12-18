@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product.model';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-sales-statistics',
   templateUrl: './sales-statistics.component.html',
   styleUrls: ['./sales-statistics.component.css']
 })
-export class SalesStatisticsComponent {
+export class SalesStatisticsComponent implements OnInit, AfterViewInit {
   donHangHomNay: number = 0;
   donHangTuan: number = 0;
   donHangThang: number = 0;
@@ -56,16 +57,22 @@ export class SalesStatisticsComponent {
     this.loadAllOrrder();
     this.loadProducts();
     this.selectedStatus = 'tat_ca';
-    this.applyFilters();
+    // this.applyFilters();
 
+  }
+  ngAfterViewInit(): void {
+    this.applyFilters();
   }
 
   loadOrders() {
-    this.http.get('http://localhost/api/orders/get-order.php').subscribe(
+    this.http.get('http://localhost:3000/api/orders/get-order').subscribe(
       (response: any) => {
         if (response.status === "success") {
           this.resetCounts(); // Reset order counts
           this.orders = response.data; // Store all orders
+          this.orders.sort((a: any, b:any) => {
+            return b.id_don_hang - a.id_don_hang
+          })
 
           const today = new Date();
           const todayString = this.formatDate(today);
@@ -101,7 +108,7 @@ export class SalesStatisticsComponent {
   }
 
   loadAllOrrder() {
-    this.http.get('http://localhost/api/orders/get-all-order.php').subscribe(
+    this.http.get('http://localhost:3000/api/orders/get-all-order').subscribe(
       (response: any) => {
         if (response.status === "success") {
           if (Array.isArray(response.data)) {
@@ -120,9 +127,9 @@ export class SalesStatisticsComponent {
     );
   }
   loadProducts() {
-    this.http.get('http://localhost/api/management-products/get-products.php').subscribe(
+    this.http.get('http://localhost:3000/api/management-products/get-products').subscribe(
       (response: any) => {
-          this.products = response.products;
+          this.products = response.data;
 
       },
       (error) => {
@@ -159,14 +166,21 @@ export class SalesStatisticsComponent {
         order.id_don_hang?.toString().includes(this.searchTerm)
         ;
       const matchesStatus = this.selectedStatus === 'tat_ca' || order.trang_thai === this.selectedStatus;
+      const formattedNgayMua = this.formatDateToYYYYMMDD(order.ngay_mua);
       const matchesDate =
-        (!this.startDate || order.ngay_mua >= this.startDate) &&
-        (!this.endDate || order.ngay_mua <= this.endDate + 1);
+        (!this.startDate || formattedNgayMua >= this.startDate) &&
+        (!this.endDate || formattedNgayMua <= this.endDate);
+        console.log("matchesDate", matchesDate, formattedNgayMua, this.startDate)
 
       return matchesSearchTerm && matchesStatus && matchesDate;
     });
 
     this.calculateTotals();
+  }
+  formatDateToYYYYMMDD(dateStr: any) {
+    const date = new Date(dateStr);
+    date.setDate(date.getDate() + 1); // Cộng thêm 1 ngày
+    return date.toISOString().slice(0, 10); // Trả về định dạng yyyy-mm-dd
   }
 
   calculateTotals() {
@@ -255,7 +269,7 @@ export class SalesStatisticsComponent {
       trang_thai: order.trang_thai
     };
 
-    this.http.post('http://localhost/api/orders/update-order.php', payload)
+    this.http.post('http://localhost:3000/api/orders/update-order', payload)
       .subscribe(
         (response: any) => {
           if (response.status === "success") {
@@ -275,8 +289,18 @@ export class SalesStatisticsComponent {
   }
 
   printOrder() {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.filteredOrders);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+
+    // Tạo tên file Excel
+    const fileName = 'don_hang_' + new Date().toISOString() + '.xlsx';
+
+    // Xuất file
+    XLSX.writeFile(wb, fileName);
     // Cách đơn giản để in chi tiết đơn hàng là mở cửa sổ in trình duyệt
-    window.print();
+    // window.print();
   }
 
   // Trong component TypeScript

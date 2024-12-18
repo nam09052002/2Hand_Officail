@@ -6,6 +6,7 @@ import { OrderItem } from '../../models/order-item.model';
 import { ProductService } from '../../admin/management-products/management-products.service';
 import { ApiProductResponse, Product } from '../../models/product.model';
 import { Vouchers } from '../../models/vouchers.model';
+import { log } from 'node:console';
 
 @Component({
   selector: 'app-cart-modal',
@@ -43,14 +44,15 @@ export class CartModalComponent {
   }
 
   loadVoucher(){
-    this.http.get('http://localhost/api/vouchers/get-voucher.php').subscribe(
+    this.http.get('http://localhost:3000/api/vouchers/get-voucher').subscribe(
       (response: any) => {
         if (response.status === "success") {
 
-          const ngayHomNay = new Date()
-          this.vouchers = response.data.filter(
-            (voucher:any) => voucher.trang_thai = true && new Date(voucher.ngay_het_han) >= ngayHomNay
-          )
+          // const ngayHomNay = new Date()
+          // this.vouchers = response.data.filter(
+          //   (voucher:any) => voucher.trang_thai = true && new Date(voucher.ngay_het_han) >= ngayHomNay
+          // )
+          this.vouchers = response.data
         }
       },
       (error) => {
@@ -61,17 +63,16 @@ export class CartModalComponent {
 
   fetchProducts() {
     this.productService.getProducts().subscribe(
-      (data: ApiProductResponse) => {
-
-        if (data && data.products) {
+      (response: any) => {
+        if (response.status === "success") {
           const baseUrl = 'http://localhost/api/'; // Địa chỉ cơ sở
-          this.products = data.products
-          .filter(product => (product.ton_kho ?? 0) > 0)
-          .map(product => ({
+          this.products = response.data
+          .filter((product:any) => (product.ton_kho ?? 0) > 0)
+          .map((product:any) => ({
             ...product,
             anh_san_pham: `${baseUrl}${product.anh_san_pham}`
           }))
-          .sort((a, b) => (b.da_ban ?? 0) - (a.da_ban ?? 0));
+          .sort((a:any, b:any) => (b.da_ban ?? 0) - (a.da_ban ?? 0));
         // this.filteredProducts = [...this.products];
         } else {
           console.error("Không có sản phẩm nào được tìm thấy");
@@ -142,7 +143,7 @@ export class CartModalComponent {
         orderItems // Đưa mảng sản phẩm vào đơn hàng
     };
 
-    const apiUrl = 'http://localhost/api/orders/add-order.php';
+    const apiUrl = 'http://localhost:3000/api/orders/add-order';
     this.http.post(apiUrl, order).subscribe(
         (response: any) => {
             // Kiểm tra mã trạng thái phản hồi
@@ -205,43 +206,50 @@ export class CartModalComponent {
 // }
 
 async updateProduct(orderItems: any[]) {
+  console.log("CHECK orderItems", orderItems);
+  console.log("CHECK 1111");
+
   try {
-      await this.fetchProducts(); // Fetch the current list of products
+    await this.fetchProducts();
 
-      for (let orderItem of orderItems) {
-          // Find the product in the current list of products
-          const updateProduct = this.products.find(product =>
-              product.ten_san_pham === orderItem.ten_san_pham
-          );
+    // Sử dụng map để tạo danh sách các promise
+    const updatePromises = orderItems.map(async (orderItem) => {
+      // Tìm sản phẩm trong danh sách hiện tại
+      const updateProduct = this.products.find(product =>
+        product.ten_san_pham === orderItem.ten_san_pham
+      );
 
-          if (!updateProduct) {
-            continue;
-          }
-
-
-          const params = {
-            id_san_pham: updateProduct.id_san_pham,
-            ten_san_pham: updateProduct.ten_san_pham,
-            anh_san_pham: updateProduct.anh_san_pham,
-            mo_ta: updateProduct.mo_ta,
-            ten_gioi_tinh: updateProduct.ten_gioi_tinh,
-            ten_danh_muc: updateProduct.ten_danh_muc,
-            ten_nhan_hieu: updateProduct.ten_nhan_hieu,
-            ten_nha_cung_cap: updateProduct.ten_nha_cung_cap,
-            gia_nhap: updateProduct.gia_nhap,
-            gia_ban: updateProduct.gia_ban,
-            da_ban: (updateProduct.da_ban ?? 0) + orderItem.so_luong,
-            ton_kho: (updateProduct.ton_kho ?? 0) - orderItem.so_luong
-          };
-
-          // Send an HTTP request to update the product quantity in the database
-          await this.http.post('http://localhost/api/management-products/update-product.php', params).toPromise();
+      if (!updateProduct) {
+        return; // Nếu không tìm thấy, bỏ qua sản phẩm này
       }
 
-    } catch (error) {
-      console.error('Lỗi khi cập nhật số lượng sản phẩm:', error);
-    }
+      const params = {
+        id_san_pham: updateProduct.id_san_pham,
+        ten_san_pham: updateProduct.ten_san_pham,
+        anh_san_pham: updateProduct.anh_san_pham,
+        mo_ta: updateProduct.mo_ta,
+        ten_gioi_tinh: updateProduct.ten_gioi_tinh,
+        ten_danh_muc: updateProduct.ten_danh_muc,
+        ten_nhan_hieu: updateProduct.ten_nhan_hieu,
+        ten_nha_cung_cap: updateProduct.ten_nha_cung_cap,
+        gia_nhap: updateProduct.gia_nhap,
+        gia_ban: updateProduct.gia_ban,
+        da_ban: (updateProduct.da_ban ?? 0) + orderItem.so_luong,
+        ton_kho: (updateProduct.ton_kho ?? 0) - orderItem.so_luong
+      };
+
+      // Gửi yêu cầu HTTP để cập nhật số lượng sản phẩm
+      return this.http.post('http://localhost:3000/api/management-products/update-product', params).toPromise();
+    });
+
+    // Đợi tất cả các promise hoàn thành
+    await Promise.all(updatePromises);
+
+  } catch (error) {
+    console.error('Lỗi khi cập nhật số lượng sản phẩm:', error);
   }
+}
+
 
 
 
@@ -291,6 +299,10 @@ async updateProduct(orderItems: any[]) {
       alert('ID giỏ hàng không hợp lệ.');
     }
      // Phát sự kiện với sản phẩm cần xóa
+  }
+
+  getTotalAmount(): number {
+    return this.calculateTotalAmount()
   }
 
 }

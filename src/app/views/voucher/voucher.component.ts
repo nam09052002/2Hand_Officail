@@ -24,15 +24,16 @@ export class VoucherComponent implements OnInit{
   }
 
   loadVoucher(){
-    this.http.get('http://localhost/api/vouchers/get-voucher.php').subscribe(
+    this.http.get('http://localhost:3000/api/vouchers/get-voucher').subscribe(
       (response: any) => {
         if (response.status === "success") {
 
-          const ngayHomNay = new Date()
-          console.log("NAGYT", ngayHomNay)
-          this.vouchers = response.data.filter(
-            (voucher:any) => voucher.trang_thai = true && new Date(voucher.ngay_het_han) >= ngayHomNay
-          )
+          // const ngayHomNay = new Date()
+          // console.log("NAGYT", ngayHomNay)
+          // this.vouchers = response.data.filter(
+          //   (voucher:any) => voucher.trang_thai = true && new Date(voucher.ngay_het_han) >= ngayHomNay
+          // )
+          this.vouchers = response.data
         }
       },
       (error) => {

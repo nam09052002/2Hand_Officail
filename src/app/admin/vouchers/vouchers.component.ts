@@ -83,7 +83,7 @@ export class VouchersComponent {
           }
       },
       (error) => {
-          //
+        alert(error.message)
       })
 
 }
@@ -104,8 +104,9 @@ export class VouchersComponent {
     code.trang_thai = !code.trang_thai;
     this.discountCodeService.updateDiscountCode(code).subscribe(
         response => {
-            console.log('Cập nhật trạng thái thành công:', response);
-            // Có thể thêm logic thông báo cho người dùng hoặc cập nhật lại danh sách nếu cần
+          if(response.status === "success"){
+            alert(response.message)
+          }
         },
         error => {
             console.error('Lỗi khi cập nhật trạng thái:', error);

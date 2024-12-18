@@ -30,7 +30,7 @@ export class ProductClassificationComponent implements OnInit {
 
   // Fetch product categories
   getCategories() {
-    this.http.get('http://localhost/api/product-catalog/get-catalog.php').subscribe(
+    this.http.get('http://localhost:3000/api/product-catalog/get-catalog').subscribe(
       (response: any) => {
         if (response.status === 'success') {
           this.categories = response.data;
@@ -63,7 +63,7 @@ export class ProductClassificationComponent implements OnInit {
       phan_loai: this.newCategoryType
     };
 
-    this.http.post('http://localhost/api/product-catalog/add-catalog.php', newCategory).subscribe(
+    this.http.post('http://localhost:3000/api/product-catalog/add-catalog', newCategory).subscribe(
       (response: any) => {
         if (response.status === 'success') {
           this.categories.push(newCategory); // Update the list
@@ -82,7 +82,7 @@ export class ProductClassificationComponent implements OnInit {
   // Delete a category
   deleteCategory(id: number) {
     if (confirm('Bạn chắc chắn sẽ xóa danh mục sản phẩm này chứ?')) {
-      this.http.delete('http://localhost/api/product-catalog/delete-catalog.php', {
+      this.http.delete('http://localhost:3000/api/product-catalog/delete-catalog', {
         body: { id: id }
       }).subscribe(
         (response: any) => {
@@ -115,7 +115,7 @@ updateCategory() {
 
       // Ensure that 'id' is defined before updating the category
       if (id !== undefined && ten_danh_muc !== undefined && phan_loai !== undefined) {
-          this.http.put('http://localhost/api/product-catalog/update-catalog.php', this.categoryToEdit).subscribe(
+          this.http.put('http://localhost:3000/api/product-catalog/update-catalog', this.categoryToEdit).subscribe(
               (response: any) => {
                   if (response.status === 'success') {
                       const index = this.categories.findIndex(cat => cat.id === id);

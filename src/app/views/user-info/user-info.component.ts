@@ -56,8 +56,8 @@ export class UserInfoComponent implements OnInit {
   // }
 
   getOrder() {
-    const userOrders$ = this.http.get<{ status: string, data: any[], message?: string }>('http://localhost/api/orders/get-order.php');
-    const allOrderDetails$ = this.http.get<{ status: string, data: any[], message?: string }>('http://localhost/api/orders/get-all-order.php');
+    const userOrders$ = this.http.get<{ status: string, data: any[], message?: string }>('http://localhost:3000/api/orders/get-order');
+    const allOrderDetails$ = this.http.get<{ status: string, data: any[], message?: string }>('http://localhost:3000/api/orders/get-all-order');
 
     forkJoin([userOrders$, allOrderDetails$]).subscribe(
       ([userOrdersResponse, allOrderDetailsResponse]) => {
@@ -156,7 +156,7 @@ export class UserInfoComponent implements OnInit {
 
     }
     // Gọi API cập nhật thông tin người dùng
-    this.http.post('http://localhost/api/users/update-user.php', params)
+    this.http.post('http://localhost:3000/api/users/update-user', params)
       .subscribe(
         (response: any) => {
           if (response.status === 'success') {
@@ -182,7 +182,7 @@ export class UserInfoComponent implements OnInit {
       xac_nhan_mat_khau: this.passwords.confirmPassword
     }
     // Gọi API cập nhật thông tin người dùng
-    this.http.post('http://localhost/api/users/change-password-user.php', params)
+    this.http.post('http://localhost:3000/api/users/change-password-user', params)
       .subscribe(
         (response: any) => {
           if (response.status === 'success') {
@@ -194,7 +194,7 @@ export class UserInfoComponent implements OnInit {
           }
         },
         (error) => {
-          alert('Có lỗi xảy ra khi cập nhật thông tin!');
+          alert('error.message');
         }
       );
   }
@@ -229,11 +229,13 @@ cancelOrder(id_don_hang: any){
         trang_thai: 'da_huy'
     };
 
-    this.http.post('http://localhost/api/orders/update-order.php', payload)
+    this.http.post('http://localhost:3000/api/orders/update-order', payload)
     .subscribe(
       (response: any) => {
         if (response.status === "success") {
           this.fetchOrderHistory();
+          this.closeOrderDetails();
+          this.getOrder();
           alert(response.message)
         }
 

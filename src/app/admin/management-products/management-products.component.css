@@ -298,5 +298,42 @@ td button:last-child {
     overflow-x: auto;
     display: block;
     width: 100%;
+    height: 700px;
     /* Adjust if needed */
+}
+
+.scrollable-table table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Xóa khoảng cách giữa các ô bảng */
+}
+
+th button {
+    margin: 0 2px;
+    /* Tạo khoảng cách nhỏ giữa các nút */
+    padding: 2px 6px;
+    /* Tạo kích thước nút vừa phải */
+    font-size: 12px;
+    /* Font nhỏ gọn */
+    background-color: transparent;
+    /* Nền trong suốt */
+    border: 1px solid #ccc;
+    /* Viền nút */
+    border-radius: 4px;
+    /* Góc bo tròn */
+    cursor: pointer;
+    /* Con trỏ dạng tay khi hover */
+    transition: all 0.2s ease;
+    /* Hiệu ứng hover mượt */
+}
+
+th button:hover {
+    color: red;
+    /* Màu xanh khi hover */
+    border-color: #00ffb3;
+}
+
+th button {
+    display: inline-block;
+    margin-top: 4px;
 }

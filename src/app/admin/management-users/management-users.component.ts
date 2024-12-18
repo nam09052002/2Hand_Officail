@@ -20,16 +20,27 @@ export class ManagementUsersComponent implements OnInit {
   }
 
   fetchUsers() {
-    this.http.get<User[]>('http://localhost/api/routes/userRoutes.php') // Gọi API để lấy người dùng
-      .subscribe(users => {
-        this.users = users;
-      }, error => {
-        console.error('Error fetching users:', error);
-      });
+    this.http.get<User[]>('http://localhost:3000/api/users/get-users') // Gọi API để lấy người dùng
+      // .subscribe(users => {
+      //   this.users = users;
+      // }, error => {
+      //   console.error('Error fetching users:', error);
+      // });
+
+      .subscribe(
+        (response: any) => {
+          if(response.status === "success"){
+            this.users = response.data
+          }
+        },
+        (error) => {
+          //
+        }
+      )
   }
 
   deleteUser(id_nguoi_dung: number) {
-    this.http.delete('http://localhost/api/users/delete-user.php', { body: { id_nguoi_dung } }) // Gọi API để xóa người dùng
+    this.http.delete('http://localhost:3000/api/users/delete-user', { body: { id_nguoi_dung } }) // Gọi API để xóa người dùng
       .subscribe(response => {
         console.log(response);
         this.users = this.users.filter(user => user.id_nguoi_dung !== id_nguoi_dung);
@@ -53,7 +64,7 @@ export class ManagementUsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Gọi API để cập nhật người dùng
-        this.http.post('http://localhost/api/users/update-user.php', result)
+        this.http.post('http://localhost:3000/api/users/update-user', result)
           .subscribe((response: any) => {
             if (response.status === "success") {
               alert(response.message)

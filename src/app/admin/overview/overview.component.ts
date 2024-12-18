@@ -33,9 +33,9 @@ export class OverviewComponent implements OnInit {
   }
 
   getData() {
-    this.http.get('http://localhost/api/management-products/get-products.php').subscribe(
+    this.http.get('http://localhost:3000/api/management-products/get-products').subscribe(
       (response: any) => {
-          this.products = response.products;
+          this.products = response.data;
           this.tongSanPham = this.products.length;
 
       },
@@ -44,7 +44,7 @@ export class OverviewComponent implements OnInit {
       }
     );
 
-    this.http.get('http://localhost/api/users/get-users.php').subscribe(
+    this.http.get('http://localhost:3000/api/users/get-users').subscribe(
       (response: any) => {
         if(response.status === "success"){
           this.tongThanhVien = response.data.length
@@ -58,7 +58,7 @@ export class OverviewComponent implements OnInit {
       }
     )
 
-    this.http.get('http://localhost/api/orders/get-all-order.php').subscribe(
+    this.http.get('http://localhost:3000/api/orders/get-all-order').subscribe(
       (response: any) => {
         if(response.status === "success"){
           this.chiTietOrder = response.data
@@ -68,7 +68,7 @@ export class OverviewComponent implements OnInit {
 
     )
 
-    this.http.get('http://localhost/api/orders/get-order.php').subscribe(
+    this.http.get('http://localhost:3000/api/orders/get-order').subscribe(
       (response: any) => {
         if (response.status === "success") {
           this.tongDonHang = response.data.length;

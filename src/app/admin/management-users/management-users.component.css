@@ -1,76 +1,122 @@
 table {
     width: 100%;
     border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
 }
 
 th,
 td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px;
     text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #007BFF;
+    color: white;
+    /* text-transform: uppercase; */
+    font-weight: bold;
+    font-size: 14px;
+}
+
+td {
+    font-size: 14px;
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
 }
 
 button {
     margin-right: 5px;
-    padding: 5px 10px;
+    padding: 8px 12px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
     cursor: pointer;
+    border-radius: 4px;
+    font-size: 12px;
 }
 
+button:hover {
+    background-color: #0056b3;
+}
 
-/* styles.css hoặc edit-user.component.css */
-
-.custom-modal .mat-dialog-container {
-    display: flex;
-    flex-direction: column;
-    /* Xếp chồng các thành phần theo cột */
-    justify-content: center;
-    /* Căn giữa theo chiều dọc */
-    align-items: center;
-    /* Căn giữa theo chiều ngang */
-    min-height: 300px;
-    /* Chiều cao tối thiểu để đảm bảo không bị kéo xuống */
-    width: 100%;
-    /* Chiều rộng 100% để không bị chèn */
-    max-width: 400px;
-    /* Chiều rộng tối đa của modal */
-    padding: 20px;
-    /* Khoảng cách bên trong */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    /* Đổ bóng cho modal */
-    border-radius: 8px;
-    /* Bo góc cho modal */
-    position: fixed;
-    /* Đặt modal ở vị trí cố định */
-    top: 50%;
-    /* Đặt top 50% */
-    left: 50%;
-    /* Đặt left 50% */
-    transform: translate(-50%, -50%);
-    /* Dịch modal về phía trên và sang trái để căn giữa */
+button:active {
+    transform: scale(0.98);
 }
 
 .custom-modal {
     display: flex;
     justify-content: center;
-    /* Căn giữa theo chiều ngang */
     align-items: center;
-    /* Căn giữa theo chiều dọc */
-    min-height: 100vh;
-    /* Đảm bảo modal có chiều cao tối thiểu 100% chiều cao viewport */
     position: fixed;
-    /* Đặt modal ở vị trí cố định */
     top: 0;
-    /* Đặt top 0 để phủ kín chiều cao viewport */
     left: 0;
-    /* Đặt left 0 để phủ kín chiều rộng viewport */
-    right: 0;
-    /* Đặt right 0 để phủ kín chiều rộng viewport */
-    bottom: 0;
-    /* Đặt bottom 0 để phủ kín chiều cao viewport */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Nền mờ */
     z-index: 1000;
-    /* Đảm bảo modal hiển thị trên cùng */
+}
+
+.custom-modal .mat-dialog-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+    max-width: 400px;
+    width: 100%;
+}
+
+.custom-modal h2 {
+    margin-top: 0;
+    color: #007BFF;
+    font-size: 18px;
+    text-align: center;
+}
+
+.custom-modal button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.custom-modal button:hover {
+    background-color: #218838;
+}
+
+.custom-modal button.close-btn {
+    background-color: #dc3545;
+    margin-left: 10px;
+}
+
+.custom-modal button.close-btn:hover {
+    background-color: #c82333;
+}
+
+
+/* Animation cho modal */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }

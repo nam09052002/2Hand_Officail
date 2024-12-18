@@ -18,6 +18,7 @@ export interface Product {
 }
 
 export interface ApiProductResponse {
+  status : string;
   message: string; // Thông điệp phản hồi
   products: Product[]; // Mảng sản phẩm
 }

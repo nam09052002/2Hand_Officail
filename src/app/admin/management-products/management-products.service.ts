@@ -7,18 +7,18 @@ import { ApiProductResponse, Product } from '../../models/product.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost/api/management-products/'; // Đường dẫn API
+  private apiUrl = 'http://localhost:3000/api/management-products/'; // Đường dẫn API
 
   constructor(private http: HttpClient) {}
 
   // Lấy danh sách sản phẩm
   getProducts(): Observable<ApiProductResponse> {
-    return this.http.get<ApiProductResponse>(`${this.apiUrl}get-products.php`);
+    return this.http.get<ApiProductResponse>(`${this.apiUrl}get-products`);
   }
 
   // Thêm sản phẩm
   addProduct(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}add-product.php`, formData);
+    return this.http.post(`${this.apiUrl}add-product`, formData);
   }
 
   // Cập nhật sản phẩm
@@ -27,7 +27,7 @@ export class ProductService {
   }
 
   deleteProduct(productId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}delete-product.php`, {
+    return this.http.delete<void>(`${this.apiUrl}delete-product`, {
         body: { id_san_pham: productId } // Gửi ID sản phẩm trong body
     });
 }

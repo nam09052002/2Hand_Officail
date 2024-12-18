@@ -31,7 +31,7 @@
                         <td>{{ item.kich_thuoc }}</td>
                         <td>{{ item.don_gia | currency:'VND' }}</td>
                         <td>{{ item.so_luong }}</td>
-                        <td>{{ item.tong_tien | currency:'VND' }}</td>
+                        <td>{{ item.tong_tien| currency:'VND' }}</td>
                         <td>
                             <button (click)="onRemoveItem(item)">Xóa</button>
                         </td>
@@ -90,6 +90,12 @@
                 </tr>
             </tbody>
         </table>
+        <tfoot style="float: right; color: red">
+            <tr>
+                <td colspan="5" style="text-align: right;"><strong>Tổng Tiền:</strong></td>
+                <td><strong>{{ getTotalAmount() | currency:'VND' }}</strong></td>
+            </tr>
+        </tfoot>
         <div>
             <label for="discount">Mã giảm giá:</label>
             <input type="text" id="discount" name="discount" [(ngModel)]="ma_giam_gia" (blur)="applyDiscount()" />

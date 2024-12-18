@@ -82,6 +82,7 @@ export class OverviewComponent implements OnInit {
 
           const todayString = today.toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit' })
             .split('/').reverse().join('-');
+            console.log("CHECK todayString", todayString)
           // Xác định ngày đầu tuần và đầu tháng
           const firstDayOfWeek = new Date(today);
           firstDayOfWeek.setDate(today.getDate() - today.getDay()); // Chủ nhật
@@ -136,8 +137,10 @@ export class OverviewComponent implements OnInit {
 
             }
             const orderDate = order.ngay_mua.split(' ')[0].trim();
+            const dateOnly = orderDate.split("T")[0];
+            console.log("CHECK orderDate", orderDate)
 
-            if (orderDate === todayString) {
+            if (dateOnly === todayString) {
               this.donHangHomNay += 1;
               if (order.trang_thai === 'da_giao') {
                   // Lấy chi tiết đơn hàng tương ứng
@@ -151,7 +154,7 @@ export class OverviewComponent implements OnInit {
             }
 
               // Tính doanh thu tuần
-              if (orderDate >= firstDayOfWeekString && orderDate <= todayString) {
+              if (dateOnly >= firstDayOfWeekString && dateOnly <= todayString) {
                 this.donHangTuan += 1;
 
                 if (order.trang_thai === 'da_giao') {
@@ -168,7 +171,8 @@ export class OverviewComponent implements OnInit {
 
 
             // Tính doanh thu tháng
-            if (orderDate >= firstDayOfMonthString && orderDate <= todayString) {
+            if (dateOnly >= firstDayOfMonthString && dateOnly
+             <= todayString) {
               this.donHangThang += 1;
 
               // Lấy chi tiết đơn hàng và tính doanh thu cho tháng

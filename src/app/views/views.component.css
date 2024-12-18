@@ -254,18 +254,40 @@ body {
 
 /* Nút xem thêm */
 
-.product-box button {
-    padding: 10px 20px;
-    font-size: 16px;
+.product-container button {
+    background-color: #007bff;
+    /* Màu nền xanh */
+    color: #ffffff;
+    /* Màu chữ trắng */
     border: none;
-    border-radius: 5px;
-    background-color: #007BFF;
-    color: white;
+    /* Không viền */
+    border-radius: 4px;
+    /* Bo góc nhẹ */
+    padding: 8px 16px;
+    /* Khoảng cách bên trong giảm bớt */
+    margin: 15px auto;
+    /* Căn giữa và cách đều các phần tử */
+    display: block;
+    /* Đảm bảo nút nằm riêng một dòng */
+    font-size: 14px;
+    /* Giảm kích thước chữ */
     cursor: pointer;
+    /* Hiển thị con trỏ khi hover */
+    text-align: center;
+    width: fit-content;
+    /* Kích thước nút vừa với nội dung */
+    transition: background-color 0.3s ease;
+    /* Hiệu ứng hover */
 }
 
-.product-box button:hover {
+.product-container .product-box button:hover {
     background-color: #0056b3;
+    /* Màu nền đậm hơn khi hover */
+}
+
+.product-container .product-box button:active {
+    background-color: #003d80;
+    /* Màu nền khi nhấn */
 }
 
 

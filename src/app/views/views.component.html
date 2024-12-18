@@ -77,90 +77,85 @@
 
 <!-- Gợi ý sản phẩm-->
 <div class="product-container">
-
-    <div class="product-container">
-        <h3>Gợi Ý Sản Phẩm</h3>
-        <div class="product-box">
-            <div class="product-card" *ngFor="let product of filteredProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
-                <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
-                <div class="product-name">
-                    {{ product.ten_san_pham }}
-                </div>
-                <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
-                <div class="product-info">
-                    <span class="sold">Đã bán: {{ product.da_ban }}</span>
-                    <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
-                </div>
+    <h3>Gợi Ý Sản Phẩm</h3>
+    <div class="product-box">
+        <div class="product-card" *ngFor="let product of filteredProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
+            <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
+            <div class="product-name">{{ product.ten_san_pham }}</div>
+            <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
+            <div class="product-info">
+                <span class="sold">Đã bán: {{ product.da_ban }}</span>
+                <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
             </div>
-            <button *ngIf="filteredProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
-          Bạn muốn xem thêm
-      </button>
-            <button *ngIf="displayedProductsCount > 18" (click)="hideProducts()">
-          Ẩn bớt
-      </button>
-
         </div>
     </div>
+    <button *ngIf="filteredProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
+      Bạn muốn xem thêm
+  </button>
+    <button *ngIf="displayedProductsCount > 18" (click)="hideProducts()">
+      Ẩn bớt
+  </button>
+</div>
 
 
-    <div class="product-container" *ngIf="isMenProduct">
-        <h3>Thời Trang Nam</h3>
-        <div class="product-box">
-            <div class="product-card" *ngFor="let product of menProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
-                <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
-                <div class="product-name">
-                    {{ product.ten_san_pham }}
-                </div>
-                <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
-                <div class="product-info">
-                    <span class="sold">Đã bán: {{ product.da_ban }}</span>
-                    <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
-                </div>
+
+
+<div class="product-container" *ngIf="isMenProduct">
+    <h3>Thời Trang Nam</h3>
+    <div class="product-box">
+        <div class="product-card" *ngFor="let product of menProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
+            <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
+            <div class="product-name">
+                {{ product.ten_san_pham }}
             </div>
-            <!-- <button *ngIf="menProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
+            <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
+            <div class="product-info">
+                <span class="sold">Đã bán: {{ product.da_ban }}</span>
+                <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
+            </div>
+        </div>
+        <!-- <button *ngIf="menProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
             Bạn muốn xem thêm
         </button>
             <button *ngIf="displayedProductsCount > 18" (click)="hideProducts()">
             Ẩn bớt
         </button> -->
 
-        </div>
     </div>
+</div>
 
-    <div class="product-container" *ngIf="isGirlProduct">
-        <h3>Thời Trang Nữ</h3>
-        <div class="product-box">
-            <div class="product-card" *ngFor="let product of girlProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
-                <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
-                <div class="product-name">
-                    {{ product.ten_san_pham }}
-                </div>
-                <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
-                <div class="product-info">
-                    <span class="sold">Đã bán: {{ product.da_ban }}</span>
-                    <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
-                </div>
+<div class="product-container" *ngIf="isGirlProduct">
+    <h3>Thời Trang Nữ</h3>
+    <div class="product-box">
+        <div class="product-card" *ngFor="let product of girlProducts | slice:0:displayedProductsCount" (click)="openProductDetail(product)">
+            <img [src]="product.anh_san_pham || 'default-image-url.jpg'" alt="{{ product.ten_san_pham }}" class="product-image" />
+            <div class="product-name">
+                {{ product.ten_san_pham }}
             </div>
-            <!-- <button *ngIf="girlProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
+            <div class="product-price">{{ product.gia_ban | currency:'VND' }}</div>
+            <div class="product-info">
+                <span class="sold">Đã bán: {{ product.da_ban }}</span>
+                <span class="stock">Tồn kho: {{ product.ton_kho }}</span>
+            </div>
+        </div>
+        <!-- <button *ngIf="girlProducts.length > displayedProductsCount" (click)="loadMoreProducts()">
           Bạn muốn xem thêm
       </button>
             <button *ngIf="displayedProductsCount > 18" (click)="hideProducts()">
           Ẩn bớt
       </button> -->
 
-        </div>
     </div>
-
-    <div class="messenger-icon" (click)="openMessengerChat()">
-        <img src="https://w7.pngwing.com/pngs/684/1021/png-transparent-messenger-logo-social-media-facebook-messenger-computer-icons-instant-messaging-messenger-blue-triangle-logo.png" alt="Messenger Icon" />
-    </div>
-
-
-    <app-product-detail-modal [product]="selectedProduct" *ngIf="isSelectedProduct" (closeModal)="onCloseModal()" (addCart)="addToCart($event)" (onBuyNow)="buyNow($event)">
-    </app-product-detail-modal>
-
-    <app-cart-modal *ngIf="isOpenModalCart" [cartItems]="cartItems" [isOpen]="isOpenModalCart" (close)="closeCart()" (removeItem)="handleRemoveItem($event)"></app-cart-modal>
-
-    <app-voucher *ngIf="isVoucherModalVisible" (closeModalEvent)="closeVoucherModal()"></app-voucher>
-
 </div>
+
+<div class="messenger-icon" (click)="openMessengerChat()">
+    <img src="https://w7.pngwing.com/pngs/684/1021/png-transparent-messenger-logo-social-media-facebook-messenger-computer-icons-instant-messaging-messenger-blue-triangle-logo.png" alt="Messenger Icon" />
+</div>
+
+
+<app-product-detail-modal [product]="selectedProduct" *ngIf="isSelectedProduct" (closeModal)="onCloseModal()" (addCart)="addToCart($event)" (onBuyNow)="buyNow($event)">
+</app-product-detail-modal>
+
+<app-cart-modal *ngIf="isOpenModalCart" [cartItems]="cartItems" [isOpen]="isOpenModalCart" (close)="closeCart()" (removeItem)="handleRemoveItem($event)"></app-cart-modal>
+
+<app-voucher *ngIf="isVoucherModalVisible" (closeModalEvent)="closeVoucherModal()"></app-voucher>

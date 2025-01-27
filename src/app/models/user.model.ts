@@ -7,7 +7,7 @@ export interface User {
   email: string;
   dia_chi?: string;
   so_dien_thoai?: string;
-  vai_tro: 'nguoi_dung' | 'quan_tri';
+  vai_tro: 'user' | 'admin';
   ngay_tao: string;
   mat_khau?: string;
 }

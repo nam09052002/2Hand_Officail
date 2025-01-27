@@ -64,9 +64,10 @@ export class ManagementUsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Gọi API để cập nhật người dùng
-        this.http.post('http://localhost:3000/api/users/update-user', result)
+        this.http.post('http://localhost:3000/api/users/update-user1', result)
           .subscribe((response: any) => {
             if (response.status === "success") {
+              this.fetchUsers();
               alert(response.message)
             }
 

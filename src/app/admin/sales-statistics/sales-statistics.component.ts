@@ -166,11 +166,20 @@ export class SalesStatisticsComponent implements OnInit, AfterViewInit {
         order.id_don_hang?.toString().includes(this.searchTerm)
         ;
       const matchesStatus = this.selectedStatus === 'tat_ca' || order.trang_thai === this.selectedStatus;
-      const formattedNgayMua = this.formatDateToYYYYMMDD(order.ngay_mua);
+      // const formattedNgayMua =  order.ngay_mua; //this.formatDateToYYYYMMDD(order.ngay_mua)
+      const formattedNgayMua = new Date(order.ngay_mua);
+      const startDate = this.startDate ? new Date(this.startDate) : null;
+      const endDate = this.endDate ? new Date(this.endDate) : null;
+      // const matchesDate =
+      //   (!this.startDate || formattedNgayMua >= this.startDate) &&
+      //   (!this.endDate || formattedNgayMua <= this.endDate);
+      //   console.log("matchesDate", matchesDate, formattedNgayMua, this.startDate)
+      if (endDate) {
+        endDate.setHours(23, 59, 59, 999); // Đặt thời gian thành 23:59:59.999
+      }
       const matchesDate =
-        (!this.startDate || formattedNgayMua >= this.startDate) &&
-        (!this.endDate || formattedNgayMua <= this.endDate);
-        console.log("matchesDate", matchesDate, formattedNgayMua, this.startDate)
+        (!startDate || formattedNgayMua >= startDate) &&
+        (!endDate || formattedNgayMua <= endDate);
 
       return matchesSearchTerm && matchesStatus && matchesDate;
     });
@@ -310,6 +319,60 @@ export class SalesStatisticsComponent implements OnInit, AfterViewInit {
       return total + (isNaN(productTotal) ? 0 : productTotal);
     }, 0);
   }
+
+  exportToExcel() {
+    const filteredOrders = this.filteredOrders;
+
+    // Map the filteredOrders to the expected format
+    const mappedOrders = filteredOrders.map(order => ({
+      'Mã đơn hàng': order.id_don_hang,          // Map order number to 'Mã đơn hàng'
+      'Họ và tên': order.ho_va_ten,               // Map full name to 'Họ và tên'
+      'Địa chỉ': order.dia_chi,                  // Map address to 'Địa chỉ'
+      'Số điện thoại': order.so_dien_thoai,        // Map phone number to 'Số điện thoại'
+      'Trạng thái đơn hàng': order.trang_thai === 'cho_xu_ly' ? 'Chờ xử lý': order.trang_thai === 'dang_giao' ? 'Đang giao hàng' : order.trang_thai === 'da_xac_nhan' ? 'Đã xác nhận' : order.trang_thai === 'da_giao' ? 'Đã giao' : order.trang_thai === 'da_huy' ? 'Đã hủy' : order.trang_thai,       // Map order status to 'Trạng thái đơn hàng'
+      'Ngày mua': order.ngay_mua.split('T')[0],            // Map purchase date to 'Ngày mua'
+      // 'Tổng tiền': order.tong_tien             // Map total amount to 'Tổng tiền'
+    }));
+    console.log("CHECK order", mappedOrders)
+
+    // Create a worksheet with the mapped data
+    const ws = XLSX.utils.json_to_sheet(mappedOrders, {
+      header: ['Mã đơn hàng', 'Họ và tên', 'Địa chỉ', 'Số điện thoại', 'Trạng thái đơn hàng', 'Ngày mua'],
+    });
+
+    // Apply bold style to the header
+    const rangeRef = ws['!ref'];
+    if (rangeRef) {
+      const range = XLSX.utils.decode_range(rangeRef); // Get the range of the worksheet
+      for (let col = range.s.c; col <= range.e.c; col++) {
+        const headerCell = ws[XLSX.utils.encode_cell({ r: 0, c: col })]; // Get the header cell
+        if (headerCell) {
+          headerCell.s = {
+            font: { bold: true }, // Set font style to bold
+          };
+        }
+      }
+    }
+
+    // Adjust the width of the columns
+    ws['!cols'] = [
+      { wch: 12 }, // 'Mã đơn hàng' width
+      { wch: 20 }, // 'Họ và tên' width
+      { wch: 25 }, // 'Địa chỉ' width
+      { wch: 12 }, // 'Số điện thoại' width
+      { wch: 20 }, // 'Trạng thái đơn hàng' width
+      { wch: 10 }, // 'Ngày mua' width
+    ];
+
+    // Create a workbook
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+
+    // Export the workbook to an Excel file
+    XLSX.writeFile(wb, 'Thống kê đơn hàng.xlsx');
+  }
+
+
 
   // Bổ sung phương thức cho tính năng mới nếu cần
   resetFilters(): void {

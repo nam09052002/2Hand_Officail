@@ -18,6 +18,11 @@
         <h3>Tổng Đơn Hàng</h3>
         <p>{{ tongDonHang }}</p>
     </div>
+    <div class="overview-card">
+        <i class="material-icons" aria-hidden="true">account_balance_wallet</i>
+        <h3>Tổng Doanh Thu</h3>
+        <p>{{ tongDoanhThu | currency:'VND' }}</p>
+    </div>
 
 
     <!-- Thêm phần Tổng Lợi Nhuận -->
@@ -27,43 +32,12 @@
         <p>{{ tongLoiNhuan | currency:'VND' }}</p>
     </div>
 
-    <h2>Thống Kê Đơn Hàng</h2>
+    <h2>Thống Kê Đơn Hàng Năm 2024</h2>
 
-    <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">shopping_cart</i>
-        <h3>Đơn Hàng Hôm Nay</h3>
-        <p>{{ donHangHomNay }}</p>
+    <div class="chart-container">
+        <canvas id="donHangChart"></canvas>
     </div>
 
-    <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">shopping_cart</i>
-        <h3>Đơn Hàng Trong Tuần</h3>
-        <p>{{ donHangTuan }}</p>
-    </div>
-
-    <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">shopping_cart</i>
-        <h3>Đơn Hàng Trong Tháng</h3>
-        <p>{{ donHangThang }}</p>
-    </div>
-
-    <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">monetization_on</i>
-        <h3>Doanh Thu Hôm Nay</h3>
-        <p>{{ doanhThuHomNay | currency:'VND' }}</p>
-    </div>
-
-    <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">monetization_on</i>
-        <h3>Doanh Thu Tuần</h3>
-        <p>{{ doanhThuTuan | currency:'VND' }}</p>
-    </div>
-
-    <div class="overview-card">
-        <i class="material-icons" aria-hidden="true">monetization_on</i>
-        <h3>Doanh Thu Tháng</h3>
-        <p>{{ doanhThuThang | currency:'VND' }}</p>
-    </div>
 
 
 </div>
